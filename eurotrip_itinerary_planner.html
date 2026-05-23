@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>EuroTrip 90 - Planificador Interactivo con Beneficios UE</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        /* Custom scrollbar optimized for dark theme */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1e293b;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+        /* Hide scrollbar utility for mobile sliders */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col transition-colors duration-300 pb-20 lg:pb-0">
+
+    <!-- Navigation / Header -->
+    <header class="bg-slate-950 border-b border-slate-800 sticky top-0 z-40 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 lg:h-16 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center space-x-3 self-start sm:self-auto">
+                <div class="bg-gradient-to-tr from-blue-600 to-indigo-600 text-white p-2.5 rounded-xl shadow-md">
+                    <i class="fa-solid fa-compass text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-base sm:text-lg text-white tracking-tight">EuroTrip 90</h1>
+                    <p class="text-[10px] sm:text-xs text-slate-400 font-medium">Planificador de Viaje Personalizado</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 self-stretch sm:self-auto justify-start sm:justify-end">
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-blue-950/40 text-blue-300 border border-blue-900/50 shadow-sm">
+                    <span class="w-1.5 h-1.5 mr-1.5 bg-blue-400 rounded-full animate-pulse"></span>
+                    Pasaporte Español (UE) 🇪🇺
+                </span>
+                <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] sm:text-xs font-semibold bg-emerald-950/40 text-emerald-300 border border-emerald-900/50">
+                    <i class="fa-solid fa-user-graduate mr-1.5"></i>
+                    Edad: 21 años (Youth)
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+        
+        <!-- Left Column: Profile, Quick Stats, & Interactive Calculators (4 Cols) -->
+        <!-- On mobile, order is reversed (order-2) to place the active route tab on top (order-1) -->
+        <aside class="lg:col-span-4 space-y-6 order-2 lg:order-1">
+            
+            <!-- Quick Trip Info & Countdown Card -->
+            <div class="bg-gradient-to-br from-indigo-950 via-blue-950 to-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-900/30 relative overflow-hidden">
+                <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">
+                    <i class="fa-solid fa-plane-departure"></i>
+                </div>
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <h2 class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-blue-300 mb-1">Duración del Viaje</h2>
+                        <div class="text-3xl sm:text-4xl font-extrabold text-slate-100">90 Días</div>
+                    </div>
+                    <span class="bg-white/10 text-slate-200 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium backdrop-blur-sm border border-white/10">
+                        <i class="fa-solid fa-calendar-days mr-1"></i> Verano 2026
+                    </span>
+                </div>
+                
+                <div class="space-y-3 relative z-10 text-xs sm:text-sm bg-slate-900/50 p-3 rounded-xl backdrop-blur-sm border border-slate-800">
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-300"><i class="fa-solid fa-calendar-plus mr-2 w-4"></i>Inicio:</span>
+                        <span class="font-semibold text-slate-100">24 de Junio, 2026</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-slate-300"><i class="fa-solid fa-calendar-minus mr-2 w-4"></i>Fin:</span>
+                        <span class="font-semibold text-slate-100">22 de Septiembre, 2026</span>
+                    </div>
+                    <div class="border-t border-slate-800 my-2"></div>
+                    <div class="flex items-center justify-between text-[11px] sm:text-xs">
+                        <span class="text-slate-400">Cuenta regresiva:</span>
+                        <span id="countdown-days" class="font-bold text-amber-400 bg-amber-950/40 px-2 py-0.5 rounded border border-amber-900/30">Calculando...</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Financial Impact Summary (Dynamic) -->
+            <div id="financial-anchor" class="bg-slate-800 rounded-2xl border border-slate-700 p-5 sm:p-6 shadow-md space-y-4">
+                <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-indigo-400 text-lg"></i>
+                    Balance Económico General
+                </h3>
+                <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                    <div class="bg-emerald-950/30 border border-emerald-900/50 p-3.5 sm:p-4 rounded-xl">
+                        <p class="text-[10px] text-emerald-400 font-semibold uppercase tracking-wider">Ahorro Aplicado</p>
+                        <p id="total-savings" class="text-xl sm:text-2xl font-bold text-emerald-300 mt-1">€0</p>
+                        <span class="text-[9px] sm:text-[10px] text-emerald-400 font-medium leading-tight block">Por beneficios UE/Hacks</span>
+                    </div>
+                    <div class="bg-indigo-950/30 border border-indigo-900/50 p-3.5 sm:p-4 rounded-xl">
+                        <p class="text-[10px] text-indigo-400 font-semibold uppercase tracking-wider">Gastos Previstos</p>
+                        <p id="total-costs" class="text-lg sm:text-2xl font-bold text-indigo-300 mt-1">€0</p>
+                        <span class="text-[9px] sm:text-[10px] text-indigo-400 font-medium leading-tight block">Ruta + pases + extras</span>
+                    </div>
+                </div>
+
+                <!-- Base Flight Cost Card -->
+                <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 space-y-3">
+                    <div class="flex justify-between items-center">
+                        <h4 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                            <i class="fa-solid fa-plane-arrival text-indigo-400"></i>
+                            Vuelo Transatlántico Base
+                        </h4>
+                        <!-- Switch Toggle to include/exclude (Expanded Touch Target) -->
+                        <button onclick="toggleBaseFlight()" id="base-flight-toggle" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-indigo-600" role="switch">
+                            <span id="base-flight-toggle-knob" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5"></span>
+                        </button>
+                    </div>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        Costo base de tu pasaje de ida y vuelta internacional a Europa.
+                    </p>
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1">
+                        <div class="flex items-center gap-1 bg-slate-950 px-2 py-1 rounded-lg border border-slate-800 self-start sm:self-auto">
+                            <span class="text-xs text-slate-500 font-bold">$</span>
+                            <input type="number" id="base-flight-input" onchange="updateBaseFlightUSD(this.value)" value="1076" class="w-16 text-xs bg-transparent border-none text-center font-bold text-slate-200 focus:outline-none">
+                            <span class="text-xs text-slate-400 font-bold">USD</span>
+                        </div>
+                        <div class="text-left sm:text-right">
+                            <span class="text-[9px] text-slate-500 block">Conversión (~0.86 EUR)</span>
+                            <span id="base-flight-eur-display" class="font-bold text-slate-200 text-xs sm:text-sm">€927.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Interrail Reserve Estimator -->
+                <div class="bg-slate-900 rounded-xl p-4 border border-slate-800 space-y-3">
+                    <h4 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider flex justify-between">
+                        <span>Calculadora de Reservas</span>
+                        <span class="text-blue-400">Alta Velocidad</span>
+                    </h4>
+                    <p class="text-[11px] text-slate-400 leading-relaxed">
+                        El pase Interrail cubre el boleto básico, pero trenes como el TGV o AVE exigen reserva de asiento paga (€10 a €20).
+                    </p>
+                    <div class="flex items-center justify-between gap-4 pt-1">
+                        <div class="flex items-center space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
+                            <!-- Mobile-friendly touch buttons (minimum 40px width/height equivalent) -->
+                            <button onclick="adjustReservations(-1)" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center font-bold text-slate-200 text-lg">-</button>
+                            <span id="reservation-count" class="font-bold text-slate-100 min-w-[28px] text-center text-sm">3</span>
+                            <button onclick="adjustReservations(1)" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center font-bold text-slate-200 text-lg">+</button>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] text-slate-500 block">Reservas est.</span>
+                            <span id="reservation-cost-display" class="font-bold text-slate-200 text-sm">€45.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dynamic Input Form -->
+            <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 sm:p-6 shadow-md">
+                <h3 class="font-bold text-white text-sm sm:text-base mb-1 flex items-center gap-2">
+                    <i class="fa-solid fa-plus-circle text-blue-400"></i>
+                    Anotar Datos Manualmente
+                </h3>
+                <p class="text-xs text-slate-400 mb-4">Añadí trámites, pasajes, reservas o consejos que descubras.</p>
+                <form id="fact-form" class="space-y-3.5" onsubmit="handleFactSubmit(event)">
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Título del Dato / Trámite</label>
+                        <input type="text" id="fact-title" placeholder="Ej: Reservar Hostal en Berlín" class="w-full text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-slate-500" required>
+                    </div>
+                    <div class="grid grid-cols-2 gap-2">
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Costo (€)</label>
+                            <input type="number" id="fact-cost" value="0" class="w-full text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-semibold text-slate-400 mb-1">Ahorro Est. (€)</label>
+                            <input type="number" id="fact-saving" value="0" class="w-full text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none" required>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Categoría</label>
+                        <select id="fact-category" class="w-full text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                            <option value="Salud">Salud / Seguros</option>
+                            <option value="Transporte">Transporte / Pases</option>
+                            <option value="Hospedaje">Hospedaje</option>
+                            <option value="Tip">Tip / Consejo</option>
+                            <option value="Finanzas">Finanzas / Tarjetas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-semibold text-slate-400 mb-1">Detalle / Funcionamiento</label>
+                        <textarea id="fact-desc" rows="2" placeholder="Explicación o enlace útil..." class="w-full text-xs sm:text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-blue-500 focus:outline-none placeholder-slate-500" required></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-slate-950 hover:bg-slate-900 border border-slate-700 text-white font-semibold text-xs sm:text-sm py-3 px-4 rounded-lg transition duration-200 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-floppy-disk text-indigo-400"></i> Guardar Registro
+                    </button>
+                </form>
+            </div>
+            
+        </aside>
+
+        <!-- Right Column: Timeline / Travel Facts & Information Cards (8 Cols) -->
+        <!-- On mobile, order is set to 1 so the primary content shows on top -->
+        <section class="lg:col-span-8 space-y-6 order-1 lg:order-2">
+            
+            <!-- Quick Tabs Navigation Bar (Scrollable on mobile) -->
+            <div class="flex overflow-x-auto no-scrollbar border border-slate-700 bg-slate-950 p-1 rounded-xl gap-1 shrink-0 scroll-smooth">
+                <button onclick="switchTab('benefits')" id="tab-benefits" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-euro-sign mr-1.5 text-blue-400"></i> Beneficios UE 🇪🇺
+                </button>
+                <button onclick="switchTab('hacks')" id="tab-hacks" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-lightbulb mr-1.5 text-amber-400"></i> Hacks y Tips 💡
+                </button>
+                <button onclick="switchTab('itinerary')" id="tab-itinerary" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-blue-950/40 text-blue-300 border border-blue-900/30 transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-route mr-1.5 text-blue-400"></i> Mi Ruta (Lego) 🗺️
+                </button>
+                <button onclick="switchTab('quests')" id="tab-quests" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-bolt mr-1.5 text-violet-400"></i> Side Quests ⚡
+                </button>
+            </div>
+
+            <!-- TAB 0: European Citizen Benefits -->
+            <div id="panel-benefits" class="space-y-4 hidden">
+                <div class="bg-gradient-to-r from-blue-950 to-indigo-950 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-indigo-900/30 relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 opacity-10 text-[8rem] sm:text-[10rem]">
+                        <i class="fa-solid fa-building-columns"></i>
+                    </div>
+                    <h3 class="text-base sm:text-lg font-bold mb-1 flex items-center gap-2 relative z-10 text-amber-400">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                        Tus Privilegios como Ciudadano Español
+                    </h3>
+                    <p class="text-xs text-blue-200 max-w-2xl relative z-10 leading-relaxed">
+                        Al tener pasaporte comunitario y 21 años, accedés a subsidios, exenciones impositivas y programas de juventud incomparables. Activá o desactivá los beneficios a continuación para integrarlos dinámicamente en tu presupuesto global.
+                    </p>
+                </div>
+
+                <div id="benefits-container" class="space-y-4">
+                    <!-- Dynamic UE Benefits Cards injected via JS -->
+                </div>
+            </div>
+
+            <!-- TAB 1: Key Facts & Hacks Panel -->
+            <div id="panel-hacks" class="space-y-4 hidden">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 bg-slate-950 px-4 py-3 rounded-xl border border-slate-800">
+                    <p class="text-xs text-slate-400 font-semibold">Tus hacks guardados para evitar el sobre-viaje y optimizar costos:</p>
+                    <button onclick="clearCustomFacts()" class="text-xs text-rose-400 hover:text-rose-300 hover:underline font-bold self-start sm:self-auto">
+                        <i class="fa-solid fa-trash-can mr-1"></i>Restablecer todo
+                    </button>
+                </div>
+                
+                <div id="facts-container" class="space-y-4">
+                    <!-- PREDEFINED FACTS INJECTED VIA JS -->
+                </div>
+            </div>
+
+            <!-- TAB 2: Interactive Route and Itinerary Planner Panel (Lego System) -->
+            <div id="panel-itinerary" class="space-y-6">
+                
+                <!-- Day Usage Progress Bar -->
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 sm:p-6 shadow-sm">
+                    <div class="flex justify-between items-center mb-2">
+                        <div>
+                            <h4 class="font-bold text-white text-xs sm:text-sm">Distribución de los 90 Días</h4>
+                            <p class="text-[11px] text-slate-400 leading-tight">Asegurá un ritmo equilibrado para evitar el sobre-viaje ("no over-travel")</p>
+                        </div>
+                        <div class="text-right whitespace-nowrap ml-2">
+                            <span id="days-allocated" class="text-lg sm:text-xl font-bold text-blue-400">0</span>
+                            <span class="text-slate-500 text-xs sm:text-sm">/ 90 Días</span>
+                        </div>
+                    </div>
+                    <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden border border-slate-800">
+                        <div id="days-progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
+                    </div>
+                    
+                    <div id="itinerary-pace-alert" class="mt-4 p-3 bg-blue-950/40 text-blue-300 rounded-xl text-xs flex items-center gap-3 border border-blue-900/30 leading-relaxed">
+                        <i class="fa-solid fa-info-circle text-base"></i>
+                        <span><strong>Cargando...</strong></span>
+                    </div>
+                </div>
+
+                <!-- LEGO MODULE GRID SYSTEM AND CREATOR (Mobile: Stacks perfectly) -->
+                <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+                    
+                    <!-- LEFT CONTAINER: The Lego Itinerary Builder Timeline (7 Cols) -->
+                    <div class="xl:col-span-7 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-puzzle-piece text-indigo-400"></i>
+                                Tu Tablero de Ruta en Construcción
+                            </h4>
+                            <button onclick="clearTimeline()" class="text-xs text-rose-400 hover:text-rose-300 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-broom"></i> Vaciar Itinerario
+                            </button>
+                        </div>
+                        
+                        <div id="empty-itinerary-msg" class="bg-amber-950/20 border border-amber-900/30 rounded-2xl p-5 flex gap-4 items-start hidden">
+                            <div class="bg-amber-950/60 text-amber-400 p-2.5 rounded-xl shrink-0 border border-amber-900/50">
+                                <i class="fa-solid fa-route text-lg"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-amber-300 text-xs sm:text-sm mb-1">¡Sin piezas todavía!</h4>
+                                <p class="text-[11px] sm:text-xs text-amber-400/80 leading-relaxed">
+                                    Para armar tu viaje ideal de 90 días, tocá el botón <strong>"Añadir pieza"</strong> en las tarjetas de ciudades del catálogo de la derecha. Podrás ordenarlas, modificar noches y transportes.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Timeline container where cards stack like Lego -->
+                        <div id="timeline-container" class="relative pl-5 sm:pl-6 border-l-2 border-slate-700 space-y-4 ml-2 sm:ml-4">
+                            <!-- Lego stops dynamically rendered -->
+                        </div>
+                    </div>
+
+                    <!-- RIGHT CONTAINER: Lego Catalog, Filters & Search (5 Cols) -->
+                    <div class="xl:col-span-5 space-y-4">
+                        <div class="bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group text-blue-400"></i>
+                                Catálogo de Piezas Lego (Ciudades)
+                            </h4>
+                            <p class="text-[11px] text-slate-400 font-medium">Filtra, busca y añade ciudades recomendadas para tu perfil o crea las tuyas propias.</p>
+
+                            <!-- SEARCH AND QUICK FILTERS -->
+                            <div class="space-y-2">
+                                <div class="relative">
+                                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-500 text-xs"></i>
+                                    <input type="text" id="catalog-search" oninput="applyCatalogFilters()" placeholder="Buscar ciudad o actividad..." class="w-full text-xs pl-8 pr-3 py-3 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-slate-500">
+                                </div>
+                                
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label class="block text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mb-1">Categoría</label>
+                                        <select id="filter-category" onchange="applyCatalogFilters()" class="w-full text-xs bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:outline-none">
+                                            <option value="all">Todas</option>
+                                            <option value="Hub / Familiar">Hubs / Familiares</option>
+                                            <option value="Aventura y Naturaleza">Aventura y Deportes</option>
+                                            <option value="Caja de Ahorro">Caja de Ahorro</option>
+                                            <option value="Premium & Networking">Premium</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mb-1">Presupuesto</label>
+                                        <select id="filter-cost" onchange="applyCatalogFilters()" class="w-full text-xs bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2.5 focus:outline-none">
+                                            <option value="all">Todos</option>
+                                            <option value="Bajo">Bajo (€0 - €30)</option>
+                                            <option value="Medio">Medio (€31 - €55)</option>
+                                            <option value="Alto">Alto (€56 - €85)</option>
+                                            <option value="Crítico">Crítico (€86+)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- COLLAPSIBLE FORM TO CREATE CUSTOM LEGO CITY -->
+                            <details class="group bg-slate-900 rounded-xl border border-slate-800 overflow-hidden">
+                                <summary class="flex justify-between items-center font-bold text-xs text-slate-300 p-3.5 cursor-pointer hover:bg-slate-850 transition-all list-none">
+                                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-square-plus text-emerald-400"></i> Diseñar Nueva Pieza (Custom)</span>
+                                    <i class="fa-solid fa-chevron-down group-open:rotate-180 transition-all text-[10px]"></i>
+                                </summary>
+                                <form id="custom-city-form" onsubmit="handleCustomCitySubmit(event)" class="p-3 sm:p-4 border-t border-slate-800 space-y-3 bg-slate-900">
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Ciudad y País</label>
+                                            <input type="text" id="new-city-name" placeholder="Ej: Berlín, Alemania" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Categoría</label>
+                                            <select id="new-city-category" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 text-slate-200 rounded focus:outline-none">
+                                                <option value="Hub / Familiar">Hub / Familiar</option>
+                                                <option value="Aventura y Naturaleza">Aventura y Naturaleza</option>
+                                                <option value="Caja de Ahorro">Caja de Ahorro</option>
+                                                <option value="Premium & Networking">Premium & Networking</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-3 gap-2">
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Costo Nivel</label>
+                                            <select id="new-city-cost-lvl" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 text-slate-200 rounded focus:outline-none">
+                                                <option value="Bajo">Bajo</option>
+                                                <option value="Medio">Medio</option>
+                                                <option value="Alto">Alto</option>
+                                                <option value="Crítico">Crítico</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Estadía Mín</label>
+                                            <input type="number" id="new-city-min" value="3" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none" required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Estadía Máx</label>
+                                            <input type="number" id="new-city-max" value="6" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none" required>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Dinámica</label>
+                                            <select id="new-city-dynamic" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 text-slate-200 rounded focus:outline-none">
+                                                <option value="Solo">Solo</option>
+                                                <option value="Amigos">Amigos</option>
+                                                <option value="Dani">Dani</option>
+                                                <option value="Familia">Familia</option>
+                                                <option value="Solo / Amigos">Solo / Amigos</option>
+                                                <option value="Solo / Dani">Solo / Dani</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Presupuesto Diario (€)</label>
+                                            <input type="number" id="new-city-budget" value="45" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none" required>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Core Enfoque</label>
+                                            <select id="new-city-core" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 text-slate-200 rounded focus:outline-none">
+                                                <option value="Deporte">Deporte</option>
+                                                <option value="Negocios/Tech">Negocios/Tech</option>
+                                                <option value="Joda">Joda</option>
+                                                <option value="Paisaje">Paisaje</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Hack UE / Especial</label>
+                                            <input type="text" id="new-city-hack" placeholder="Ej: Louvre gratis" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-[9px] font-semibold text-slate-400 mb-0.5">Actividades Clave (comas)</label>
+                                        <input type="text" id="new-city-activities" placeholder="Ej: Trekking de trail, Bares, Co-working" class="w-full text-xs bg-slate-950 border border-slate-850 p-2 rounded text-slate-100 focus:outline-none" required>
+                                    </div>
+                                    <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 rounded-lg transition duration-200">
+                                        <i class="fa-solid fa-check"></i> Guardar Pieza en Catálogo
+                                    </button>
+                                </form>
+                            </details>
+
+                            <!-- SCROLLABLE LIST OF LEGO CARDS -->
+                            <div id="catalog-container" class="space-y-3 max-h-[400px] sm:max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                                <!-- Cards injected dynamically via JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- TAB 3: Interactive Side Quests Panel -->
+            <div id="panel-quests" class="space-y-6 hidden">
+                <div class="bg-gradient-to-r from-indigo-950 to-purple-950 border border-indigo-900/30 px-5 py-4 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-star text-indigo-400"></i>
+                            Aventuras Paralelas ("Side Quests")
+                        </h4>
+                        <p class="text-xs text-indigo-200/80 leading-relaxed">
+                            Escapadas cortas y memorables con amigos o destinos clave fuera de tu ruta principal de Interrail. Podés integrarlas a tu presupuesto total usando los interruptores.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Side Quests Container -->
+                <div id="quests-container" class="space-y-6">
+                    <!-- Dynamic side quests rendered here -->
+                </div>
+
+                <!-- Add Custom Side Quest Form -->
+                <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 sm:p-6 shadow-md">
+                    <h3 class="font-bold text-white text-sm sm:text-base mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-plus text-indigo-400"></i>
+                        Crear una Nueva Side Quest
+                    </h3>
+                    <p class="text-xs text-slate-400 mb-4">Diseñá tu propia aventura rápida (ej. fin de semana en Suiza o un festival de música).</p>
+                    <form id="quest-form" onsubmit="addCustomQuest(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Nombre de la Aventura</label>
+                                <input type="text" id="quest-title-input" placeholder="Ej: Bruselas express con amigos" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Duración (Días)</label>
+                                <input type="number" id="quest-days-input" min="1" max="90" value="3" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Costo Transporte / Vuelo (€)</label>
+                                <input type="number" id="quest-transport-input" min="0" value="50" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Costo Alojamiento Total (€)</label>
+                                <input type="number" id="quest-accommodation-input" min="0" value="120" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Comida y Extras (€)</label>
+                                <input type="number" id="quest-other-input" min="0" value="80" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Hacks o Notas Clave (Separar por líneas)</label>
+                            <textarea id="quest-notes-input" rows="2" placeholder="Ej: Viajar solo con mochila&#10;Dejar valija pesada en el hostal anterior" class="w-full text-sm bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder-slate-550"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm py-3 rounded-lg transition duration-200">
+                            <i class="fa-solid fa-plus mr-1"></i> Guardar Side Quest
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- Sticky Mobile Budget & Days Tracker (ONLY VISIBLE ON MOBILE SIZES) -->
+    <div class="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-slate-950/95 backdrop-blur-md border-t border-slate-800 p-4 shadow-2xl flex items-center justify-between gap-4">
+        <div class="flex flex-col">
+            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider">Gastos Previstos</span>
+            <div class="flex items-baseline gap-1">
+                <span id="mobile-total-costs" class="text-base sm:text-lg font-bold text-indigo-300">€0</span>
+                <span id="mobile-monthly-costs" class="text-[10px] sm:text-xs text-indigo-400 font-semibold">(€0/mes)</span>
+            </div>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="text-right">
+                <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Calendario</span>
+                <span class="text-xs font-bold text-blue-400"><span id="mobile-days-allocated">0</span> / 90 Días</span>
+            </div>
+            <a href="#financial-anchor" class="bg-indigo-600 active:bg-indigo-700 text-white p-2.5 rounded-xl text-center flex items-center justify-center transition-all shadow-md" title="Ver Balance Detallado">
+                <i class="fa-solid fa-calculator text-sm"></i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-6 mt-12">
+        <div class="max-w-7xl mx-auto px-4 text-center text-[10px] sm:text-xs text-slate-500">
+            &copy; 2026 EuroTrip 90 Planner. Personalizado para un joven de 21 años y ciudadano de la Unión Europea. No viajes de más, ¡disfrutá más!
+        </div>
+    </footer>
+
+    <!-- Interactive JS Core Operations -->
+    <script>
+        // European Benefits Dataset
+        const EUROPEAN_BENEFITS = [
+            {
+                id: "veranoJoven",
+                title: "1. El programa estatal \"Verano Joven\"",
+                sub: "Ahorro: Hasta 90% en transporte español",
+                desc: "Este beneficio es, por lejos, el más agresivo y el que más dinero neto te va a salvar durante tus 90 días, ya que coincide exactamente con tus fechas de viaje (julio-septiembre). Es una subvención directa del Ministerio de Transportes de España para jóvenes de hasta 30 años con nacionalidad española.",
+                bullets: [
+                    "<strong>90% de descuento</strong> en trenes de Media Distancia tradicional y en colectivos de líneas estatales que conectan distintas provincias.",
+                    "<strong>50% de descuento</strong> en trenes de alta velocidad (AVE, Avlo, Ouigo e Iryo) para moverte rápido (con un tope de €30 por tramo).",
+                    "<strong>50% de descuento</strong> en el Pase Global de Interrail (para recorrer el resto de Europa en tren) si lo comprás a través de la web oficial de Renfe."
+                ],
+                howToUse: "Te registrás online en la web del Ministerio de Transportes con tus datos europeos para obtener tu código personal e intransferible.",
+                saving: 215, // Approx half of Interrail global pass saved
+                cost: 0,
+                icon: "fa-train-subway",
+                color: "from-blue-600 to-sky-500",
+                badgeText: "Hasta 90% Descuento"
+            },
+            {
+                id: "tse",
+                title: "2. Tarjeta Sanitaria Europea / CPS",
+                sub: "Ahorro: ~USD 200 + costos médicos ilimitados",
+                desc: "Acceso al sistema de salud pública en los 27 países de la UE, más Islandia, Liechtenstein, Noruega y Suiza.",
+                bullets: [
+                    "<strong>100% de ahorro</strong> directo en la contratación de un seguro de asistencia al viajero internacional privado por los 3 meses.",
+                    "Si tenés una urgencia médica en París, Roma o Berlín, vas a un hospital público y te atienden gratis o pagando el copago mínimo local (ej. €10), sin facturas de miles de euros."
+                ],
+                howToUse: "Se tramita de forma digital o en las oficinas del INSS en España pidiendo el Certificado Provisional Sustitutorio (CPS) por 90 días.",
+                saving: 200,
+                cost: 0,
+                icon: "fa-file-shield",
+                color: "from-emerald-600 to-teal-500",
+                badgeText: "100% Gratis"
+            },
+            {
+                id: "museos",
+                title: "3. Entrada Gratis a Museos Nacionales y Monumentos",
+                sub: "Ahorro: ~€300 en cultura del más alto nivel",
+                desc: "En Europa, la cultura está totalmente financiada para los jóvenes comunitarios menores de 25 o 26 años.",
+                bullets: [
+                    "<strong>París:</strong> Museo del Louvre (ahorrás €22), Palacio de Versalles (€21) y Museo de Orsay (€16) son 100% gratuitos.",
+                    "<strong>Madrid:</strong> El Museo del Prado y el Museo Nacional Centro de Arte Reina Sofía gratis.",
+                    "<strong>Roma:</strong> El Coliseo, Foro Romano y Palatino pasan de costar €18 a una tarifa simbólica de €2 (tarifa superreducida UE)."
+                ],
+                howToUse: "Al reservar el ticket online en las páginas oficiales de cada museo, seleccionás la opción 'Joven UE 18-25 años (€0)'. En el ingreso mostrás el QR y tu pasaporte español físico.",
+                saving: 300,
+                cost: 0,
+                icon: "fa-building-columns",
+                color: "from-amber-600 to-yellow-500",
+                badgeText: "Acceso €0"
+            },
+            {
+                id: "abonoMadrid",
+                title: "4. Abono de Transporte Joven de Madrid",
+                sub: "Ahorro: Tarifa plana mensual de movilidad total",
+                desc: "Subsidio de transporte para la Comunidad de Madrid. Ideal para usar Madrid como base operativa sin gastar de más.",
+                bullets: [
+                    "<strong>Viajes ilimitados</strong> en el Metro de Madrid, colectivos urbanos e interurbanos y trenes de Cercanías por una tarifa plana de solo €10 al mes (según subvenciones locales vigentes).",
+                    "Un pase mensual normal para adultos supera los €50, lo que te permite ahorrar montos masivos mientras estás con tu madrina."
+                ],
+                howToUse: "Lo gestionás digitalmente o en los centros de transporte públicos de Madrid con tu pasaporte español.",
+                saving: 120, // saves ~40 per month vs normal adult tickets/passes
+                cost: 10,
+                icon: "fa-bus",
+                color: "from-rose-600 to-pink-500",
+                badgeText: "Tarifa Plana Joven"
+            },
+            {
+                id: "eyca",
+                title: "5. Carné Joven Europeo - EYCA",
+                sub: "Ahorro: 10% a 20% en comercios privados y traslados",
+                desc: "Una acreditación unificada para jóvenes europeos válida en más de 36 países de todo el continente.",
+                bullets: [
+                    "<strong>10% a 15% de descuento</strong> en pasajes de micros de larga distancia como FlixBus o Alsa.",
+                    "Descuentos en cadenas internacionales de hostels (como Generator Hostels), rebajas en pases de co-working diarios.",
+                    "Suscripción de Apple Music por €1,99 y pases reducidos en gimnasios y centros deportivos municipales de Europa para mantener tu rutina."
+                ],
+                howToUse: "Se saca online de forma digital por unos pocos euros en la web de juventud de la Comunidad de Madrid apenas llegás.",
+                saving: 80,
+                cost: 4,
+                icon: "fa-id-card",
+                color: "from-violet-600 to-indigo-500",
+                badgeText: "Válido en 36 Países"
+            }
+        ];
+
+        // Recommended Lego City Pieces Catalog
+        const BASE_CATALOG_CITIES = [
+            {
+                id: "city-madrid",
+                name: "Madrid (España)",
+                category: "Hub / Familiar",
+                costLvl: "Bajo",
+                minDays: 3,
+                maxDays: 7,
+                dynamic: "Familia",
+                hack: "Alojamiento gratis. Abono de transporte por €10 al mes y salud de la UE",
+                budget: 15, // Only local transport & minor outings
+                core: "Negocios/Tech",
+                activities: ["Co-working", "Trámites de ciudadanía", "Tapeo con familia", "Tranquilidad"]
+            },
+            {
+                id: "city-barcelona",
+                name: "Barcelona (España)",
+                category: "Hub / Familiar",
+                costLvl: "Alto",
+                minDays: 4,
+                maxDays: 6,
+                dynamic: "Solo / Amigos",
+                hack: "Descuento EYCA en hostels Generator y pases de co-working diarios",
+                budget: 55,
+                core: "Negocios/Tech",
+                activities: ["Running frente al mar", "Eventos IA", "Aticco Co-working", "Playa"]
+            },
+            {
+                id: "city-milan",
+                name: "Milán (Italia)",
+                category: "Premium & Networking",
+                costLvl: "Medio",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Solo / Amigos",
+                hack: "Tarifas FrecciaYOUNG (€19-€39) y 30% desc. en bicis Dott vía Tarjeta EYCA",
+                budget: 52,
+                core: "Negocios/Tech",
+                activities: ["Co-workings de referencia", "Running Navigli / Parco Sempione", "Hub Milano Centrale"]
+            },
+            {
+                id: "city-frankfurt",
+                name: "Fráncfort (Alemania)",
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                minDays: 3,
+                maxDays: 4,
+                dynamic: "Solo",
+                hack: "Deutschland-Ticket por €63 al mes y roaming Basic-Fit Premium Flex gratis",
+                budget: 58,
+                core: "Negocios/Tech",
+                activities: ["Startups fintech", "Co-working eSIM EYCA (20% off)", "Ciclismo río Meno"]
+            },
+            {
+                id: "city-viena",
+                name: "Viena (Austria)",
+                category: "Premium & Networking",
+                costLvl: "Medio",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Dani / Familia",
+                hack: "Descuento joven transfronterizo EYCA/ISIC y cobertura médica gratis con CPS/TSE",
+                budget: 48,
+                core: "Paisaje",
+                activities: ["Running Palacio Schönbrunn", "Conexión Praga/Budapest", "Cafés y co-working"]
+            },
+            {
+                id: "city-luxemburgo",
+                name: "Luxemburgo",
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                minDays: 2,
+                maxDays: 3,
+                dynamic: "Solo / Amigos",
+                hack: "100% de transporte público gratis sin billete y carné EYCA digital a €10",
+                budget: 42,
+                core: "Negocios/Tech",
+                activities: ["Albergues deportivos", "Basic-Fit libre de origen", "Networking corporativo"]
+            },
+            {
+                id: "city-ljubljana",
+                name: "Liubliana (Eslovenia)",
+                category: "Caja de Ahorro",
+                costLvl: "Bajo",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Solo / Amigos",
+                hack: "Crédito €10 Avant2Go (carsharing) y 10% desc. en transfers GoOpti",
+                budget: 34,
+                core: "Deporte",
+                activities: ["Running Parque Tivoli", "Almuerzos menú EYCA baratos", "Descuentos museo 25%"]
+            },
+            {
+                id: "city-innsbruck",
+                name: "Innsbruck (Austria)",
+                category: "Aventura y Naturaleza",
+                costLvl: "Medio",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Dani",
+                hack: "TSE activa para emergencias de montaña",
+                budget: 50,
+                core: "Deporte",
+                activities: ["Trekking alpino", "Ciclismo extremo", "Nordkette cable car", "Paisaje"]
+            },
+            {
+                id: "city-interlaken",
+                name: "Interlaken / Zermatt (Suiza)",
+                category: "Aventura y Naturaleza",
+                costLvl: "Crítico",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Solo / Amigos",
+                hack: "⚠️ No UE: Salud (TSE) ni pases Interrail completos no cubren todo",
+                budget: 110,
+                core: "Paisaje",
+                activities: ["Parapente", "Senderismo Cervino", "Tren cremallera", "Deporte extremo"]
+            },
+            {
+                id: "city-munich",
+                name: "Múnich / Garmisch (Alemania)",
+                category: "Aventura y Naturaleza",
+                costLvl: "Alto",
+                minDays: 4,
+                maxDays: 6,
+                dynamic: "Dani",
+                hack: "Deutschlandticket regional cubre conectividad total gratis",
+                budget: 65,
+                core: "Deporte",
+                activities: ["Lagos alpinos (Eibsee)", "Trekking Zugspitze", "Biergartens", "Auto alquilado"]
+            },
+            {
+                id: "city-praga",
+                name: "Praga (República Checa)",
+                category: "Caja de Ahorro",
+                costLvl: "Bajo",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Amigos",
+                hack: "Costo de comida/bebida más bajo de la UE",
+                budget: 30,
+                core: "Paisaje",
+                activities: ["Castillo de Praga", "Bares medievales", "Puente Carlos", "Cerveza barata"]
+            },
+            {
+                id: "city-berlin",
+                name: "Berlín (Alemania)",
+                category: "Caja de Ahorro",
+                costLvl: "Medio",
+                minDays: 4,
+                maxDays: 7,
+                dynamic: "Solo / Dani",
+                hack: "Descuento estudiantil/joven en pases y museos",
+                budget: 45,
+                core: "Negocios/Tech",
+                activities: ["Visitar Startups", "Tecnología de automatización", "Techno Clubs", "Muro de Berlín"]
+            },
+            {
+                id: "city-budapest",
+                name: "Budapest (Hungría)",
+                category: "Caja de Ahorro",
+                costLvl: "Bajo",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Amigos",
+                hack: "Tarifas de estudiante en termas históricas y boliches",
+                budget: 28,
+                core: "Joda",
+                activities: ["Termas Széchenyi", "Ruin Bars (Szimpla)", "Crucero nocturno", "Parlamento"]
+            },
+            {
+                id: "city-amsterdam",
+                name: "Ámsterdam (Países Bajos)",
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Solo",
+                hack: "EYCA para descuentos en canales y pases de museos",
+                budget: 80,
+                core: "Negocios/Tech",
+                activities: ["Ciclismo", "Networking IA", "Canales", "Museo Van Gogh"]
+            },
+            {
+                id: "city-roma",
+                name: "Roma / Florencia (Italia)",
+                category: "Premium & Networking",
+                costLvl: "Medio",
+                minDays: 4,
+                maxDays: 7,
+                dynamic: "Solo / Amigos",
+                hack: "Coliseo y Foro Romano a solo €2 por ser Joven UE",
+                budget: 48,
+                core: "Paisaje",
+                activities: ["Coliseo", "Vaticano", "Pasta en Trastevere", "Galería Uffizi"]
+            },
+            {
+                id: "city-paris",
+                name: "París (Francia)",
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                minDays: 4,
+                maxDays: 6,
+                dynamic: "Solo / Familia",
+                hack: "Louvre, Orsay y Versalles gratis mostrando Pasaporte Español (Ahorras €60+)",
+                budget: 75,
+                core: "Paisaje",
+                activities: ["Pícnic Torre Eiffel", "Museo del Louvre €0", "Montmartre", "Palacio de Versalles €0"]
+            }
+        ];
+
+        // Default Predefined Facts
+        const PREDEFINED_FACTS = [
+            {
+                id: "predefined-interrail",
+                title: "Trenes: Pase de Interrail Global Pass (Youth)",
+                cost: 429, 
+                saving: 0, 
+                category: "Transporte",
+                desc: "Al ser ciudadano de la UE y menor de 27 años, tenés derecho a tarifa Youth. Un pase flexible de 15 días en un período de 2 meses te cuesta €429 de forma base. <em>(Si activás el beneficio Verano Joven en su pestaña, el costo de este pase se reducirá a la mitad: €214.50)</em>.",
+                tip: "Viajá de forma espontánea a tu propio ritmo para evitar el estrés y no planificar de más ('no over-travel').",
+                isPredefined: true
+            },
+            {
+                id: "predefined-deutschlandticket",
+                title: "Transporte: Deutschlandticket (Alemania) 🇩🇪",
+                cost: 49,
+                saving: 120,
+                category: "Transporte",
+                desc: "Suscripción mensual de tarifa plana de transporte que te permite viajar de forma ilimitada en todos los trenes regionales, metros y colectivos de Alemania por solo €49.",
+                tip: "Es ideal para recorrer el país con Dani sin consumir tus valiosos días de viaje del pase Interrail global. Recordá cancelarlo online antes del 10 del mes de uso para evitar la renovación automática.",
+                isPredefined: true
+            }
+        ];
+
+        // Default Preloaded Side Quests
+        const DEFAULT_SIDE_QUESTS = [
+            {
+                id: "quest-ibiza",
+                title: "Ibiza con Gero y Manu 🏝️",
+                totalCost: 485,
+                includedInBudget: false,
+                days: 4,
+                details: {
+                    flights: 70,
+                    accommodation: 210,
+                    food: 60,
+                    transport: 25,
+                    club: 80,
+                    ferry: 40
+                },
+                itinerary: [
+                    { day: "Día 1", title: "Llegada y Sunset 🌅", desc: "Vuelo temprano desde Madrid. Check-in. Tarde en Cala Salada o Cala Gració. Previa con amigos en el hostel y Discobus a Amnesia o Pacha." },
+                    { day: "Día 2", title: "Calas y Ushuaïa 🥳", desc: "Alquiler de motos entre el grupo para recorrer el suroeste (Cala Comte y Cala Tarida). A las 17:00 directo a Ushuaïa (fiesta al aire libre, termina a las 23:00)." },
+                    { day: "Día 3", title: "Formentera Paradisiaca ⛵", desc: "Ferry rápido de la mañana a Formentera. Alquiler de bicis o motos hacia Playa de Ses Illetes. Regreso a Ibiza de noche para cenar tranquilo." },
+                    { day: "Día 4", title: "Dalt Vila y Regreso ✈️", desc: "Recorrer el centro histórico de Ibiza (Dalt Vila) o Playa d'en Bossa. Vuelo de regreso a Madrid por la tarde/noche para recuperar energías." }
+                ],
+                hacks: [
+                    "Comprar entradas un mes antes: Las plataformas oficiales (como Ibiza Spotlight) aumentan precios sobre la fecha. Nunca compres en la puerta.",
+                    "Alcohol en boliches = €0: Una sola copa adentro cuesta un tercio de la comida de todo el fin de semana. Previa fuerte antes de ingresar.",
+                    "Viajá solo con mochila: Dejá tu equipaje grande guardado en Madrid en casa de tu madrina y viajá ligero para ahorrar tasas de equipaje de Ryanair/Iberia."
+                ],
+                isDefault: true
+            },
+            {
+                id: "quest-alpes",
+                title: "Los Alpes con Dani 🏔️",
+                totalCost: 350,
+                includedInBudget: true,
+                days: 6,
+                details: {
+                    flights: 120, // Car rental + fuel share
+                    accommodation: 150, // Hostels & alpine huts
+                    food: 80 // Shared groceries & basic meals
+                },
+                itinerary: [
+                    { day: "Día 1", title: "Hub de Reunión & Auto 🚗", desc: "Encuentro con Dani en Múnich o Innsbruck. Retiro del auto chico alquilado. Manejo rumbo al primer valle alpino." },
+                    { day: "Día 2", title: "Trekking y Refugio 🥾", desc: "Senderismo por el eje Alpes Bávaros / Tirol Austríaco. Noche en un refugio alpino tradicional con cena grupal." },
+                    { day: "Día 3", title: "Lagos y Actividades 🚴", desc: "Recorrido en mountain bike por senderos de montaña o tarde de picnic en lagos turquesas alpinos (como Plansee o Eibsee)." },
+                    { day: "Día 4-5", title: "Austria vs. Suiza 🗺️", desc: "Días flexibles. Si eligen Austria/Alemania, costos estables. Si cruzan a Suiza (Interlaken), recordar que duplica el gasto y no cubre la TSE." },
+                    { day: "Día 6", title: "Devolución y Conexión 🚂", desc: "Devolución del auto en la misma ciudad de retiro para evitar recargos extras. Tren hacia tu próximo tramo de viaje." }
+                ],
+                hacks: [
+                    "<strong>Bávaros/Austria vs Suiza:</strong> Elegí el eje Baviera-Austria para usar tu Tarjeta Sanitaria Europea y mantener costos moderados. En Suiza tu presupuesto diario se va a duplicar.",
+                    "<strong>Evitá cargos 'One-Way':</strong> Retirá y devolvé el auto de alquiler en la misma sucursal (ej: Múnich ida y vuelta) para ahorrar tasas de retorno de hasta €150.",
+                    "<strong>Trekking autoguiado gratis:</strong> Los senderos alpinos están perfectamente marcados. Usá la app AllTrails o Maps.me con mapas descargados offline para prescindir de guías pagos."
+                ],
+                isDefault: true
+            }
+        ];
+
+        // State Store
+        let state = {
+            customFacts: [],
+            routeStops: [], // Current Lego Itinerary stops
+            sideQuests: [],
+            catalogCities: [], // Fully manageable catalog including custom entries
+            highSpeedReservations: 3, // default
+            reservationAvgCost: 15,
+            countdownDate: new Date("2026-06-24T00:00:00"),
+            baseFlightUSD: 1076,
+            includeBaseFlight: true,
+            usdToEurRate: 0.8614,
+            appliedBenefits: {
+                veranoJoven: true,
+                tse: true,
+                museos: true,
+                abonoMadrid: true,
+                eyca: true
+            }
+        };
+
+        // Initialize App on Window Load
+        window.onload = function() {
+            // Setup Catalog
+            state.catalogCities = [...BASE_CATALOG_CITIES];
+
+            // Load saved state if existing
+            if (localStorage.getItem('eurotrip_state_lego')) {
+                try {
+                    const loadedState = JSON.parse(localStorage.getItem('eurotrip_state_lego'));
+                    state.customFacts = loadedState.customFacts || [];
+                    state.routeStops = loadedState.routeStops || [];
+                    state.sideQuests = loadedState.sideQuests || [];
+                    state.highSpeedReservations = loadedState.highSpeedReservations !== undefined ? loadedState.highSpeedReservations : 3;
+                    state.appliedBenefits = loadedState.appliedBenefits || {
+                        veranoJoven: true,
+                        tse: true,
+                        museos: true,
+                        abonoMadrid: true,
+                        eyca: true
+                    };
+                    state.baseFlightUSD = loadedState.baseFlightUSD !== undefined ? loadedState.baseFlightUSD : 1076;
+                    state.includeBaseFlight = loadedState.includeBaseFlight !== undefined ? loadedState.includeBaseFlight : true;
+                    
+                    if (loadedState.customCatalogCities) {
+                        state.catalogCities = [...BASE_CATALOG_CITIES, ...loadedState.customCatalogCities];
+                    }
+
+                    if (state.sideQuests.length === 0) {
+                        state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+                    }
+                } catch(e) {
+                    console.error("No se pudo cargar el historial guardado", e);
+                    state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+                }
+            } else {
+                // Preload an initial route starting stops for demonstration
+                state.routeStops = [
+                    { 
+                        id: "stop-1", 
+                        city: "Madrid (España)", 
+                        nights: 6, 
+                        transport: "Inicio del Viaje", 
+                        cost: 0,
+                        dailyBudget: 15,
+                        category: "Hub / Familiar",
+                        costLvl: "Bajo",
+                        core: "Negocios/Tech",
+                        hack: "Alojamiento gratis. Abono de transporte por €10 al mes y salud de la UE"
+                    },
+                    { 
+                        id: "stop-2", 
+                        city: "Berlín (Alemania)", 
+                        nights: 7, 
+                        transport: "Vuelo Low Cost", 
+                        cost: 50,
+                        dailyBudget: 45,
+                        category: "Caja de Ahorro",
+                        costLvl: "Medio",
+                        core: "Negocios/Tech",
+                        hack: "Descuento estudiantil/joven en pases y museos"
+                    },
+                    { 
+                        id: "stop-3", 
+                        city: "Praga (República Checa)", 
+                        nights: 7, 
+                        transport: "Interrail Global Pass", 
+                        cost: 0,
+                        dailyBudget: 30,
+                        category: "Caja de Ahorro",
+                        costLvl: "Bajo",
+                        core: "Paisaje",
+                        hack: "Costo de comida/bebida más bajo de la UE"
+                    },
+                    { 
+                        id: "stop-4", 
+                        city: "Roma / Florencia (Italia)", 
+                        nights: 9, 
+                        transport: "Interrail + Reserva", 
+                        cost: 15,
+                        dailyBudget: 48,
+                        category: "Premium & Networking",
+                        costLvl: "Medio",
+                        core: "Paisaje",
+                        hack: "Coliseo y Foro Romano a solo €2 por ser Joven UE"
+                    }
+                ];
+                state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+            }
+
+            updateCountdown();
+            renderAll();
+        };
+
+        // Save State
+        function saveToStorage() {
+            const customCatalog = state.catalogCities.filter(c => !BASE_CATALOG_CITIES.some(bc => bc.id === c.id));
+            localStorage.setItem('eurotrip_state_lego', JSON.stringify({
+                customFacts: state.customFacts,
+                routeStops: state.routeStops,
+                sideQuests: state.sideQuests,
+                highSpeedReservations: state.highSpeedReservations,
+                appliedBenefits: state.appliedBenefits,
+                customCatalogCities: customCatalog,
+                baseFlightUSD: state.baseFlightUSD,
+                includeBaseFlight: state.includeBaseFlight
+            }));
+        }
+
+        // Countdown Timer Logic
+        function updateCountdown() {
+            const now = new Date();
+            const timeDiff = state.countdownDate - now;
+            const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
+            
+            const badge = document.getElementById('countdown-days');
+            if (daysLeft > 0) {
+                badge.innerText = `Faltan ${daysLeft} días`;
+            } else if (daysLeft === 0) {
+                badge.innerText = "¡Es HOY! ✈️";
+                badge.className = "font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-900/30 animate-pulse";
+            } else {
+                badge.innerText = "¡Viaje en curso! 🌍";
+                badge.className = "font-bold text-emerald-400 bg-emerald-950/40 px-2 py-0.5 rounded border border-emerald-900/30";
+            }
+        }
+
+        // Adjust Reservation Number Counter
+        function adjustReservations(amount) {
+            state.highSpeedReservations = Math.max(0, state.highSpeedReservations + amount);
+            saveToStorage();
+            renderAll();
+        }
+
+        // Tab Switching Logic
+        function switchTab(tab) {
+            const btnBenefits = document.getElementById('tab-benefits');
+            const btnHacks = document.getElementById('tab-hacks');
+            const btnItinerary = document.getElementById('tab-itinerary');
+            const btnQuests = document.getElementById('tab-quests');
+            
+            const panelBenefits = document.getElementById('panel-benefits');
+            const panelHacks = document.getElementById('panel-hacks');
+            const panelItinerary = document.getElementById('panel-itinerary');
+            const panelQuests = document.getElementById('panel-quests');
+
+            // Reset classes
+            const normalClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3";
+            btnBenefits.className = normalClass;
+            btnHacks.className = normalClass;
+            btnItinerary.className = normalClass;
+            btnQuests.className = normalClass;
+
+            panelBenefits.classList.add('hidden');
+            panelHacks.classList.add('hidden');
+            panelItinerary.classList.add('hidden');
+            panelQuests.classList.add('hidden');
+
+            const activeClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-blue-950/40 text-blue-300 border border-blue-900/30 transition-all whitespace-nowrap px-3";
+            const activeQuestClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-indigo-950/40 text-indigo-300 border border-indigo-900/30 transition-all whitespace-nowrap px-3";
+
+            if (tab === 'benefits') {
+                btnBenefits.className = activeClass;
+                panelBenefits.classList.remove('hidden');
+            } else if (tab === 'hacks') {
+                btnHacks.className = activeClass;
+                panelHacks.classList.remove('hidden');
+            } else if (tab === 'itinerary') {
+                btnItinerary.className = activeClass;
+                panelItinerary.classList.remove('hidden');
+            } else if (tab === 'quests') {
+                btnQuests.className = activeQuestClass;
+                panelQuests.classList.remove('hidden');
+            }
+        }
+
+        // Toggle European Benefit
+        function toggleBenefit(id) {
+            state.appliedBenefits[id] = !state.appliedBenefits[id];
+            saveToStorage();
+            renderAll();
+        }
+
+        // Toggle base flight inclusion in balance
+        function toggleBaseFlight() {
+            state.includeBaseFlight = !state.includeBaseFlight;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Update base flight cost
+        function updateBaseFlightUSD(val) {
+            state.baseFlightUSD = Math.max(0, parseFloat(val) || 0);
+            saveToStorage();
+            renderAll();
+        }
+
+        // Form submit handler for custom travel hacks
+        function handleFactSubmit(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('fact-title').value;
+            const cost = parseFloat(document.getElementById('fact-cost').value) || 0;
+            const saving = parseFloat(document.getElementById('fact-saving').value) || 0;
+            const category = document.getElementById('fact-category').value;
+            const desc = document.getElementById('fact-desc').value;
+
+            const newFact = {
+                id: "custom-" + Date.now(),
+                title: title,
+                cost: cost,
+                saving: saving,
+                category: category,
+                desc: desc,
+                isPredefined: false
+            };
+
+            state.customFacts.push(newFact);
+            saveToStorage();
+            renderAll();
+
+            document.getElementById('fact-form').reset();
+            showNotification("¡Registro de hack/costo manual guardado!");
+        }
+
+        // Delete a custom travel hack
+        function deleteCustomFact(id) {
+            state.customFacts = state.customFacts.filter(fact => fact.id !== id);
+            saveToStorage();
+            renderAll();
+        }
+
+        // Reset custom facts and state
+        function clearCustomFacts() {
+            state.customFacts = [];
+            state.highSpeedReservations = 3;
+            state.appliedBenefits = {
+                veranoJoven: true,
+                tse: true,
+                museos: true,
+                abonoMadrid: true,
+                eyca: true
+            };
+            state.catalogCities = [...BASE_CATALOG_CITIES];
+            clearTimeline();
+            state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+            saveToStorage();
+            renderAll();
+            showNotification("Datos restablecidos a los recomendados de fábrica");
+        }
+
+        // Notification utility
+        function showNotification(message, type = "info") {
+            const container = document.createElement('div');
+            container.className = `fixed bottom-20 lg:bottom-5 right-5 z-50 flex items-center gap-3 px-5 py-3 rounded-xl shadow-lg border transition-all duration-300 transform translate-y-10 opacity-0 ${
+                type === 'warning' ? 'bg-amber-950 border-amber-900/50 text-amber-200' : 'bg-emerald-950 border-emerald-900/50 text-emerald-200'
+            }`;
+            container.innerHTML = `
+                <i class="fa-solid ${type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-check'} text-lg"></i>
+                <span class="text-xs font-semibold">${message}</span>
+            `;
+            document.body.appendChild(container);
+            setTimeout(() => {
+                container.classList.remove('translate-y-10', 'opacity-0');
+            }, 50);
+            setTimeout(() => {
+                container.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => container.remove(), 300);
+            }, 4000);
+        }
+
+        // Toggle side quest budget calculation
+        function toggleQuestBudget(id) {
+            const quest = state.sideQuests.find(q => q.id === id);
+            if (quest) {
+                quest.includedInBudget = !quest.includedInBudget;
+                saveToStorage();
+                renderAll();
+            }
+        }
+
+        // Delete a custom side quest
+        function deleteQuest(id) {
+            state.sideQuests = state.sideQuests.filter(q => q.id !== id);
+            saveToStorage();
+            renderAll();
+        }
+
+        // Form submit handler to design a custom Lego city card
+        function handleCustomCitySubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('new-city-name').value;
+            const category = document.getElementById('new-city-category').value;
+            const costLvl = document.getElementById('new-city-cost-lvl').value;
+            const minDays = parseInt(document.getElementById('new-city-min').value) || 1;
+            const maxDays = parseInt(document.getElementById('new-city-max').value) || 1;
+            const dynamic = document.getElementById('new-city-dynamic').value;
+            const budget = parseFloat(document.getElementById('new-city-budget').value) || 0;
+            const core = document.getElementById('new-city-core').value;
+            const hack = document.getElementById('new-city-hack').value;
+            const activitiesRaw = document.getElementById('new-city-activities').value;
+            const activities = activitiesRaw.split(',').map(a => a.trim()).filter(a => a.length > 0);
+
+            const newCity = {
+                id: "custom-city-" + Date.now(),
+                name,
+                category,
+                costLvl,
+                minDays,
+                maxDays,
+                dynamic,
+                budget,
+                core,
+                hack,
+                activities
+            };
+
+            state.catalogCities.push(newCity);
+            saveToStorage();
+            renderAll();
+
+            document.getElementById('custom-city-form').reset();
+            const details = document.querySelector('details');
+            if (details) details.removeAttribute('open');
+
+            showNotification(`¡Pieza Lego "${name}" guardada en el catálogo!`);
+        }
+
+        // Adding a Lego city catalog piece to the active itinerary
+        function addLegoToItinerary(cityId) {
+            const city = state.catalogCities.find(c => c.id === cityId);
+            if (!city) return;
+
+            const currentTotalNights = state.routeStops.reduce((sum, stop) => sum + stop.nights, 0);
+            const defaultNights = city.minDays || 3;
+
+            if (currentTotalNights + defaultNights > 90) {
+                showNotification(`¡Límite alcanzado! No podés exceder los 90 días totales. Te quedan libres ${90 - currentTotalNights} noches.`, "warning");
+                return;
+            }
+
+            const newStop = {
+                id: "stop-" + Date.now(),
+                city: city.name,
+                nights: defaultNights,
+                transport: "Interrail Global Pass",
+                cost: 0,
+                dailyBudget: city.budget,
+                category: city.category,
+                costLvl: city.costLvl,
+                core: city.core,
+                hack: city.hack
+            };
+
+            state.routeStops.push(newStop);
+            saveToStorage();
+            renderAll();
+            showNotification(`¡Módulo "${city.name}" encajado en tu ruta!`);
+        }
+
+        // Adjust nights of a stop in the itinerary
+        function adjustStopNights(stopId, amount) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+
+            const currentTotalNights = state.routeStops.reduce((sum, s) => s.id !== stopId ? sum + s.nights : sum, 0);
+            const targetNights = Math.max(1, stop.nights + amount);
+
+            if (currentTotalNights + targetNights > 90) {
+                showNotification(`¡Límite superado! Modificar esto excede tus 90 días del viaje.`, "warning");
+                return;
+            }
+
+            stop.nights = targetNights;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Update transport selection directly on the stop
+        function updateStopTransport(stopId, method) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+            stop.transport = method;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Update transport cost directly on the stop
+        function updateStopTransportCost(stopId, costVal) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+            stop.cost = parseFloat(costVal) || 0;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Remove a stop from the Itinerary
+        function removeRouteStop(stopId) {
+            state.routeStops = state.routeStops.filter(s => s.id !== stopId);
+            saveToStorage();
+            renderAll();
+            showNotification("Pieza removida de tu ruta");
+        }
+
+        // Empty the active timeline
+        function clearTimeline() {
+            state.routeStops = [];
+            saveToStorage();
+            renderAll();
+            showNotification("Tablero de ruta vaciado");
+        }
+
+        // Re-order timeline items (move up)
+        function moveStopUp(index) {
+            if (index === 0) return;
+            const temp = state.routeStops[index];
+            state.routeStops[index] = state.routeStops[index - 1];
+            state.routeStops[index - 1] = temp;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Re-order timeline items (move down)
+        function moveStopDown(index) {
+            if (index === state.routeStops.length - 1) return;
+            const temp = state.routeStops[index];
+            state.routeStops[index] = state.routeStops[index + 1];
+            state.routeStops[index + 1] = temp;
+            saveToStorage();
+            renderAll();
+        }
+
+        // Filter catalog cities according to inputs
+        function applyCatalogFilters() {
+            renderCatalogList();
+        }
+
+        // Add custom side quest form handler
+        function addCustomQuest(e) {
+            e.preventDefault();
+            const title = document.getElementById('quest-title-input').value;
+            const days = parseInt(document.getElementById('quest-days-input').value) || 1;
+            const trans = parseFloat(document.getElementById('quest-transport-input').value) || 0;
+            const accom = parseFloat(document.getElementById('quest-accommodation-input').value) || 0;
+            const other = parseFloat(document.getElementById('quest-other-input').value) || 0;
+            const notesText = document.getElementById('quest-notes-input').value;
+
+            const hacks = notesText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+            const total = trans + accom + other;
+
+            const newQuest = {
+                id: "quest-" + Date.now(),
+                title: title + " 🎒",
+                totalCost: total,
+                includedInBudget: true,
+                days: days,
+                details: {
+                    flights: trans,
+                    accommodation: accom,
+                    food: other
+                },
+                hacks: hacks,
+                isDefault: false
+            };
+
+            state.sideQuests.push(newQuest);
+            saveToStorage();
+            renderAll();
+
+            document.getElementById('quest-form').reset();
+            showNotification("¡Aventura Side Quest guardada con éxito!");
+        }
+
+        // Get matching icon for Categories
+        function getCategoryIcon(cat) {
+            switch(cat) {
+                case "Salud": return "fa-file-medical text-emerald-400 bg-emerald-950/30";
+                case "Transporte": return "fa-train-subway text-blue-400 bg-blue-950/30";
+                case "Hospedaje": return "fa-hotel text-amber-400 bg-amber-950/30";
+                case "Tip": return "fa-lightbulb text-violet-400 bg-violet-950/30";
+                case "Finanzas": return "fa-wallet text-indigo-400 bg-indigo-950/30";
+                default: return "fa-compass text-slate-400 bg-slate-900";
+            }
+        }
+
+        // Get badge color mapping for Cost Level
+        function getCostBadgeColor(lvl) {
+            switch(lvl) {
+                case "Bajo": return "bg-emerald-950/50 text-emerald-300 border-emerald-900/50";
+                case "Medio": return "bg-blue-950/50 text-blue-300 border-blue-900/50";
+                case "Alto": return "bg-amber-950/50 text-amber-300 border-amber-900/50";
+                case "Crítico": return "bg-rose-950/50 text-rose-300 border-rose-900/50";
+                default: return "bg-slate-900 text-slate-300 border-slate-800";
+            }
+        }
+
+        // Get matching colors and icons for Lego Categories
+        function getLegoCategoryStyles(cat) {
+            switch(cat) {
+                case "Hub / Familiar": return { border: "border-orange-900/50", bg: "bg-orange-950/10", icon: "fa-house-user text-orange-400" };
+                case "Aventura y Naturaleza": return { border: "border-blue-900/50", bg: "bg-blue-950/10", icon: "fa-mountain-sun text-blue-400" };
+                case "Caja de Ahorro": return { border: "border-emerald-900/50", bg: "bg-emerald-950/10", icon: "fa-piggy-bank text-emerald-400" };
+                case "Premium & Networking": return { border: "border-rose-900/50", bg: "bg-rose-950/10", icon: "fa-gem text-rose-400" };
+                default: return { border: "border-slate-800", bg: "bg-slate-900/50", icon: "fa-puzzle-piece text-slate-400" };
+            }
+        }
+
+        // Rendering Core Function
+        function renderAll() {
+            let totalSaved = 0;
+            let totalCost = 0;
+
+            // Apply active EU benefits to total savings
+            EUROPEAN_BENEFITS.forEach(benefit => {
+                if (state.appliedBenefits[benefit.id]) {
+                    totalSaved += benefit.saving;
+                }
+            });
+
+            // Adjust Interrail Global Pass predefined fact based on Verano Joven toggle
+            const isVeranoJovenActive = state.appliedBenefits.veranoJoven;
+            const actualInterrailCost = isVeranoJovenActive ? 214.50 : 429.00;
+            const interrailSaving = isVeranoJovenActive ? 214.50 : 0;
+
+            // Sync Predefined Interrail description & costs in facts tab
+            PREDEFINED_FACTS[0].cost = actualInterrailCost;
+            PREDEFINED_FACTS[0].saving = interrailSaving;
+
+            // Predefined reservation costs
+            const reservationCost = state.highSpeedReservations * state.reservationAvgCost;
+
+            // Compute predefined facts costs & savings
+            PREDEFINED_FACTS.forEach(fact => {
+                totalSaved += fact.saving;
+                totalCost += fact.cost;
+            });
+            totalCost += reservationCost;
+
+            // Compute custom facts (manual notes)
+            state.customFacts.forEach(fact => {
+                totalSaved += fact.saving;
+                totalCost += fact.cost;
+            });
+
+            // COMPUTE ITINERARY (LEGO TIMELINE) COSTS
+            let itineraryStayCost = 0;
+            let itineraryTransportCost = 0;
+            state.routeStops.forEach(stop => {
+                itineraryStayCost += (stop.nights * stop.dailyBudget);
+                itineraryTransportCost += stop.cost;
+            });
+            totalCost += (itineraryStayCost + itineraryTransportCost);
+
+            // Add costs from active Side Quests
+            state.sideQuests.forEach(quest => {
+                if (quest.includedInBudget) {
+                    totalCost += quest.totalCost;
+                }
+            });
+
+            // Add flight cost if toggled
+            if (state.includeBaseFlight) {
+                totalCost += (state.baseFlightUSD * state.usdToEurRate);
+            }
+
+            // Update DOM calculations
+            document.getElementById('total-savings').innerText = `€${totalSaved.toFixed(0)}`;
+            
+            // Monthly calculation
+            const monthlyCost = totalCost / 3;
+            document.getElementById('total-costs').innerHTML = `
+                €${totalCost.toFixed(0)} 
+                <span class="text-xs sm:text-sm font-semibold text-indigo-400 block sm:inline sm:ml-1.5 whitespace-nowrap">
+                    (€${monthlyCost.toFixed(0)}/mes)
+                </span>
+            `;
+
+            // Sync Sticky Mobile Budget Bar
+            document.getElementById('mobile-total-costs').innerText = `€${totalCost.toFixed(0)}`;
+            document.getElementById('mobile-monthly-costs').innerText = `(€${monthlyCost.toFixed(0)}/mes)`;
+            
+            // Sync reservation display
+            document.getElementById('reservation-count').innerText = state.highSpeedReservations;
+            document.getElementById('reservation-cost-display').innerText = `€${reservationCost.toFixed(2)}`;
+
+            // Sync flight cost displays
+            const baseFlightEur = state.baseFlightUSD * state.usdToEurRate;
+            document.getElementById('base-flight-input').value = state.baseFlightUSD;
+            document.getElementById('base-flight-eur-display').innerText = `€${baseFlightEur.toFixed(2)}`;
+            
+            // Sync toggle button design
+            const flightToggle = document.getElementById('base-flight-toggle');
+            const flightToggleKnob = document.getElementById('base-flight-toggle-knob');
+            if (state.includeBaseFlight) {
+                flightToggle.className = "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-indigo-600";
+                flightToggleKnob.className = "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5";
+            } else {
+                flightToggle.className = "relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-slate-700";
+                flightToggleKnob.className = "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0";
+            }
+
+            // Render Tabs content
+            renderBenefitsTab();
+            renderHacksTab();
+            renderRouteTab();
+            renderSideQuests();
+        }
+
+        // Render European Benefits Tab
+        function renderBenefitsTab() {
+            const container = document.getElementById('benefits-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            EUROPEAN_BENEFITS.forEach(benefit => {
+                const isActive = state.appliedBenefits[benefit.id];
+                
+                const card = document.createElement('div');
+                card.className = `bg-slate-800 border rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
+                    isActive ? 'border-blue-500 ring-4 ring-blue-950/50' : 'border-slate-700 hover:border-slate-600'
+                }`;
+
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+                        <div class="flex items-start gap-3 sm:gap-4">
+                            <div class="p-3 rounded-xl bg-gradient-to-br ${benefit.color} text-white shrink-0 shadow-md">
+                                <i class="fa-solid ${benefit.icon} text-lg sm:text-xl w-5 h-5 sm:w-6 sm:h-6 flex items-center justify-center"></i>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap items-center gap-1.5 mb-1">
+                                    <h4 class="font-bold text-white text-sm sm:text-base md:text-lg">${benefit.title}</h4>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-amber-950/50 text-amber-300 border border-amber-900/30">
+                                        ${benefit.badgeText}
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-blue-300 font-bold mb-1.5">${benefit.sub}</p>
+                                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3">${benefit.desc}</p>
+                            </div>
+                        </div>
+
+                        <!-- Toggle Button (Mobile Optimised touch area) -->
+                        <div class="flex items-center justify-between md:justify-start gap-3 shrink-0 self-stretch md:self-start bg-slate-900 md:bg-transparent p-2.5 md:p-0 rounded-xl border border-slate-850 md:border-0">
+                            <span class="text-xs font-semibold text-slate-400 md:hidden">Activar beneficio:</span>
+                            <div class="flex flex-col items-center">
+                                <button onclick="toggleBenefit('${benefit.id}')" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${isActive ? 'bg-blue-600' : 'bg-slate-700'}" role="switch">
+                                    <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isActive ? 'translate-x-5' : 'translate-x-0'}"></span>
+                                </button>
+                                <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider mt-1 hidden md:block">${isActive ? 'Aplicado' : 'Inactivo'}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Details and How to Use -->
+                    <div class="mt-4 border-t border-slate-700 pt-4 grid grid-cols-1 md:grid-cols-12 gap-4">
+                        <div class="md:col-span-7 space-y-2">
+                            <h5 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-list-check text-blue-400"></i>
+                                Descuento Real y Detalles
+                            </h5>
+                            <ul class="space-y-1.5">
+                                ${benefit.bullets.map(bullet => `
+                                    <li class="text-xs text-slate-400 flex items-start gap-1.5 leading-relaxed">
+                                        <span class="text-blue-400 mt-0.5">•</span>
+                                        <span>${bullet}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                        <div class="md:col-span-5 bg-slate-900 p-3.5 rounded-xl border border-slate-800 flex flex-col justify-between">
+                            <div>
+                                <h5 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5 mb-2">
+                                    <i class="fa-solid fa-gears text-indigo-400"></i>
+                                    ¿Cómo se usa / tramita?
+                                </h5>
+                                <p class="text-xs text-slate-400 leading-relaxed">${benefit.howToUse}</p>
+                            </div>
+                            <div class="mt-3 text-[10px] font-medium text-blue-300 bg-blue-950/30 p-2 rounded border border-blue-900/30 flex items-center gap-2">
+                                <i class="fa-solid fa-chart-line"></i>
+                                <span><strong>Simulador:</strong> +€${benefit.saving} de ahorro.</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Render Hacks & Tips Tab
+        function renderHacksTab() {
+            const factsContainer = document.getElementById('facts-container');
+            if (!factsContainer) return;
+            factsContainer.innerHTML = '';
+
+            const allFacts = [...PREDEFINED_FACTS, ...state.customFacts];
+
+            allFacts.forEach((fact) => {
+                const iconClass = getCategoryIcon(fact.category);
+                
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-6 shadow-sm transition-all hover:shadow-md";
+                
+                card.innerHTML = `
+                    <div class="flex items-start gap-3 sm:gap-4">
+                        <div class="p-3.5 rounded-xl h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center shrink-0 ${iconClass.split(' ')[1]} ${iconClass.split(' ')[2]}">
+                            <i class="fa-solid ${iconClass.split(' ')[0]} text-lg sm:text-xl"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1.5 mb-2">
+                                <h4 class="font-bold text-white text-sm sm:text-base md:text-lg truncate">${fact.title}</h4>
+                                <div class="flex gap-1.5 items-center flex-wrap">
+                                    ${fact.saving > 0 ? `<span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-emerald-950/50 text-emerald-300 border border-emerald-900/30">Ahorro: €${fact.saving.toFixed(0)}</span>` : ''}
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-semibold bg-slate-900 text-slate-300 border border-slate-800">Costo: €${fact.cost.toFixed(0)}</span>
+                                    ${!fact.isPredefined ? `
+                                        <button onclick="deleteCustomFact('${fact.id}')" class="text-slate-500 hover:text-rose-400 transition-all p-1" title="Eliminar registro">
+                                            <i class="fa-regular fa-trash-can"></i>
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-3">${fact.desc}</p>
+                            ${fact.tip ? `
+                                <div class="bg-blue-950/40 border border-blue-900/30 rounded-xl p-3 flex items-start gap-2 text-xs text-blue-300">
+                                    <i class="fa-solid fa-circle-info text-blue-400 text-sm mt-0.5 shrink-0"></i>
+                                    <span><strong>Tip Pro:</strong> ${fact.tip}</span>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+                factsContainer.appendChild(card);
+            });
+        }
+
+        // Render Lego City Catalog Card List
+        function renderCatalogList() {
+            const container = document.getElementById('catalog-container');
+            if (!container) return;
+
+            const searchQuery = document.getElementById('catalog-search').value.toLowerCase();
+            const categoryFilter = document.getElementById('filter-category').value;
+            const costFilter = document.getElementById('filter-cost').value;
+
+            const filteredCities = state.catalogCities.filter(city => {
+                const matchesSearch = city.name.toLowerCase().includes(searchQuery) || 
+                                      city.core.toLowerCase().includes(searchQuery) ||
+                                      city.activities.some(a => a.toLowerCase().includes(searchQuery));
+                const matchesCategory = categoryFilter === 'all' || city.category === categoryFilter;
+                const matchesCost = costFilter === 'all' || city.costLvl === costFilter;
+
+                return matchesSearch && matchesCategory && matchesCost;
+            });
+
+            container.innerHTML = '';
+            
+            if (filteredCities.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-6 text-slate-500 text-xs bg-slate-900 rounded-xl border border-dashed border-slate-800">
+                        <i class="fa-solid fa-folder-open text-lg mb-1 block"></i> No se encontraron piezas
+                    </div>
+                `;
+                return;
+            }
+
+            filteredCities.forEach(city => {
+                const styles = getLegoCategoryStyles(city.category);
+                const costBadge = getCostBadgeColor(city.costLvl);
+
+                const cityCard = document.createElement('div');
+                cityCard.className = `bg-slate-900/80 border ${styles.border} ${styles.bg} rounded-xl p-3.5 space-y-2.5 transition-all hover:border-slate-600 relative overflow-hidden`;
+                
+                cityCard.innerHTML = `
+                    <div class="flex items-start justify-between gap-1.5">
+                        <div class="min-w-0">
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block truncate">${city.category}</span>
+                            <h5 class="font-bold text-white text-xs sm:text-sm flex items-center gap-1.5 mt-0.5 truncate">
+                                <i class="fa-solid ${styles.icon} shrink-0"></i> ${city.name}
+                            </h5>
+                        </div>
+                        <span class="border text-[9px] font-bold px-1.5 py-0.5 rounded-full ${costBadge} shrink-0">€${city.budget}/diario</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-1.5 text-[10px] text-slate-400 bg-slate-950 p-2 rounded-lg border border-slate-850">
+                        <div><i class="fa-regular fa-clock text-slate-500 mr-1"></i>Ideal: <strong>${city.minDays}-${city.maxDays}d</strong></div>
+                        <div><i class="fa-regular fa-user text-slate-500 mr-1"></i><strong>${city.dynamic}</strong></div>
+                        <div class="col-span-2 text-[9px] text-indigo-300 font-semibold border-t border-slate-800 pt-1 mt-1 leading-tight">
+                            <i class="fa-solid fa-gift text-indigo-400 mr-1"></i>${city.hack}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1 mt-1">
+                        ${city.activities.slice(0, 3).map(a => `
+                            <span class="bg-slate-950 text-slate-300 text-[9px] px-1.5 py-0.5 rounded font-medium border border-slate-850 truncate max-w-[120px]">${a}</span>
+                        `).join('')}
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold text-indigo-300 bg-indigo-950/40 px-2 py-0.5 rounded border border-indigo-900/30">
+                            <i class="fa-solid fa-bullseye text-indigo-400 shrink-0"></i> ${city.core}
+                        </span>
+                        <!-- Comfortable touch target size button -->
+                        <button onclick="addLegoToItinerary('${city.id}')" class="bg-indigo-600 active:bg-indigo-750 text-white font-bold text-[10px] py-1.5 px-3 rounded-md transition duration-150 flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-plus text-[8px]"></i> Añadir
+                        </button>
+                    </div>
+                `;
+                container.appendChild(cityCard);
+            });
+        }
+
+        // Render Route Timeline (Lego construction board)
+        function renderRouteTab() {
+            renderCatalogList();
+
+            const totalNights = state.routeStops.reduce((sum, stop) => sum + stop.nights, 0);
+            document.getElementById('days-allocated').innerText = totalNights;
+            document.getElementById('mobile-days-allocated').innerText = totalNights;
+            
+            // Progress Bar update
+            const progressPercent = Math.min(100, (totalNights / 90) * 100);
+            const progressBar = document.getElementById('days-progress-bar');
+            progressBar.style.width = `${progressPercent}%`;
+
+            const alertBox = document.getElementById('itinerary-pace-alert');
+            const emptyMsg = document.getElementById('empty-itinerary-msg');
+            
+            if (totalNights === 0) {
+                progressBar.className = "bg-blue-500 h-full transition-all duration-500";
+                alertBox.className = "mt-4 p-3 bg-blue-950/40 text-blue-300 rounded-xl text-xs flex items-center gap-3 border border-blue-900/30";
+                alertBox.innerHTML = `<i class="fa-solid fa-info-circle text-base text-blue-400"></i><span><strong>Tablero Vacío:</strong> Comienza a armar tu ruta agregando ciudades del catálogo derecho. ¡Llená tus 90 días de viaje!</span>`;
+                emptyMsg.classList.remove('hidden');
+            } else {
+                emptyMsg.classList.add('hidden');
+                if (totalNights < 45) {
+                    progressBar.className = "bg-blue-500 h-full transition-all duration-500";
+                    alertBox.className = "mt-4 p-3 bg-amber-950/40 text-amber-300 rounded-xl text-xs flex items-center gap-3 border border-amber-900/30";
+                    alertBox.innerHTML = `<i class="fa-solid fa-route text-base text-amber-400 shrink-0"></i><span>Llevás <strong>${totalNights} días</strong> diseñados de tu ruta. Te sugerimos destinos económicos como Praga o Budapest para estirar el presupuesto.</span>`;
+                } else if (totalNights >= 45 && totalNights < 90) {
+                    progressBar.className = "bg-indigo-600 h-full transition-all duration-500";
+                    alertBox.className = "mt-4 p-3 bg-indigo-950/40 text-indigo-300 rounded-xl text-xs flex items-center gap-3 border border-indigo-900/30";
+                    alertBox.innerHTML = `<i class="fa-solid fa-heart text-base text-indigo-400 shrink-0"></i><span>¡Qué gran ritmo! Llevás <strong>${totalNights} días</strong> planeados. El promedio de estadía largo evita el sobre-viaje. Te quedan libres ${90 - totalNights} noches.</span>`;
+                } else {
+                    progressBar.className = "bg-emerald-600 h-full transition-all duration-500";
+                    alertBox.className = "mt-4 p-3 bg-emerald-950/40 text-emerald-300 rounded-xl text-xs flex items-center gap-3 border border-emerald-900/30";
+                    alertBox.innerHTML = `<i class="fa-solid fa-circle-check text-base text-emerald-400 shrink-0"></i><span><strong>¡Viaje completado!</strong> Rellenaste tus 90 días exactos con un plan de ruta equilibrado y modular. ¡Listo para despegar!</span>`;
+                }
+            }
+
+            // Timeline rendering
+            const timelineContainer = document.getElementById('timeline-container');
+
+            if (state.routeStops.length === 0) {
+                timelineContainer.innerHTML = '';
+            } else {
+                timelineContainer.innerHTML = '';
+                let dayAccumulator = 0;
+
+                state.routeStops.forEach((stop, index) => {
+                    const startDay = dayAccumulator;
+                    dayAccumulator += stop.nights;
+                    const endDay = dayAccumulator;
+
+                    let stopStartDate = new Date(state.countdownDate);
+                    stopStartDate.setDate(stopStartDate.getDate() + startDay);
+                    
+                    let stopEndDate = new Date(state.countdownDate);
+                    stopEndDate.setDate(stopEndDate.getDate() + endDay);
+
+                    const formatDate = (date) => {
+                        return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+                    };
+
+                    const item = document.createElement('div');
+                    item.className = "relative bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-sm hover:border-slate-600 transition-all space-y-3.5";
+                    
+                    const costColor = getCostBadgeColor(stop.costLvl);
+
+                    item.innerHTML = `
+                        <!-- Dot connector design -->
+                        <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-indigo-500 shadow-sm"></span>
+                        
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                            <div class="space-y-1 min-w-0">
+                                <div class="flex flex-wrap items-center gap-1.5">
+                                    <span class="text-[9px] font-bold text-indigo-300 bg-indigo-950/40 border border-indigo-900/30 rounded px-1">${stop.category}</span>
+                                    <h5 class="font-bold text-white text-sm sm:text-base truncate">${index + 1}. ${stop.city}</h5>
+                                    <span class="border text-[9px] font-bold px-1.5 py-0.5 rounded-full ${costColor} shrink-0">Est. €${stop.dailyBudget}/día</span>
+                                </div>
+                                <p class="text-[11px] font-semibold text-slate-400">
+                                    <i class="fa-regular fa-calendar-days text-slate-500 mr-1"></i>${formatDate(stopStartDate)} al ${formatDate(stopEndDate)} (${stop.nights} noches)
+                                </p>
+                                <p class="text-[10px] text-emerald-400 font-bold leading-tight"><i class="fa-solid fa-sparkles text-emerald-400 mr-1"></i>Beneficio: ${stop.hack}</p>
+                            </div>
+
+                            <!-- Interactive nights controls (Touch friendly) -->
+                            <div class="flex items-center gap-2 self-stretch md:self-auto justify-between md:justify-end">
+                                <div class="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-700 shadow-inner">
+                                    <button onclick="adjustStopNights('${stop.id}', -1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-800 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">-</button>
+                                    <span class="text-xs font-bold text-slate-100 min-w-[24px] text-center">${stop.nights} n</span>
+                                    <button onclick="adjustStopNights('${stop.id}', 1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-800 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">+</button>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <div class="flex flex-row md:flex-col gap-1">
+                                        <button onclick="moveStopUp(${index})" class="p-2 sm:p-1.5 rounded-lg bg-slate-850 border border-slate-700 text-slate-400 active:bg-slate-800 text-xs sm:text-[10px] transition" title="Subir parada">
+                                            <i class="fa-solid fa-chevron-up"></i>
+                                        </button>
+                                        <button onclick="moveStopDown(${index})" class="p-2 sm:p-1.5 rounded-lg bg-slate-850 border border-slate-700 text-slate-400 active:bg-slate-800 text-xs sm:text-[10px] transition" title="Bajar parada">
+                                            <i class="fa-solid fa-chevron-down"></i>
+                                        </button>
+                                    </div>
+                                    <button onclick="removeRouteStop('${stop.id}')" class="text-rose-400 active:bg-rose-950/50 p-2.5 rounded-lg transition" title="Remover parada">
+                                        <i class="fa-regular fa-trash-can text-sm sm:text-base"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transport dynamic picker inside stop -->
+                        <div class="pt-3 border-t border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-3 items-center text-xs">
+                            <div class="flex items-center gap-2">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">Conectividad:</label>
+                                <select onchange="updateStopTransport('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-750 text-slate-200 rounded-lg focus:outline-none">
+                                    <option value="Interrail Global Pass" ${stop.transport === 'Interrail Global Pass' ? 'selected' : ''}>Interrail (Pase Global)</option>
+                                    <option value="Interrail + Reserva" ${stop.transport === 'Interrail + Reserva' ? 'selected' : ''}>Interrail + Reserva</option>
+                                    <option value="Vuelo Low Cost" ${stop.transport === 'Vuelo Low Cost' ? 'selected' : ''}>Vuelo de Bajo Costo</option>
+                                    <option value="Bus / FlixBus" ${stop.transport === 'Bus / FlixBus' ? 'selected' : ''}>Bus / FlixBus</option>
+                                    <option value="Inicio del Viaje" ${stop.transport === 'Inicio del Viaje' ? 'selected' : ''}>Origen (Punto Inicial)</option>
+                                </select>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">Costo (€):</label>
+                                <input type="number" min="0" value="${stop.cost}" onchange="updateStopTransportCost('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-750 text-slate-100 rounded-lg text-right focus:outline-none">
+                            </div>
+                        </div>
+                    `;
+                    timelineContainer.appendChild(item);
+                });
+            }
+        }
+
+        // Render Side Quests Content (Tab 3)
+        function renderSideQuests() {
+            const container = document.getElementById('quests-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (state.sideQuests.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-slate-900 text-center rounded-2xl p-8 border border-dashed border-slate-800">
+                        <i class="fa-solid fa-compass-drafting text-4xl text-slate-600 mb-2"></i>
+                        <h4 class="font-bold text-slate-400 text-base">No hay side quests registradas</h4>
+                        <p class="text-xs text-slate-500">Diseñá una escapada utilizando el formulario inferior para habilitar su seguimiento de presupuesto.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            state.sideQuests.forEach(quest => {
+                const isIncluded = quest.includedInBudget;
+                const hasDetailedBudget = quest.details !== undefined;
+                
+                let hacksHtml = '';
+                if (quest.hacks && quest.hacks.length > 0) {
+                    hacksHtml = `
+                        <div class="mt-4 border-t border-slate-700 pt-4">
+                            <h5 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles text-indigo-400"></i>
+                                Consejos y Hacks de Aventura
+                            </h5>
+                            <ul class="space-y-1.5">
+                                ${quest.hacks.map(hack => `
+                                    <li class="text-xs text-slate-400 flex items-start gap-1.5 leading-relaxed">
+                                        <span class="text-amber-400 mt-0.5 shrink-0">•</span>
+                                        <span>${hack}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }
+
+                let itineraryHtml = '';
+                if (quest.itinerary && quest.itinerary.length > 0) {
+                    itineraryHtml = `
+                        <div class="mt-4 border-t border-slate-700 pt-4">
+                            <h5 class="text-[10px] sm:text-xs font-bold text-slate-300 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+                                <i class="fa-solid fa-map-location-dot text-indigo-400"></i>
+                                Itinerario Cronológico (${quest.days} Días)
+                            </h5>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                ${quest.itinerary.map(item => `
+                                    <div class="bg-slate-900 p-3 rounded-xl border border-slate-850 transition-all hover:bg-slate-850">
+                                        <div class="flex items-center gap-2 mb-1.5">
+                                            <span class="bg-indigo-950 text-indigo-300 border border-indigo-900/50 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0">${item.day}</span>
+                                            <span class="font-bold text-slate-200 text-xs truncate">${item.title}</span>
+                                        </div>
+                                        <p class="text-[11px] text-slate-400 leading-relaxed">${item.desc}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                let breakdownHtml = '';
+                if (hasDetailedBudget) {
+                    const d = quest.details;
+                    breakdownHtml = `
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 mt-3 bg-slate-900 p-2.5 rounded-xl border border-slate-850">
+                            ${d.flights !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Vuelos</span><span class="text-xs font-bold text-slate-200">€${d.flights}</span></div>` : ''}
+                            ${d.accommodation !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Hospedaje</span><span class="text-xs font-bold text-slate-200">€${d.accommodation}</span></div>` : ''}
+                            ${d.food !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Comida/Súper</span><span class="text-xs font-bold text-slate-200">€${d.food}</span></div>` : ''}
+                            ${d.transport !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Trans. Int</span><span class="text-xs font-bold text-slate-200">€${d.transport}</span></div>` : ''}
+                            ${d.club !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Club</span><span class="text-xs font-bold text-slate-200">€${d.club}</span></div>` : ''}
+                            ${d.ferry !== undefined ? `<div class="text-center p-2 bg-slate-800 rounded-lg border border-slate-750"><span class="block text-[8px] text-slate-500 uppercase font-semibold">Ferry</span><span class="text-xs font-bold text-slate-200">€${d.ferry}</span></div>` : ''}
+                        </div>
+                    `;
+                }
+
+                const card = document.createElement('div');
+                card.className = `bg-slate-800 border ${isIncluded ? 'border-indigo-500 ring-4 ring-indigo-950/50' : 'border-slate-700'} rounded-2xl p-4 sm:p-6 shadow-md transition-all`;
+                
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <div class="p-3.5 rounded-xl h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center shrink-0 ${isIncluded ? 'bg-indigo-600 text-white shadow-md' : 'bg-slate-900 text-slate-500'} transition-all">
+                                <i class="fa-solid fa-shuttle-space text-lg sm:text-xl"></i>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2 flex-wrap">
+                                    <h4 class="font-bold text-white text-sm sm:text-base md:text-lg truncate">${quest.title}</h4>
+                                    <span class="bg-indigo-950 border border-indigo-900/30 text-indigo-300 text-[9px] sm:text-[10px] font-extrabold px-2 py-0.5 rounded-full">${quest.days} Días</span>
+                                </div>
+                                <p class="text-xs text-slate-400 mt-0.5">Escapada • Presupuesto: <strong class="text-slate-200">€${quest.totalCost}</strong></p>
+                            </div>
+                        </div>
+
+                        <!-- Expanded Touch Target Switch for Mobile -->
+                        <div class="flex items-center justify-between sm:justify-start gap-4 self-stretch sm:self-auto bg-slate-900 sm:bg-transparent p-2 rounded-xl border border-slate-850 sm:border-0">
+                            <span class="text-xs font-medium text-slate-400 sm:hidden">¿Sumar al total?</span>
+                            <div class="flex items-center space-x-2">
+                                <button onclick="toggleQuestBudget('${quest.id}')" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none ${isIncluded ? 'bg-indigo-600' : 'bg-slate-700'}" role="switch">
+                                    <span class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${isIncluded ? 'translate-x-5' : 'translate-x-0'}"></span>
+                                </button>
+                                ${!quest.isDefault ? `
+                                    <button onclick="deleteQuest('${quest.id}')" class="text-slate-500 hover:text-rose-400 transition-all p-1" title="Eliminar Side Quest">
+                                        <i class="fa-regular fa-trash-can text-sm"></i>
+                                    </button>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${breakdownHtml}
+                    ${itineraryHtml}
+                    ${hacksHtml}
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
