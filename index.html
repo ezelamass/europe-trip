@@ -69,11 +69,10 @@
 
     <!-- Main Content Layout -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
-        
+
         <!-- Left Column: Profile, Quick Stats, & Interactive Calculators (4 Cols) -->
-        <!-- On mobile, order is reversed (order-2) to place the active route tab on top (order-1) -->
         <aside class="lg:col-span-4 space-y-6 order-2 lg:order-1">
-            
+
             <!-- Quick Trip Info & Countdown Card -->
             <div class="bg-gradient-to-br from-indigo-950 via-blue-950 to-slate-950 text-white rounded-2xl p-5 sm:p-6 shadow-xl border border-indigo-900/30 relative overflow-hidden">
                 <div class="absolute -right-6 -bottom-6 opacity-10 text-9xl">
@@ -88,7 +87,7 @@
                         <i class="fa-solid fa-calendar-days mr-1"></i> Verano 2026
                     </span>
                 </div>
-                
+
                 <div class="space-y-3 relative z-10 text-xs sm:text-sm bg-slate-900/50 p-3 rounded-xl backdrop-blur-sm border border-slate-800">
                     <div class="flex items-center justify-between">
                         <span class="text-slate-300"><i class="fa-solid fa-calendar-plus mr-2 w-4"></i>Inicio:</span>
@@ -132,7 +131,6 @@
                             <i class="fa-solid fa-plane-arrival text-indigo-400"></i>
                             Vuelo Transatlántico Base
                         </h4>
-                        <!-- Switch Toggle to include/exclude (Expanded Touch Target) -->
                         <button onclick="toggleBaseFlight()" id="base-flight-toggle" class="relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none bg-indigo-600" role="switch">
                             <span id="base-flight-toggle-knob" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-5"></span>
                         </button>
@@ -164,7 +162,6 @@
                     </p>
                     <div class="flex items-center justify-between gap-4 pt-1">
                         <div class="flex items-center space-x-1 bg-slate-950 p-1 rounded-xl border border-slate-800">
-                            <!-- Mobile-friendly touch buttons (minimum 40px width/height equivalent) -->
                             <button onclick="adjustReservations(-1)" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center font-bold text-slate-200 text-lg">-</button>
                             <span id="reservation-count" class="font-bold text-slate-100 min-w-[28px] text-center text-sm">3</span>
                             <button onclick="adjustReservations(1)" class="w-10 h-10 rounded-lg bg-slate-800 hover:bg-slate-700 active:scale-95 transition-all flex items-center justify-center font-bold text-slate-200 text-lg">+</button>
@@ -218,16 +215,15 @@
                     </button>
                 </form>
             </div>
-            
+
         </aside>
 
         <!-- Right Column: Timeline / Travel Facts & Information Cards (8 Cols) -->
-        <!-- On mobile, order is set to 1 so the primary content shows on top -->
         <section class="lg:col-span-8 space-y-6 order-1 lg:order-2">
-            
+
             <!-- Quick Tabs Navigation Bar (Scrollable on mobile) -->
             <div class="flex overflow-x-auto no-scrollbar border border-slate-700 bg-slate-950 p-1 rounded-xl gap-1 shrink-0 scroll-smooth">
-                <button onclick="switchTab('benefits')" id="tab-benefits" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                <button onclick="switchTab('benefits')" id="tab-benefits" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3 col-span-1">
                     <i class="fa-solid fa-euro-sign mr-1.5 text-blue-400"></i> Beneficios UE 🇪🇺
                 </button>
                 <button onclick="switchTab('hacks')" id="tab-hacks" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
@@ -238,6 +234,9 @@
                 </button>
                 <button onclick="switchTab('quests')" id="tab-quests" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
                     <i class="fa-solid fa-bolt mr-1.5 text-violet-400"></i> Side Quests ⚡
+                </button>
+                <button onclick="switchTab('luggage')" id="tab-luggage" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-suitcase-rolling mr-1.5 text-emerald-400"></i> Mi Valija 🎒
                 </button>
             </div>
 
@@ -269,7 +268,7 @@
                         <i class="fa-solid fa-trash-can mr-1"></i>Restablecer todo
                     </button>
                 </div>
-                
+
                 <div id="facts-container" class="space-y-4">
                     <!-- PREDEFINED FACTS INJECTED VIA JS -->
                 </div>
@@ -277,7 +276,7 @@
 
             <!-- TAB 2: Interactive Route and Itinerary Planner Panel (Lego System) -->
             <div id="panel-itinerary" class="space-y-6">
-                
+
                 <!-- Day Usage Progress Bar -->
                 <div class="bg-slate-800 rounded-2xl border border-slate-700 p-5 sm:p-6 shadow-sm">
                     <div class="flex justify-between items-center mb-2">
@@ -293,7 +292,7 @@
                     <div class="w-full bg-slate-900 rounded-full h-3 overflow-hidden border border-slate-800">
                         <div id="days-progress-bar" class="bg-blue-500 h-full transition-all duration-500" style="width: 0%"></div>
                     </div>
-                    
+
                     <div id="itinerary-pace-alert" class="mt-4 p-3 bg-blue-950/40 text-blue-300 rounded-xl text-xs flex items-center gap-3 border border-blue-900/30 leading-relaxed">
                         <i class="fa-solid fa-info-circle text-base"></i>
                         <span><strong>Cargando...</strong></span>
@@ -302,7 +301,7 @@
 
                 <!-- LEGO MODULE GRID SYSTEM AND CREATOR (Mobile: Stacks perfectly) -->
                 <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
-                    
+
                     <!-- LEFT CONTAINER: The Lego Itinerary Builder Timeline (7 Cols) -->
                     <div class="xl:col-span-7 space-y-4">
                         <div class="flex items-center justify-between">
@@ -314,7 +313,7 @@
                                 <i class="fa-solid fa-broom"></i> Vaciar Itinerario
                             </button>
                         </div>
-                        
+
                         <div id="empty-itinerary-msg" class="bg-amber-950/20 border border-amber-900/30 rounded-2xl p-5 flex gap-4 items-start hidden">
                             <div class="bg-amber-950/60 text-amber-400 p-2.5 rounded-xl shrink-0 border border-amber-900/50">
                                 <i class="fa-solid fa-route text-lg"></i>
@@ -348,7 +347,7 @@
                                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-500 text-xs"></i>
                                     <input type="text" id="catalog-search" oninput="applyCatalogFilters()" placeholder="Buscar ciudad o actividad..." class="w-full text-xs pl-8 pr-3 py-3 bg-slate-900 border border-slate-700 rounded-lg text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:outline-none placeholder-slate-500">
                                 </div>
-                                
+
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label class="block text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mb-1">Categoría</label>
@@ -525,6 +524,218 @@
                             <i class="fa-solid fa-plus mr-1"></i> Guardar Side Quest
                         </button>
                     </form>
+                </div>
+            </div>
+
+            <!-- TAB 4: Luggage Planner Panel -->
+            <div id="panel-luggage" class="space-y-6 hidden">
+                <div class="bg-gradient-to-r from-emerald-950 to-teal-950 border border-emerald-900/30 px-5 py-4 rounded-2xl shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                    <div>
+                        <h4 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-suitcase-rolling text-emerald-400"></i>
+                            Organizador de Equipaje Inteligente ("Mi Valija")
+                        </h4>
+                        <p class="text-xs text-emerald-200/80 leading-relaxed">
+                            Organizá tu equipaje para la gran aventura de 90 días. Clasificá cada ítem en tu mochila (artículo de mano), en tu carry-on para cabina o en la valija grande despachada de hasta 23 kg.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Baggage Distribution counters -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">1. Mochila Expansible (Tu Compra)</span>
+                            <h5 class="text-lg sm:text-xl font-extrabold text-slate-100 mt-0.5" id="count-mochila">0 ítems</h5>
+                            <p class="text-[10px] text-slate-500 leading-tight">Romantic Crown (30L - 42L)</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 text-sky-400 rounded-xl border border-slate-800 shrink-0 shadow-inner">
+                            <i class="fa-solid fa-backpack text-lg sm:text-xl w-6 h-6 flex items-center justify-center"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">2. Carry-On</span>
+                            <h5 class="text-lg sm:text-xl font-extrabold text-slate-100 mt-0.5" id="count-carryon">0 ítems</h5>
+                            <p class="text-[10px] text-slate-500 leading-tight">Equipaje de mano / cabina (10kg)</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 text-amber-400 rounded-xl border border-slate-800 shrink-0 shadow-inner">
+                            <i class="fa-solid fa-suitcase text-lg sm:text-xl w-6 h-6 flex items-center justify-center"></i>
+                        </div>
+                    </div>
+                    <div class="bg-slate-800 p-4 rounded-2xl border border-slate-700 flex items-center justify-between shadow-sm">
+                        <div>
+                            <span class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">3. Valija Grande</span>
+                            <h5 class="text-lg sm:text-xl font-extrabold text-slate-100 mt-0.5" id="count-valija">0 ítems</h5>
+                            <p class="text-[10px] text-slate-500 leading-tight">Equipaje pesado despachado (23kg)</p>
+                        </div>
+                        <div class="p-3 bg-slate-950 text-emerald-400 rounded-xl border border-slate-800 shrink-0 shadow-inner">
+                            <i class="fa-solid fa-plane-flatbed text-lg sm:text-xl w-6 h-6 flex items-center justify-center"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW: Interactive Backpack Tech Specs Widget -->
+                <div class="bg-slate-800 border border-slate-700 rounded-2xl p-5 sm:p-6 shadow-md">
+                    <div class="flex flex-col lg:flex-row items-center justify-between gap-6">
+                        <!-- Left specs details -->
+                        <div class="flex-1 space-y-4">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-emerald-950 text-emerald-300 text-[10px] font-bold px-2 py-0.5 rounded border border-emerald-900/50 uppercase">Tu Mochila Adquirida</span>
+                                <h4 class="font-extrabold text-slate-100 text-sm sm:text-base">Mochila Expansible Romantic Crown</h4>
+                            </div>
+
+                            <p class="text-xs text-slate-300 leading-relaxed">
+                                Una mochila de alto rendimiento de Oxford Poliéster e impermeable. Cuenta con 3 compartimentos principales, 11 bolsillos y un diseño ergonómico de 1.08 kg con paso para USB integrado.
+                            </p>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-750 flex items-center gap-2">
+                                    <i class="fa-solid fa-laptop text-indigo-400"></i>
+                                    <span>Laptop 17.3" & iPad</span>
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-750 flex items-center gap-2">
+                                    <i class="fa-solid fa-droplet-slash text-sky-400"></i>
+                                    <span>Impermeable / Seco-Húmedo</span>
+                                </div>
+                                <div class="bg-slate-900 p-2 rounded-lg border border-slate-750 flex items-center gap-2 col-span-2 sm:col-span-1">
+                                    <i class="fa-solid fa-unlock text-amber-400"></i>
+                                    <span>Apertura 180°</span>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-4 pt-2">
+                                <!-- Interactive Toggle 1: Expand/Collapse Backpack -->
+                                <div class="flex items-center gap-2.5">
+                                    <button onclick="toggleBackpackExpansion()" class="bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold py-2 px-3.5 rounded-lg flex items-center gap-2 transition duration-150">
+                                        <i class="fa-solid fa-arrows-left-right-to-line"></i>
+                                        <span id="backpack-expand-btn-text">Expandir Mochila (42L)</span>
+                                    </button>
+                                </div>
+
+                                <!-- Interactive Toggle 2: Connect Powerbank (Easter Egg) -->
+                                <div class="flex items-center gap-2.5">
+                                    <button onclick="toggleBackpackUsb()" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 active:scale-95 text-slate-200 text-xs font-bold py-2 px-3.5 rounded-lg flex items-center gap-2 transition duration-150">
+                                        <i class="fa-solid fa-plug text-amber-400 animate-pulse"></i>
+                                        <span id="backpack-usb-btn-text">Conectar Powerbank</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Graphic Schematic (Visual Interactive Model) -->
+                        <div class="w-full lg:w-48 bg-slate-950 rounded-xl p-4 border border-slate-800 flex flex-col items-center justify-center relative overflow-hidden self-stretch lg:self-auto shrink-0">
+                            <!-- Background grid -->
+                            <div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 10px 10px;"></div>
+
+                            <!-- Dynamic Backpack container -->
+                            <div id="visual-backpack-container" class="w-24 bg-slate-800 border-2 border-slate-600 rounded-2xl relative shadow-lg flex items-center justify-center transition-all duration-500 ease-in-out py-10" style="padding-left: 12px; padding-right: 12px;">
+                                <!-- Top handle -->
+                                <div class="absolute -top-1.5 w-8 h-2 rounded-t-full border-t-2 border-x-2 border-slate-600"></div>
+                                <!-- Shoulder strap indications -->
+                                <div class="absolute -left-1.5 top-4 w-1.5 h-12 bg-slate-700 rounded-l-md border-y border-l border-slate-600"></div>
+                                <div class="absolute -right-1.5 top-4 w-1.5 h-12 bg-slate-700 rounded-r-md border-y border-r border-slate-600"></div>
+
+                                <!-- Brand name text simulation -->
+                                <div class="text-[6px] text-slate-500 font-bold uppercase tracking-widest text-center select-none">R Crown</div>
+
+                                <!-- Expansion joint (dotted center line that grows!) -->
+                                <div id="backpack-expansion-joint" class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-0 border-r border-dashed border-indigo-500/50 opacity-0 transition-all duration-500"></div>
+
+                                <!-- Laptop zipper compartment back indicator -->
+                                <div class="absolute right-1 inset-y-2 w-0.5 bg-slate-700"></div>
+
+                                <!-- Charging phone wire animation if USB is active -->
+                                <div id="backpack-phone-wire" class="absolute -bottom-8 right-2 flex flex-col items-center opacity-0 transition-all duration-300">
+                                    <div class="w-0.5 h-6 bg-amber-500 animate-pulse"></div>
+                                    <div class="bg-slate-900 border border-slate-700 p-1 rounded text-[7px] text-amber-400 font-bold">CARGANDO</div>
+                                </div>
+                            </div>
+
+                            <div class="text-center mt-3 relative z-10">
+                                <span id="visual-backpack-status" class="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">Cerrada (30 Litros)</span>
+                                <span id="visual-backpack-dims" class="text-[11px] font-extrabold text-white">45 x 32 x 12 cm</span>
+                                <span id="visual-backpack-limit" class="text-[9px] font-semibold text-sky-400 block mt-1"><i class="fa-solid fa-plane-departure"></i> Apta bajo asiento</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bag Creator Grid System -->
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+                    <!-- Form side (4 columns) -->
+                    <div class="lg:col-span-4 bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                        <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-plus-circle text-emerald-400"></i>
+                            Añadir Nuevo Objeto
+                        </h4>
+                        <p class="text-[11px] text-slate-400">Agrega vestimenta, accesorios o tecnología y selecciona su contenedor ideal.</p>
+
+                        <form id="luggage-form" onsubmit="addLuggageItem(event)" class="space-y-3.5">
+                            <div>
+                                <label class="block text-[11px] font-semibold text-slate-400 mb-1">Nombre del ítem</label>
+                                <input type="text" id="luggage-item-name" placeholder="Ej: Campera de abrigo ligera" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none placeholder-slate-500" required>
+                            </div>
+                            <div class="grid grid-cols-1 gap-3.5">
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Categoría</label>
+                                    <select id="luggage-item-category" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                        <option value="Ropa/Calzado">Vestimenta y Calzado 👕</option>
+                                        <option value="Documentos">Documentos y Finanzas 💳</option>
+                                        <option value="Tecnología">Electrónica y Cables 🔌</option>
+                                        <option value="Salud/Aseo">Salud e Higiene 🧼</option>
+                                        <option value="Otros">Accesorios y Otros 🎒</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Equipaje de Destino</label>
+                                    <select id="luggage-item-location" class="w-full text-xs bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-100 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                                        <option value="Mochila">Mochila (Romantic Crown)</option>
+                                        <option value="Carry-on">Carry-On (Maleta Cabina)</option>
+                                        <option value="Valija Grande">Valija Grande (Despachada 23kg)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white font-bold text-xs py-3 rounded-lg transition duration-200 flex items-center justify-center gap-2 shadow">
+                                <i class="fa-solid fa-plus text-[10px]"></i> Añadir al Equipaje
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Checklist list (8 columns) -->
+                    <div class="lg:col-span-8 bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-5 shadow-sm space-y-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-700 pb-3">
+                            <h4 class="font-bold text-white text-xs sm:text-sm flex items-center gap-2">
+                                <i class="fa-solid fa-list-check text-emerald-400"></i>
+                                Mi Checklist de Control
+                            </h4>
+
+                            <!-- Filter Options for Luggage items -->
+                            <div class="flex flex-wrap items-center gap-2">
+                                <select id="filter-luggage-location" onchange="renderLuggageList()" class="text-xs bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 focus:outline-none">
+                                    <option value="all">Filtro: Todo el Equipaje</option>
+                                    <option value="Mochila">Mochila Romantic Crown</option>
+                                    <option value="Carry-on">Carry-On</option>
+                                    <option value="Valija Grande">Valija Grande</option>
+                                </select>
+                                <select id="filter-luggage-category" onchange="renderLuggageList()" class="text-xs bg-slate-900 border border-slate-700 text-slate-200 rounded-lg p-2 focus:outline-none">
+                                    <option value="all">Filtro: Todas las Categorías</option>
+                                    <option value="Ropa/Calzado">Vestimenta</option>
+                                    <option value="Documentos">Documentos</option>
+                                    <option value="Tecnología">Tecnología</option>
+                                    <option value="Salud/Aseo">Salud/Higiene</option>
+                                    <option value="Otros">Otros</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Main list container -->
+                        <div id="luggage-list-container" class="space-y-2.5 max-h-[500px] overflow-y-auto custom-scrollbar pr-1">
+                            <!-- Injected dynamically via JS -->
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -864,8 +1075,8 @@
             {
                 id: "predefined-interrail",
                 title: "Trenes: Pase de Interrail Global Pass (Youth)",
-                cost: 429, 
-                saving: 0, 
+                cost: 429,
+                saving: 0,
                 category: "Transporte",
                 desc: "Al ser ciudadano de la UE y menor de 27 años, tenés derecho a tarifa Youth. Un pase flexible de 15 días en un período de 2 meses te cuesta €429 de forma base. <em>(Si activás el beneficio Verano Joven en su pestaña, el costo de este pase se reducirá a la mitad: €214.50)</em>.",
                 tip: "Viajá de forma espontánea a tu propio ritmo para evitar el estrés y no planificar de más ('no over-travel').",
@@ -919,9 +1130,9 @@
                 includedInBudget: true,
                 days: 6,
                 details: {
-                    flights: 120, // Car rental + fuel share
-                    accommodation: 150, // Hostels & alpine huts
-                    food: 80 // Shared groceries & basic meals
+                    flights: 120,
+                    accommodation: 150,
+                    food: 80
                 },
                 itinerary: [
                     { day: "Día 1", title: "Hub de Reunión & Auto 🚗", desc: "Encuentro con Dani en Múnich o Innsbruck. Retiro del auto chico alquilado. Manejo rumbo al primer valle alpino." },
@@ -939,18 +1150,35 @@
             }
         ];
 
+        // Default Checklist Pack for Luggage section (including Romantic Crown backpack)
+        const DEFAULT_LUGGAGE_ITEMS = [
+            { id: "lug-1", name: "Pasaporte Español físico", category: "Documentos", location: "Mochila" },
+            { id: "lug-2", name: "Tarjeta Sanitaria Europea (TSE/CPS)", category: "Documentos", location: "Mochila" },
+            { id: "lug-3", name: "Notebook / Laptop 17.3\" (Trabajo / Automatizaciones)", category: "Tecnología", location: "Mochila" },
+            { id: "lug-4", name: "iPad de 12.9\" & Cargadores rápidos", category: "Tecnología", location: "Mochila" },
+            { id: "lug-5", name: "Zapatillas de Trail running (Alpes/Trekking)", category: "Ropa/Calzado", location: "Valija Grande" },
+            { id: "lug-6", name: "Cortaviento impermeable ultraliviano", category: "Ropa/Calzado", location: "Mochila" },
+            { id: "lug-7", name: "Adaptador de enchufe universal europeo", category: "Tecnología", location: "Mochila" },
+            { id: "lug-8", name: "Bermudas deportivas y mallas de baño (Ibiza)", category: "Ropa/Calzado", location: "Valija Grande" },
+            { id: "lug-9", name: "Kit aseo personal (Bolsillo Impermeable Humed/Seco)", category: "Salud/Aseo", location: "Mochila" },
+            { id: "lug-10", name: "Powerbank 20.000 mAh de carga rápida", category: "Tecnología", location: "Mochila" }
+        ];
+
         // State Store
         let state = {
             customFacts: [],
-            routeStops: [], // Current Lego Itinerary stops
+            routeStops: [],
             sideQuests: [],
-            catalogCities: [], // Fully manageable catalog including custom entries
-            highSpeedReservations: 3, // default
+            catalogCities: [],
+            luggageItems: [],
+            highSpeedReservations: 3,
             reservationAvgCost: 15,
             countdownDate: new Date("2026-06-24T00:00:00"),
             baseFlightUSD: 1076,
             includeBaseFlight: true,
             usdToEurRate: 0.8614,
+            backpackExpanded: false, // Expansión de Romantic Crown
+            backpackUsbConnected: false, // Simulación de carga
             appliedBenefits: {
                 veranoJoven: true,
                 tse: true,
@@ -972,6 +1200,7 @@
                     state.customFacts = loadedState.customFacts || [];
                     state.routeStops = loadedState.routeStops || [];
                     state.sideQuests = loadedState.sideQuests || [];
+                    state.luggageItems = loadedState.luggageItems || [];
                     state.highSpeedReservations = loadedState.highSpeedReservations !== undefined ? loadedState.highSpeedReservations : 3;
                     state.appliedBenefits = loadedState.appliedBenefits || {
                         veranoJoven: true,
@@ -982,7 +1211,9 @@
                     };
                     state.baseFlightUSD = loadedState.baseFlightUSD !== undefined ? loadedState.baseFlightUSD : 1076;
                     state.includeBaseFlight = loadedState.includeBaseFlight !== undefined ? loadedState.includeBaseFlight : true;
-                    
+                    state.backpackExpanded = loadedState.backpackExpanded !== undefined ? loadedState.backpackExpanded : false;
+                    state.backpackUsbConnected = loadedState.backpackUsbConnected !== undefined ? loadedState.backpackUsbConnected : false;
+
                     if (loadedState.customCatalogCities) {
                         state.catalogCities = [...BASE_CATALOG_CITIES, ...loadedState.customCatalogCities];
                     }
@@ -990,18 +1221,22 @@
                     if (state.sideQuests.length === 0) {
                         state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
                     }
+                    if (state.luggageItems.length === 0) {
+                        state.luggageItems = JSON.parse(JSON.stringify(DEFAULT_LUGGAGE_ITEMS));
+                    }
                 } catch(e) {
                     console.error("No se pudo cargar el historial guardado", e);
                     state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+                    state.luggageItems = JSON.parse(JSON.stringify(DEFAULT_LUGGAGE_ITEMS));
                 }
             } else {
-                // Preload an initial route starting stops for demonstration
+                // Preload an initial route starting stops
                 state.routeStops = [
-                    { 
-                        id: "stop-1", 
-                        city: "Madrid (España)", 
-                        nights: 6, 
-                        transport: "Inicio del Viaje", 
+                    {
+                        id: "stop-1",
+                        city: "Madrid (España)",
+                        nights: 6,
+                        transport: "Inicio del Viaje",
                         cost: 0,
                         dailyBudget: 15,
                         category: "Hub / Familiar",
@@ -1009,11 +1244,11 @@
                         core: "Negocios/Tech",
                         hack: "Alojamiento gratis. Abono de transporte por €10 al mes y salud de la UE"
                     },
-                    { 
-                        id: "stop-2", 
-                        city: "Berlín (Alemania)", 
-                        nights: 7, 
-                        transport: "Vuelo Low Cost", 
+                    {
+                        id: "stop-2",
+                        city: "Berlín (Alemania)",
+                        nights: 7,
+                        transport: "Vuelo Low Cost",
                         cost: 50,
                         dailyBudget: 45,
                         category: "Caja de Ahorro",
@@ -1021,11 +1256,11 @@
                         core: "Negocios/Tech",
                         hack: "Descuento estudiantil/joven en pases y museos"
                     },
-                    { 
-                        id: "stop-3", 
-                        city: "Praga (República Checa)", 
-                        nights: 7, 
-                        transport: "Interrail Global Pass", 
+                    {
+                        id: "stop-3",
+                        city: "Praga (República Checa)",
+                        nights: 7,
+                        transport: "Interrail Global Pass",
                         cost: 0,
                         dailyBudget: 30,
                         category: "Caja de Ahorro",
@@ -1033,11 +1268,11 @@
                         core: "Paisaje",
                         hack: "Costo de comida/bebida más bajo de la UE"
                     },
-                    { 
-                        id: "stop-4", 
-                        city: "Roma / Florencia (Italia)", 
-                        nights: 9, 
-                        transport: "Interrail + Reserva", 
+                    {
+                        id: "stop-4",
+                        city: "Roma / Florencia (Italia)",
+                        nights: 9,
+                        transport: "Interrail + Reserva",
                         cost: 15,
                         dailyBudget: 48,
                         category: "Premium & Networking",
@@ -1047,6 +1282,7 @@
                     }
                 ];
                 state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
+                state.luggageItems = JSON.parse(JSON.stringify(DEFAULT_LUGGAGE_ITEMS));
             }
 
             updateCountdown();
@@ -1060,11 +1296,14 @@
                 customFacts: state.customFacts,
                 routeStops: state.routeStops,
                 sideQuests: state.sideQuests,
+                luggageItems: state.luggageItems,
                 highSpeedReservations: state.highSpeedReservations,
                 appliedBenefits: state.appliedBenefits,
                 customCatalogCities: customCatalog,
                 baseFlightUSD: state.baseFlightUSD,
-                includeBaseFlight: state.includeBaseFlight
+                includeBaseFlight: state.includeBaseFlight,
+                backpackExpanded: state.backpackExpanded,
+                backpackUsbConnected: state.backpackUsbConnected
             }));
         }
 
@@ -1073,7 +1312,7 @@
             const now = new Date();
             const timeDiff = state.countdownDate - now;
             const daysLeft = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
-            
+
             const badge = document.getElementById('countdown-days');
             if (daysLeft > 0) {
                 badge.innerText = `Faltan ${daysLeft} días`;
@@ -1099,11 +1338,13 @@
             const btnHacks = document.getElementById('tab-hacks');
             const btnItinerary = document.getElementById('tab-itinerary');
             const btnQuests = document.getElementById('tab-quests');
-            
+            const btnLuggage = document.getElementById('tab-luggage');
+
             const panelBenefits = document.getElementById('panel-benefits');
             const panelHacks = document.getElementById('panel-hacks');
             const panelItinerary = document.getElementById('panel-itinerary');
             const panelQuests = document.getElementById('panel-quests');
+            const panelLuggage = document.getElementById('panel-luggage');
 
             // Reset classes
             const normalClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3";
@@ -1111,14 +1352,17 @@
             btnHacks.className = normalClass;
             btnItinerary.className = normalClass;
             btnQuests.className = normalClass;
+            btnLuggage.className = normalClass;
 
             panelBenefits.classList.add('hidden');
             panelHacks.classList.add('hidden');
             panelItinerary.classList.add('hidden');
             panelQuests.classList.add('hidden');
+            panelLuggage.classList.add('hidden');
 
             const activeClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-blue-950/40 text-blue-300 border border-blue-900/30 transition-all whitespace-nowrap px-3";
             const activeQuestClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-indigo-950/40 text-indigo-300 border border-indigo-900/30 transition-all whitespace-nowrap px-3";
+            const activeLuggageClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-emerald-950/40 text-emerald-300 border border-emerald-900/30 transition-all whitespace-nowrap px-3";
 
             if (tab === 'benefits') {
                 btnBenefits.className = activeClass;
@@ -1132,6 +1376,9 @@
             } else if (tab === 'quests') {
                 btnQuests.className = activeQuestClass;
                 panelQuests.classList.remove('hidden');
+            } else if (tab === 'luggage') {
+                btnLuggage.className = activeLuggageClass;
+                panelLuggage.classList.remove('hidden');
             }
         }
 
@@ -1156,10 +1403,33 @@
             renderAll();
         }
 
+        // Backpack Interaction Toggles
+        function toggleBackpackExpansion() {
+            state.backpackExpanded = !state.backpackExpanded;
+            saveToStorage();
+            renderAll();
+            showNotification(
+                state.backpackExpanded
+                ? "Mochila expandida a 42L. ¡Perfecta como equipaje de cabina (Carry-on)!"
+                : "Mochila compactada a 30L. ¡Cabe bajo el asiento de cabina!"
+            );
+        }
+
+        function toggleBackpackUsb() {
+            state.backpackUsbConnected = !state.backpackUsbConnected;
+            saveToStorage();
+            renderAll();
+            showNotification(
+                state.backpackUsbConnected
+                ? "Powerbank conectado. Simulación de carga de móvil activa 🔌"
+                : "Powerbank desconectado."
+            );
+        }
+
         // Form submit handler for custom travel hacks
         function handleFactSubmit(e) {
             e.preventDefault();
-            
+
             const title = document.getElementById('fact-title').value;
             const cost = parseFloat(document.getElementById('fact-cost').value) || 0;
             const saving = parseFloat(document.getElementById('fact-saving').value) || 0;
@@ -1203,6 +1473,9 @@
                 eyca: true
             };
             state.catalogCities = [...BASE_CATALOG_CITIES];
+            state.luggageItems = JSON.parse(JSON.stringify(DEFAULT_LUGGAGE_ITEMS));
+            state.backpackExpanded = false;
+            state.backpackUsbConnected = false;
             clearTimeline();
             state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
             saveToStorage();
@@ -1432,6 +1705,122 @@
             showNotification("¡Aventura Side Quest guardada con éxito!");
         }
 
+        // Luggage Action Functions
+        function addLuggageItem(e) {
+            e.preventDefault();
+            const name = document.getElementById('luggage-item-name').value;
+            const category = document.getElementById('luggage-item-category').value;
+            const location = document.getElementById('luggage-item-location').value;
+
+            const newItem = {
+                id: "lug-" + Date.now(),
+                name: name,
+                category: category,
+                location: location
+            };
+
+            state.luggageItems.push(newItem);
+            saveToStorage();
+            renderAll();
+
+            document.getElementById('luggage-form').reset();
+            showNotification(`"${name}" agregado a tu plan de equipaje`);
+        }
+
+        function deleteLuggageItem(id) {
+            const item = state.luggageItems.find(i => i.id === id);
+            const name = item ? item.name : "Objeto";
+            state.luggageItems = state.luggageItems.filter(i => i.id !== id);
+            saveToStorage();
+            renderAll();
+            showNotification(`"${name}" eliminado del equipaje`);
+        }
+
+        function changeLuggageItemLocation(id, newLocation) {
+            const item = state.luggageItems.find(i => i.id === id);
+            if (item) {
+                item.location = newLocation;
+                saveToStorage();
+                renderAll();
+            }
+        }
+
+        // Render packing list catalog inside Luggage Tab
+        function renderLuggageList() {
+            const container = document.getElementById('luggage-list-container');
+            if (!container) return;
+
+            const filterLocation = document.getElementById('filter-luggage-location').value;
+            const filterCategory = document.getElementById('filter-luggage-category').value;
+
+            const filteredItems = state.luggageItems.filter(item => {
+                const matchLocation = filterLocation === 'all' || item.location === filterLocation;
+                const matchCategory = filterCategory === 'all' || item.category === filterCategory;
+                return matchLocation && matchCategory;
+            });
+
+            container.innerHTML = '';
+
+            if (filteredItems.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-500 text-xs bg-slate-900 rounded-xl border border-dashed border-slate-700">
+                        <i class="fa-solid fa-suitcase text-xl mb-1 block"></i> No hay elementos en esta categoría/ubicación
+                    </div>
+                `;
+                return;
+            }
+
+            filteredItems.forEach(item => {
+                const row = document.createElement('div');
+                row.className = "flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 p-3 rounded-xl border border-slate-880 hover:border-slate-700 transition duration-150";
+
+                // Map category icons
+                let catIcon = "fa-box";
+                let catColor = "text-slate-400 bg-slate-800";
+                if (item.category === "Ropa/Calzado") { catIcon = "fa-shirt"; catColor = "text-amber-400 bg-amber-950/40 border border-amber-900/30"; }
+                else if (item.category === "Documentos") { catIcon = "fa-passport"; catColor = "text-sky-400 bg-sky-950/40 border border-sky-900/30"; }
+                else if (item.category === "Tecnología") { catIcon = "fa-laptop"; catColor = "text-violet-400 bg-violet-950/40 border border-violet-900/30"; }
+                else if (item.category === "Salud/Aseo") { catIcon = "fa-soap"; catColor = "text-emerald-400 bg-emerald-950/40 border border-emerald-900/30"; }
+
+                const isMochila = item.location === "Mochila";
+                const isCarryOn = item.location === "Carry-on";
+                const isValija = item.location === "Valija Grande";
+
+                row.innerHTML = `
+                    <div class="flex items-center gap-3 min-w-0">
+                        <div class="p-2.5 rounded-lg text-xs shrink-0 ${catColor}">
+                            <i class="fa-solid ${catIcon} w-4 h-4 flex items-center justify-center"></i>
+                        </div>
+                        <div class="min-w-0">
+                            <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">${item.category}</span>
+                            <span class="font-bold text-xs text-slate-200 block truncate">${item.name}</span>
+                        </div>
+                    </div>
+
+                    <!-- Location quick selector buttons group -->
+                    <div class="flex items-center gap-2 self-stretch sm:self-auto justify-between sm:justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-slate-800">
+                        <div class="flex items-center space-x-1 bg-slate-950 p-1 rounded-lg border border-slate-800 shrink-0">
+                            <button onclick="changeLuggageItemLocation('${item.id}', 'Mochila')" class="text-[9px] font-bold px-2 py-1 rounded transition-all ${
+                                isMochila ? 'bg-sky-600 text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                            }" title="Mover a Mochila Romantic Crown">Mochila</button>
+
+                            <button onclick="changeLuggageItemLocation('${item.id}', 'Carry-on')" class="text-[9px] font-bold px-2 py-1 rounded transition-all ${
+                                isCarryOn ? 'bg-amber-600 text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                            }" title="Mover a Carry-on">Carry-On</button>
+
+                            <button onclick="changeLuggageItemLocation('${item.id}', 'Valija Grande')" class="text-[9px] font-bold px-2 py-1 rounded transition-all ${
+                                isValija ? 'bg-emerald-600 text-white' : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                            }" title="Mover a Valija Grande">Valija</button>
+                        </div>
+                        <button onclick="deleteLuggageItem('${item.id}')" class="p-2 text-slate-500 hover:text-rose-400 active:scale-90 transition-all shrink-0" title="Eliminar Objeto">
+                            <i class="fa-regular fa-trash-can text-xs sm:text-sm"></i>
+                        </button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        }
+
         // Get matching icon for Categories
         function getCategoryIcon(cat) {
             switch(cat) {
@@ -1526,11 +1915,11 @@
 
             // Update DOM calculations
             document.getElementById('total-savings').innerText = `€${totalSaved.toFixed(0)}`;
-            
-            // Monthly calculation
+
+            // Monthly calculation proration
             const monthlyCost = totalCost / 3;
             document.getElementById('total-costs').innerHTML = `
-                €${totalCost.toFixed(0)} 
+                €${totalCost.toFixed(0)}
                 <span class="text-xs sm:text-sm font-semibold text-indigo-400 block sm:inline sm:ml-1.5 whitespace-nowrap">
                     (€${monthlyCost.toFixed(0)}/mes)
                 </span>
@@ -1539,7 +1928,7 @@
             // Sync Sticky Mobile Budget Bar
             document.getElementById('mobile-total-costs').innerText = `€${totalCost.toFixed(0)}`;
             document.getElementById('mobile-monthly-costs').innerText = `(€${monthlyCost.toFixed(0)}/mes)`;
-            
+
             // Sync reservation display
             document.getElementById('reservation-count').innerText = state.highSpeedReservations;
             document.getElementById('reservation-cost-display').innerText = `€${reservationCost.toFixed(2)}`;
@@ -1548,7 +1937,7 @@
             const baseFlightEur = state.baseFlightUSD * state.usdToEurRate;
             document.getElementById('base-flight-input').value = state.baseFlightUSD;
             document.getElementById('base-flight-eur-display').innerText = `€${baseFlightEur.toFixed(2)}`;
-            
+
             // Sync toggle button design
             const flightToggle = document.getElementById('base-flight-toggle');
             const flightToggleKnob = document.getElementById('base-flight-toggle-knob');
@@ -1560,11 +1949,83 @@
                 flightToggleKnob.className = "pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out translate-x-0";
             }
 
+            // Luggage count indicators calculation
+            let countMochila = 0;
+            let countCarryon = 0;
+            let countValija = 0;
+            state.luggageItems.forEach(item => {
+                if (item.location === "Mochila") countMochila++;
+                else if (item.location === "Carry-on") countCarryon++;
+                else if (item.location === "Valija Grande") countValija++;
+            });
+
+            document.getElementById('count-mochila').innerText = `${countMochila} ${countMochila === 1 ? 'ítem' : 'ítems'}`;
+            document.getElementById('count-carryon').innerText = `${countCarryon} ${countCarryon === 1 ? 'ítem' : 'ítems'}`;
+            document.getElementById('count-valija').innerText = `${countValija} ${countValija === 1 ? 'ítem' : 'ítems'}`;
+
+            // Sync Interactive Backpack Visual State & Doms
+            syncBackpackWidget();
+
             // Render Tabs content
             renderBenefitsTab();
             renderHacksTab();
             renderRouteTab();
             renderSideQuests();
+            renderLuggageList();
+        }
+
+        // Sync visual schematic for the Romantic Crown Backpack
+        function syncBackpackWidget() {
+            const visualContainer = document.getElementById('visual-backpack-container');
+            const expJoint = document.getElementById('backpack-expansion-joint');
+            const wire = document.getElementById('backpack-phone-wire');
+
+            const btnExpandText = document.getElementById('backpack-expand-btn-text');
+            const btnUsbText = document.getElementById('backpack-usb-btn-text');
+
+            const txtStatus = document.getElementById('visual-backpack-status');
+            const txtDims = document.getElementById('visual-backpack-dims');
+            const txtLimit = document.getElementById('visual-backpack-limit');
+
+            if (state.backpackExpanded) {
+                // Expanded properties (42L Mode)
+                visualContainer.style.paddingLeft = "24px";
+                visualContainer.style.paddingRight = "24px";
+                visualContainer.style.borderColor = "#6366f1"; // Indigo frame border
+                expJoint.style.opacity = "1";
+                expJoint.style.width = "12px";
+
+                btnExpandText.innerText = "Compactar Mochila (30L)";
+                txtStatus.innerText = "Expandida (42 Litros)";
+                txtStatus.className = "text-[9px] font-bold text-indigo-400 uppercase tracking-wider block";
+                txtDims.innerText = "45 x 32 x 22 cm";
+                txtLimit.innerHTML = `<i class="fa-solid fa-suitcase text-amber-400"></i> Equipaje de Cabina (Carry-on)`;
+            } else {
+                // Compacted properties (30L Mode)
+                visualContainer.style.paddingLeft = "12px";
+                visualContainer.style.paddingRight = "12px";
+                visualContainer.style.borderColor = "#475569"; // Slate frame border
+                expJoint.style.opacity = "0";
+                expJoint.style.width = "0px";
+
+                btnExpandText.innerText = "Expandir Mochila (42L)";
+                txtStatus.innerText = "Compacta (30 Litros)";
+                txtStatus.className = "text-[9px] font-bold text-slate-400 uppercase tracking-wider block";
+                txtDims.innerText = "45 x 32 x 12 cm";
+                txtLimit.innerHTML = `<i class="fa-solid fa-plane-departure text-sky-400"></i> Apta bajo asiento (Art. Personal)`;
+            }
+
+            if (state.backpackUsbConnected) {
+                wire.style.opacity = "1";
+                wire.style.bottom = "-24px";
+                btnUsbText.innerText = "Desconectar Móvil";
+                btnUsbText.className = "bg-amber-950/40 border border-amber-900/50 text-amber-300 text-xs font-bold py-2 px-3.5 rounded-lg flex items-center gap-2 transition duration-150";
+            } else {
+                wire.style.opacity = "0";
+                wire.style.bottom = "-32px";
+                btnUsbText.innerText = "Conectar Powerbank";
+                btnUsbText.className = "bg-slate-900 hover:bg-slate-800 border border-slate-700 active:scale-95 text-slate-200 text-xs font-bold py-2 px-3.5 rounded-lg flex items-center gap-2 transition duration-150";
+            }
         }
 
         // Render European Benefits Tab
@@ -1575,7 +2036,7 @@
 
             EUROPEAN_BENEFITS.forEach(benefit => {
                 const isActive = state.appliedBenefits[benefit.id];
-                
+
                 const card = document.createElement('div');
                 card.className = `bg-slate-800 border rounded-2xl p-4 sm:p-6 transition-all duration-300 ${
                     isActive ? 'border-blue-500 ring-4 ring-blue-950/50' : 'border-slate-700 hover:border-slate-600'
@@ -1599,7 +2060,7 @@
                             </div>
                         </div>
 
-                        <!-- Toggle Button (Mobile Optimised touch area) -->
+                        <!-- Toggle Button -->
                         <div class="flex items-center justify-between md:justify-start gap-3 shrink-0 self-stretch md:self-start bg-slate-900 md:bg-transparent p-2.5 md:p-0 rounded-xl border border-slate-850 md:border-0">
                             <span class="text-xs font-semibold text-slate-400 md:hidden">Activar beneficio:</span>
                             <div class="flex flex-col items-center">
@@ -1656,10 +2117,10 @@
 
             allFacts.forEach((fact) => {
                 const iconClass = getCategoryIcon(fact.category);
-                
+
                 const card = document.createElement('div');
                 card.className = "bg-slate-800 border border-slate-700 rounded-2xl p-4 sm:p-6 shadow-sm transition-all hover:shadow-md";
-                
+
                 card.innerHTML = `
                     <div class="flex items-start gap-3 sm:gap-4">
                         <div class="p-3.5 rounded-xl h-11 w-11 sm:h-12 sm:w-12 flex items-center justify-center shrink-0 ${iconClass.split(' ')[1]} ${iconClass.split(' ')[2]}">
@@ -1702,7 +2163,7 @@
             const costFilter = document.getElementById('filter-cost').value;
 
             const filteredCities = state.catalogCities.filter(city => {
-                const matchesSearch = city.name.toLowerCase().includes(searchQuery) || 
+                const matchesSearch = city.name.toLowerCase().includes(searchQuery) ||
                                       city.core.toLowerCase().includes(searchQuery) ||
                                       city.activities.some(a => a.toLowerCase().includes(searchQuery));
                 const matchesCategory = categoryFilter === 'all' || city.category === categoryFilter;
@@ -1712,7 +2173,7 @@
             });
 
             container.innerHTML = '';
-            
+
             if (filteredCities.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-6 text-slate-500 text-xs bg-slate-900 rounded-xl border border-dashed border-slate-800">
@@ -1728,7 +2189,7 @@
 
                 const cityCard = document.createElement('div');
                 cityCard.className = `bg-slate-900/80 border ${styles.border} ${styles.bg} rounded-xl p-3.5 space-y-2.5 transition-all hover:border-slate-600 relative overflow-hidden`;
-                
+
                 cityCard.innerHTML = `
                     <div class="flex items-start justify-between gap-1.5">
                         <div class="min-w-0">
@@ -1750,7 +2211,7 @@
 
                     <div class="flex flex-wrap gap-1 mt-1">
                         ${city.activities.slice(0, 3).map(a => `
-                            <span class="bg-slate-950 text-slate-300 text-[9px] px-1.5 py-0.5 rounded font-medium border border-slate-850 truncate max-w-[120px]">${a}</span>
+                            <span class="bg-slate-950 text-slate-300 text-[9px] px-1.5 py-0.5 rounded font-medium border border-slate-855 truncate max-w-[120px]">${a}</span>
                         `).join('')}
                     </div>
 
@@ -1758,7 +2219,6 @@
                         <span class="inline-flex items-center gap-1 text-[9px] sm:text-[10px] font-bold text-indigo-300 bg-indigo-950/40 px-2 py-0.5 rounded border border-indigo-900/30">
                             <i class="fa-solid fa-bullseye text-indigo-400 shrink-0"></i> ${city.core}
                         </span>
-                        <!-- Comfortable touch target size button -->
                         <button onclick="addLegoToItinerary('${city.id}')" class="bg-indigo-600 active:bg-indigo-750 text-white font-bold text-[10px] py-1.5 px-3 rounded-md transition duration-150 flex items-center gap-1 shadow">
                             <i class="fa-solid fa-plus text-[8px]"></i> Añadir
                         </button>
@@ -1775,7 +2235,7 @@
             const totalNights = state.routeStops.reduce((sum, stop) => sum + stop.nights, 0);
             document.getElementById('days-allocated').innerText = totalNights;
             document.getElementById('mobile-days-allocated').innerText = totalNights;
-            
+
             // Progress Bar update
             const progressPercent = Math.min(100, (totalNights / 90) * 100);
             const progressBar = document.getElementById('days-progress-bar');
@@ -1783,7 +2243,7 @@
 
             const alertBox = document.getElementById('itinerary-pace-alert');
             const emptyMsg = document.getElementById('empty-itinerary-msg');
-            
+
             if (totalNights === 0) {
                 progressBar.className = "bg-blue-500 h-full transition-all duration-500";
                 alertBox.className = "mt-4 p-3 bg-blue-950/40 text-blue-300 rounded-xl text-xs flex items-center gap-3 border border-blue-900/30";
@@ -1822,7 +2282,7 @@
 
                     let stopStartDate = new Date(state.countdownDate);
                     stopStartDate.setDate(stopStartDate.getDate() + startDay);
-                    
+
                     let stopEndDate = new Date(state.countdownDate);
                     stopEndDate.setDate(stopEndDate.getDate() + endDay);
 
@@ -1832,13 +2292,12 @@
 
                     const item = document.createElement('div');
                     item.className = "relative bg-slate-800 border border-slate-700 rounded-xl p-4 shadow-sm hover:border-slate-600 transition-all space-y-3.5";
-                    
+
                     const costColor = getCostBadgeColor(stop.costLvl);
 
                     item.innerHTML = `
-                        <!-- Dot connector design -->
                         <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-indigo-500 shadow-sm"></span>
-                        
+
                         <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
                             <div class="space-y-1 min-w-0">
                                 <div class="flex flex-wrap items-center gap-1.5">
@@ -1852,12 +2311,11 @@
                                 <p class="text-[10px] text-emerald-400 font-bold leading-tight"><i class="fa-solid fa-sparkles text-emerald-400 mr-1"></i>Beneficio: ${stop.hack}</p>
                             </div>
 
-                            <!-- Interactive nights controls (Touch friendly) -->
                             <div class="flex items-center gap-2 self-stretch md:self-auto justify-between md:justify-end">
                                 <div class="flex items-center space-x-1 bg-slate-900 p-1 rounded-xl border border-slate-700 shadow-inner">
-                                    <button onclick="adjustStopNights('${stop.id}', -1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-800 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">-</button>
+                                    <button onclick="adjustStopNights('${stop.id}', -1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-850 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">-</button>
                                     <span class="text-xs font-bold text-slate-100 min-w-[24px] text-center">${stop.nights} n</span>
-                                    <button onclick="adjustStopNights('${stop.id}', 1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-800 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">+</button>
+                                    <button onclick="adjustStopNights('${stop.id}', 1)" class="w-9 h-9 sm:w-8 sm:h-8 bg-slate-850 border border-slate-700 active:bg-slate-855 hover:bg-slate-800 rounded-lg text-sm font-extrabold text-slate-200 transition flex items-center justify-center">+</button>
                                 </div>
                                 <div class="flex items-center gap-1">
                                     <div class="flex flex-row md:flex-col gap-1">
@@ -1875,7 +2333,6 @@
                             </div>
                         </div>
 
-                        <!-- Transport dynamic picker inside stop -->
                         <div class="pt-3 border-t border-slate-700 grid grid-cols-1 sm:grid-cols-2 gap-3 items-center text-xs">
                             <div class="flex items-center gap-2">
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">Conectividad:</label>
@@ -1889,7 +2346,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">Costo (€):</label>
-                                <input type="number" min="0" value="${stop.cost}" onchange="updateStopTransportCost('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-750 text-slate-100 rounded-lg text-right focus:outline-none">
+                                <input type="number" min="0" value="${stop.cost}" onchange="updateStopTransportCost('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-755 text-slate-100 rounded-lg text-right focus:outline-none">
                             </div>
                         </div>
                     `;
@@ -1918,7 +2375,7 @@
             state.sideQuests.forEach(quest => {
                 const isIncluded = quest.includedInBudget;
                 const hasDetailedBudget = quest.details !== undefined;
-                
+
                 let hacksHtml = '';
                 if (quest.hacks && quest.hacks.length > 0) {
                     hacksHtml = `
@@ -1979,7 +2436,7 @@
 
                 const card = document.createElement('div');
                 card.className = `bg-slate-800 border ${isIncluded ? 'border-indigo-500 ring-4 ring-indigo-950/50' : 'border-slate-700'} rounded-2xl p-4 sm:p-6 shadow-md transition-all`;
-                
+
                 card.innerHTML = `
                     <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                         <div class="flex items-center gap-3">
@@ -1995,7 +2452,6 @@
                             </div>
                         </div>
 
-                        <!-- Expanded Touch Target Switch for Mobile -->
                         <div class="flex items-center justify-between sm:justify-start gap-4 self-stretch sm:self-auto bg-slate-900 sm:bg-transparent p-2 rounded-xl border border-slate-850 sm:border-0">
                             <span class="text-xs font-medium text-slate-400 sm:hidden">¿Sumar al total?</span>
                             <div class="flex items-center space-x-2">
@@ -2015,7 +2471,7 @@
                     ${itineraryHtml}
                     ${hacksHtml}
                 `;
-                
+
                 container.appendChild(card);
             });
         }
