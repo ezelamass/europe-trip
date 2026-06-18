@@ -1388,18 +1388,20 @@
                 id: "stop-ibiza",
                 city: "Ibiza (España) 🏝️",
                 nights: 5,
-                transport: "Vuelo / Ferry",
-                cost: 110,
+                transport: "Vuelo Iberia Express (MAD 05:40 → IBZ 06:55)",
+                cost: 237,
                 dailyBudget: 33,
                 category: "Aventura y Naturaleza",
                 costLvl: "Alto",
                 core: "Joda",
-                hack: "Reserva confirmada. Dirección: Carrer de Sabadell, 18. Sant Josep de sa Talaia.",
+                hack: "Reserva confirmada. Vuelo I21693 Iberia Express 26 jun. ✈️ Booking: QHH4X. Alojamiento: Carrer de Sabadell, 18. Sant Josep de sa Talaia.",
                 isConfirmed: true,
                 isFixed: true,
                 hotelName: "Hotel en Sant Josep de sa Talaia",
                 address: "Carrer de Sabadell, 18",
-                accommodationCost: 210
+                accommodationCost: 210,
+                confirmationNumber: "QHH4X",
+                flightDetails: "Iberia Express I21693 | MAD 05:40 → IBZ 06:55 | 26 jun 2026 | €236.90 total (x2 pax: Ezequiel + Geronimo)"
             },
             {
                 id: "stop-2",
@@ -1436,18 +1438,21 @@
                 id: "stop-amsterdam-mom",
                 city: "Ámsterdam (Países Bajos) 🇳🇱",
                 nights: 3,
-                transport: "Tren",
-                cost: 0,
+                transport: "Vuelo KLM (BER 17:30 → AMS 18:45)",
+                cost: 188,
                 dailyBudget: 55,
                 category: "Hub / Familiar",
                 costLvl: "Alto",
                 core: "Paisaje",
-                hack: "Viaje con Mamá 👩. Hotel por confirmar.",
+                hack: "Viaje con Mamá 👩. Vuelo KLM BER→AMS 13 jul 17:30-18:45. ✈️ Booking: X2R8XY. Mozart Hotel. ✅ Confirmada.",
+                isConfirmed: true,
                 isFixed: true,
                 isMomTrip: true,
-                hotelName: "Por confirmar",
+                hotelName: "Mozart Hotel",
                 address: "Ámsterdam, Países Bajos",
-                accommodationCost: 0
+                accommodationCost: 504.93,
+                confirmationNumber: "X2R8XY",
+                flightDetails: "KLM | BER 17:30 → AMS 18:45 | Ticket: 07421397986 32 | USD 218.33"
             },
             {
                 id: "stop-brussels-mom",
@@ -1459,12 +1464,13 @@
                 category: "Hub / Familiar",
                 costLvl: "Alto",
                 core: "Paisaje",
-                hack: "Viaje con Mamá 👩. Hotel por confirmar.",
+                hack: "Viaje con Mamá 👩. Numa Brussels Royal Galleries. ✅ Confirmada.",
+                isConfirmed: true,
                 isFixed: true,
                 isMomTrip: true,
-                hotelName: "Por confirmar",
+                hotelName: "Numa Brussels Royal Galleries",
                 address: "Bruselas, Bélgica",
-                accommodationCost: 0
+                accommodationCost: 536.28
             },
             {
                 id: "stop-prague-mom",
@@ -1500,7 +1506,7 @@
                 isMomTrip: true,
                 hotelName: "MOOONS Vienna",
                 address: "Wiedner Gürtel 16, Vienna",
-                accommodationCost: 239.56
+                accommodationCost: 239.57
             },
             {
                 id: "stop-hallstatt-mom",
@@ -1518,7 +1524,7 @@
                 isMomTrip: true,
                 hotelName: "B&B Hallstatt Lake Obertraun",
                 address: "Seestrasse 177, Obertraun",
-                accommodationCost: 470.16
+                accommodationCost: 419.10
             },
             {
                 id: "stop-transit-2",
@@ -3115,7 +3121,9 @@
                                 transport: matchingStop.transport,
                                 cost: matchingStop.cost,
                                 hack: matchingStop.hack,
-                                dateRange: `${cellDate.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}`
+                                dateRange: `${cellDate.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}`,
+                                confirmationNumber: matchingStop.confirmationNumber || null,
+                                flightDetails: matchingStop.flightDetails || null
                             };
 
                             // Escape single quotes in JSON string
@@ -3185,9 +3193,16 @@
                             <span class="text-[11px] text-slate-500 uppercase font-semibold block">Llegada / Conectividad</span>
                             <div class="flex items-center justify-between text-slate-200">
                                 <span><i class="fa-solid fa-plane-departure text-indigo-400 mr-1.5"></i>${escapeHTML(details.transport)}</span>
-                                <span class="font-bold">€${details.cost}</span>
+                                <span class="font-bold">${details.cost > 0 ? '€' + details.cost : '—'}</span>
                             </div>
+                            ${details.flightDetails ? `<div class="text-[11px] text-slate-400 pl-6 mt-1">${escapeHTML(details.flightDetails)}</div>` : ''}
                         </div>
+
+                        ${details.confirmationNumber ? `
+                        <div class="bg-blue-950/20 border border-blue-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-blue-300">
+                            <i class="fa-solid fa-ticket text-blue-400"></i>
+                            <span><strong>Reserva:</strong> ${escapeHTML(details.confirmationNumber)}</span>
+                        </div>` : ''}
 
                         <div class="p-3 bg-emerald-950/20 border border-emerald-900/30 text-emerald-300 rounded-xl leading-relaxed text-[11px]">
                             <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i>
@@ -3321,7 +3336,7 @@
                         <div class="text-[11px] text-slate-600">
                             <b>Hotel:</b> ${escapeHTML(stop.hotelName || "No especificado")}<br/>
                             <b>Estadía:</b> ${stop.nights} noches<br/>
-                            <b>Presupuesto:</b> €${stop.dailyBudget}/día
+                            <b>Presupuesto:</b> €${stop.dailyBudget}/día${stop.confirmationNumber ? `<br/><b>Booking:</b> ${escapeHTML(stop.confirmationNumber)}` : ''}${stop.flightDetails ? `<br/><span style="color:#4f46e5">✈️ ${escapeHTML(stop.flightDetails)}</span>` : ''}
                         </div>
                     </div>
                 `;
