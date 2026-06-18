@@ -1436,19 +1436,21 @@
                 id: "stop-amsterdam-mom",
                 city: "Ámsterdam (Países Bajos) 🇳🇱",
                 nights: 3,
-                transport: "Tren",
-                cost: 0,
+                transport: "Vuelo KLM (BER 17:30 → AMS 18:45)",
+                cost: 188,
                 dailyBudget: 55,
                 category: "Hub / Familiar",
                 costLvl: "Alto",
                 core: "Paisaje",
-                hack: "Viaje con Mamá 👩. Mozart Hotel. ✅ Confirmada.",
+                hack: "Viaje con Mamá 👩. Vuelo KLM BER→AMS 13 jul 17:30-18:45. ✈️ Booking: X2R8XY. Mozart Hotel. ✅ Confirmada.",
                 isConfirmed: true,
                 isFixed: true,
                 isMomTrip: true,
                 hotelName: "Mozart Hotel",
                 address: "Ámsterdam, Países Bajos",
-                accommodationCost: 504.93
+                accommodationCost: 504.93,
+                confirmationNumber: "X2R8XY",
+                flightDetails: "KLM | BER 17:30 → AMS 18:45 | Ticket: 07421397986 32 | USD 218.33"
             },
             {
                 id: "stop-brussels-mom",
@@ -3117,7 +3119,9 @@
                                 transport: matchingStop.transport,
                                 cost: matchingStop.cost,
                                 hack: matchingStop.hack,
-                                dateRange: `${cellDate.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}`
+                                dateRange: `${cellDate.toLocaleDateString('es-ES', {day:'numeric', month:'short'})}`,
+                                confirmationNumber: matchingStop.confirmationNumber || null,
+                                flightDetails: matchingStop.flightDetails || null
                             };
 
                             // Escape single quotes in JSON string
@@ -3187,9 +3191,16 @@
                             <span class="text-[11px] text-slate-500 uppercase font-semibold block">Llegada / Conectividad</span>
                             <div class="flex items-center justify-between text-slate-200">
                                 <span><i class="fa-solid fa-plane-departure text-indigo-400 mr-1.5"></i>${escapeHTML(details.transport)}</span>
-                                <span class="font-bold">€${details.cost}</span>
+                                <span class="font-bold">${details.cost > 0 ? '€' + details.cost : '—'}</span>
                             </div>
+                            ${details.flightDetails ? `<div class="text-[11px] text-slate-400 pl-6 mt-1">${escapeHTML(details.flightDetails)}</div>` : ''}
                         </div>
+
+                        ${details.confirmationNumber ? `
+                        <div class="bg-blue-950/20 border border-blue-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-blue-300">
+                            <i class="fa-solid fa-ticket text-blue-400"></i>
+                            <span><strong>Reserva:</strong> ${escapeHTML(details.confirmationNumber)}</span>
+                        </div>` : ''}
 
                         <div class="p-3 bg-emerald-950/20 border border-emerald-900/30 text-emerald-300 rounded-xl leading-relaxed text-[11px]">
                             <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i>
@@ -3323,7 +3334,7 @@
                         <div class="text-[11px] text-slate-600">
                             <b>Hotel:</b> ${escapeHTML(stop.hotelName || "No especificado")}<br/>
                             <b>Estadía:</b> ${stop.nights} noches<br/>
-                            <b>Presupuesto:</b> €${stop.dailyBudget}/día
+                            <b>Presupuesto:</b> €${stop.dailyBudget}/día${stop.confirmationNumber ? `<br/><b>Booking:</b> ${escapeHTML(stop.confirmationNumber)}` : ''}${stop.flightDetails ? `<br/><span style="color:#4f46e5">✈️ ${escapeHTML(stop.flightDetails)}</span>` : ''}
                         </div>
                     </div>
                 `;
