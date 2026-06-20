@@ -1435,7 +1435,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-06-19-3";
+        const DATA_VERSION = "2026-06-19-4";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2795,6 +2795,31 @@
 
                     const costColor = getCostBadgeColor(stop.costLvl);
 
+                    // Detección de datos para las tarjetas de detalle (alojamiento / pasaje de llegada)
+                    const hasLodging = !!(stop.hotelName || stop.address || stop.accommodationCost);
+                    const isOrigin = stop.transport === 'Inicio del Viaje';
+                    const hasTicket = !isOrigin && (!!stop.flightDetails || stop.cost > 0 || stop.isConfirmed);
+
+                    // Para paradas confirmadas mostramos chips compactos en vez del texto largo (que se mueve al modal)
+                    let benefitBlock;
+                    if (stop.isConfirmed) {
+                        let badges = '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-300 bg-emerald-950/40 border border-emerald-900/40 rounded-full px-2 py-0.5"><i class="fa-solid fa-circle-check"></i>Reserva confirmada</span>';
+                        if (stop.isMomTrip) badges += '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-pink-300 bg-pink-950/40 border border-pink-900/40 rounded-full px-2 py-0.5">👩 Con Mamá</span>';
+                        if (stop.isDaniTrip) badges += '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-teal-300 bg-teal-950/40 border border-teal-900/40 rounded-full px-2 py-0.5">🏔️ Con Dani</span>';
+                        if (stop.cashAlert) badges += '<span class="inline-flex items-center gap-1 text-[10px] font-bold text-amber-300 bg-amber-950/40 border border-amber-900/40 rounded-full px-2 py-0.5"><i class="fa-solid fa-money-bill-wave"></i>Efectivo al llegar</span>';
+                        benefitBlock = `<div class="flex flex-wrap items-center gap-1.5">${badges}</div>`;
+                    } else {
+                        benefitBlock = `<p class="text-[10px] text-emerald-400 font-bold leading-tight"><i class="fa-solid fa-sparkles text-emerald-400 mr-1"></i>Beneficio: ${escapeHTML(stop.hack)}</p>`;
+                    }
+
+                    let detailButtons = '';
+                    if (hasLodging || hasTicket) {
+                        detailButtons = `<div class="flex flex-wrap items-center gap-2 pt-1">
+                            ${hasLodging ? `<button onclick="showStopLodgingModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-amber-300 bg-amber-950/30 hover:bg-amber-950/60 border border-amber-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver detalle de alojamiento"><i class="fa-solid fa-hotel"></i>Alojamiento</button>` : ''}
+                            ${hasTicket ? `<button onclick="showStopTicketModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-blue-300 bg-blue-950/30 hover:bg-blue-950/60 border border-blue-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver detalle del pasaje de llegada"><i class="fa-solid fa-plane-arrival"></i>Pasaje de llegada</button>` : ''}
+                        </div>`;
+                    }
+
                     item.innerHTML = `
                         <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-indigo-500 shadow-sm"></span>
 
@@ -2808,7 +2833,8 @@
                                 <p class="text-[11px] font-semibold text-slate-400">
                                     <i class="fa-regular fa-calendar-days text-slate-500 mr-1"></i>${formatDate(stopStartDate)} al ${formatDate(stopEndDate)} (${stop.nights} noches)
                                 </p>
-                                <p class="text-[10px] text-emerald-400 font-bold leading-tight"><i class="fa-solid fa-sparkles text-emerald-400 mr-1"></i>Beneficio: ${escapeHTML(stop.hack)}</p>
+                                ${benefitBlock}
+                                ${detailButtons}
                             </div>
 
                             <div class="flex items-center gap-2 self-stretch md:self-auto justify-between md:justify-end">
@@ -3281,12 +3307,107 @@
                 </div>
             `;
             document.body.appendChild(tempModal);
-            
+
             tempModal.addEventListener('click', (e) => {
                 if (e.target === tempModal) {
                     tempModal.remove();
                 }
             });
+        }
+
+        // Helper: crea el contenedor del modal y le engancha el cierre al hacer click fuera
+        function buildStopModal(innerHTML) {
+            const tempModal = document.createElement('div');
+            tempModal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-all";
+            tempModal.innerHTML = innerHTML;
+            document.body.appendChild(tempModal);
+            tempModal.addEventListener('click', (e) => {
+                if (e.target === tempModal) tempModal.remove();
+            });
+        }
+
+        // Modal de detalle de ALOJAMIENTO de una parada
+        function showStopLodgingModal(stopId) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+
+            // El nº de reserva pertenece al alojamiento solo cuando NO hay datos de vuelo cargados
+            const lodgingBooking = !stop.flightDetails ? stop.confirmationNumber : null;
+
+            buildStopModal(`
+                <div class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-4">
+                    <button onclick="this.closest('.fixed').remove()" class="absolute right-4 top-4 text-slate-400 hover:text-white transition-all text-lg">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <div class="flex items-start gap-3">
+                        <div class="p-2.5 bg-amber-950/50 border border-amber-900/30 text-amber-400 rounded-xl">
+                            <i class="fa-solid fa-hotel text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Detalle de Alojamiento</span>
+                            <h4 class="font-bold text-white text-base sm:text-lg leading-snug">${escapeHTML(stop.city)}</h4>
+                        </div>
+                    </div>
+                    <div class="space-y-3.5 text-xs">
+                        ${stop.hotelName ? `
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-2">
+                            <div class="flex items-center gap-2 text-slate-200">
+                                <i class="fa-solid fa-bed text-amber-400 w-4"></i>
+                                <span class="font-bold">${escapeHTML(stop.hotelName)}</span>
+                            </div>
+                            ${stop.address ? `<div class="flex items-start gap-2 text-slate-400 pl-6 text-[11px]"><i class="fa-solid fa-map-marker-alt text-slate-500 mt-0.5"></i><span>${escapeHTML(stop.address)}</span></div>` : ''}
+                        </div>` : ''}
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
+                                <span class="text-[11px] text-slate-500 uppercase font-semibold block">Noches</span>
+                                <span class="text-xs font-bold text-slate-200">${stop.nights} noches</span>
+                            </div>
+                            ${stop.accommodationCost ? `<div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Costo Alojamiento</span><span class="text-xs font-bold text-slate-200">€${stop.accommodationCost}</span></div>` : `<div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Presup. Diario</span><span class="text-xs font-bold text-slate-200">€${stop.dailyBudget}/día</span></div>`}
+                        </div>
+                        ${lodgingBooking ? `<div class="bg-amber-950/20 border border-amber-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-amber-300"><i class="fa-solid fa-hashtag text-amber-400"></i><span><strong>Nº Reserva:</strong> ${escapeHTML(lodgingBooking)}</span></div>` : ''}
+                        ${stop.cashAlert ? `<div class="bg-rose-950/20 border border-rose-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-rose-300"><i class="fa-solid fa-money-bill-wave text-rose-400"></i><span><strong>Pago en efectivo al llegar.</strong></span></div>` : ''}
+                        ${stop.hack ? `<div class="p-3 bg-slate-950 border border-slate-800 text-slate-300 rounded-xl leading-relaxed text-[11px]"><i class="fa-solid fa-note-sticky text-slate-400 mr-1"></i>${escapeHTML(stop.hack)}</div>` : ''}
+                    </div>
+                </div>
+            `);
+        }
+
+        // Modal de detalle del PASAJE DE LLEGADA de una parada
+        function showStopTicketModal(stopId) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+
+            // El nº de reserva pertenece al pasaje solo cuando hay datos de vuelo cargados
+            const ticketBooking = stop.flightDetails ? stop.confirmationNumber : null;
+
+            buildStopModal(`
+                <div class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-4">
+                    <button onclick="this.closest('.fixed').remove()" class="absolute right-4 top-4 text-slate-400 hover:text-white transition-all text-lg">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <div class="flex items-start gap-3">
+                        <div class="p-2.5 bg-blue-950/50 border border-blue-900/30 text-blue-400 rounded-xl">
+                            <i class="fa-solid fa-plane-arrival text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Pasaje de Llegada</span>
+                            <h4 class="font-bold text-white text-base sm:text-lg leading-snug">${escapeHTML(stop.city)}</h4>
+                        </div>
+                    </div>
+                    <div class="space-y-3.5 text-xs">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                            <span class="text-[11px] text-slate-500 uppercase font-semibold block">Medio / Conexión</span>
+                            <div class="flex items-center justify-between text-slate-200 gap-2">
+                                <span class="font-bold"><i class="fa-solid fa-route text-blue-400 mr-1.5"></i>${escapeHTML(stop.transport)}</span>
+                                <span class="font-bold shrink-0">${stop.cost > 0 ? '€' + stop.cost : '—'}</span>
+                            </div>
+                        </div>
+                        ${stop.flightDetails ? `<div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-300 leading-relaxed"><i class="fa-solid fa-circle-info text-blue-400 mr-1"></i>${escapeHTML(stop.flightDetails)}</div>` : ''}
+                        ${ticketBooking ? `<div class="bg-blue-950/20 border border-blue-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-blue-300"><i class="fa-solid fa-ticket text-blue-400"></i><span><strong>Booking:</strong> ${escapeHTML(ticketBooking)}</span></div>` : ''}
+                        ${!stop.flightDetails ? `<div class="p-2.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[11px] leading-relaxed"><i class="fa-solid fa-circle-info text-slate-500 mr-1"></i>Sin detalle de reserva de pasaje cargado para este tramo (cubierto por Interrail o aún por confirmar).</div>` : ''}
+                    </div>
+                </div>
+            `);
         }
 
         // Inicializar y renderizar el mapa interactivo
