@@ -360,6 +360,42 @@
                                 <p class="text-[11px] text-slate-300"><span class="text-emerald-400 font-bold">● </span><strong>eSIM Vodafone España</strong> — Activa. Provee internet 5G/4G en los 5 países.</p>
                             </div>
 
+                            <!-- Opción Online -->
+                            <div class="bg-indigo-950/30 border border-indigo-800/40 rounded-xl p-3 mb-4">
+                                <p class="text-[10px] font-bold text-indigo-300 uppercase tracking-wide mb-2"><i class="fa-solid fa-globe mr-1"></i>Alternativa 100% Online — sin ir a la tienda</p>
+                                <p class="text-[11px] text-slate-300 leading-relaxed mb-3">Podés comprarlo desde casa antes de viajar en <strong class="text-white">esimprepago.vodafone.es</strong>. El QR llega al mail al instante.</p>
+                                <ol class="space-y-1.5 mb-3">
+                                    <li class="flex items-start gap-2">
+                                        <span class="shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-900/60 text-indigo-300 text-[9px] font-bold flex items-center justify-center">1</span>
+                                        <p class="text-[11px] text-slate-300">Entrás a <strong class="text-white">esimprepago.vodafone.es</strong></p>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-900/60 text-indigo-300 text-[9px] font-bold flex items-center justify-center">2</span>
+                                        <p class="text-[11px] text-slate-300">Sección "Voice &amp; Data" → plan <strong class="text-white">€15 (23GB roaming UE + 270GB España)</strong></p>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-900/60 text-indigo-300 text-[9px] font-bold flex items-center justify-center">3</span>
+                                        <p class="text-[11px] text-slate-300">Datos personales + número de pasaporte español</p>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-900/60 text-indigo-300 text-[9px] font-bold flex items-center justify-center">4</span>
+                                        <p class="text-[11px] text-slate-300">Pago con tarjeta internacional o Google Pay</p>
+                                    </li>
+                                    <li class="flex items-start gap-2">
+                                        <span class="shrink-0 mt-0.5 w-4 h-4 rounded-full bg-indigo-900/60 text-indigo-300 text-[9px] font-bold flex items-center justify-center">5</span>
+                                        <p class="text-[11px] text-slate-300">QR llega al mail al instante — listo para escanear</p>
+                                    </li>
+                                </ol>
+                                <div class="bg-slate-900/60 border border-slate-700/40 rounded-lg p-2.5 mb-3">
+                                    <p class="text-[10px] font-bold text-amber-300 mb-1"><i class="fa-solid fa-bolt mr-1"></i>Data Only — sin pasaporte, activación inmediata</p>
+                                    <p class="text-[11px] text-slate-400">Opción "Data Only" en el mismo sitio: solo necesitás email y pago. Sin número de teléfono europeo para llamadas, pero WhatsApp funciona igual. Cobertura 5G idéntica.</p>
+                                </div>
+                                <div class="bg-amber-950/30 border border-amber-800/40 rounded-lg p-2.5">
+                                    <p class="text-[10px] font-bold text-amber-300 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Paso crítico: escanear el QR con Wi-Fi</p>
+                                    <p class="text-[11px] text-slate-400">No escanear en el avión ni sin internet. Hacerlo desde casa antes de viajar <strong class="text-white">o</strong> en el Wi-Fi del aeropuerto al aterrizar. Una vez descargado, dejar la eSIM <em>apagada</em> y encenderla cuando el avión toque pista en Europa.</p>
+                                </div>
+                            </div>
+
                             <!-- Campo número -->
                             <div class="flex items-center gap-2">
                                 <label class="text-[11px] font-bold text-violet-300 shrink-0"><i class="fa-solid fa-phone mr-1"></i>Tu número Vodafone:</label>
@@ -1530,7 +1566,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-06-20-5";
+        const DATA_VERSION = "2026-06-20-6";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
