@@ -76,6 +76,10 @@
                     <i class="fa-solid fa-user-graduate mr-1.5"></i>
                     Edad: 21 años (Youth)
                 </span>
+                <button id="copyRouteBtn" onclick="copyRoute()" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-indigo-300 bg-indigo-950/40 hover:bg-indigo-950/70 border border-indigo-800/40 rounded-lg px-2.5 py-1.5 transition active:scale-95 shrink-0" title="Copiar ruta completa">
+                    <i id="copyRouteIcon" class="fa-regular fa-copy"></i>
+                    <span class="hidden sm:inline">Copiar Ruta</span>
+                </button>
             </div>
         </div>
     </header>
@@ -1444,7 +1448,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-06-20-3";
+        const DATA_VERSION = "2026-06-20-4";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -3652,6 +3656,26 @@
                 navigator.serviceWorker.register('./sw.js').catch(err => {
                     console.warn('No se pudo registrar el Service Worker:', err);
                 });
+            });
+        }
+
+        function copyRoute() {
+            const fmt = (d) => d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+            let startDay = 0;
+            const lines = state.routeStops.map((stop, i) => {
+                const endDay = startDay + stop.nights;
+                const s = new Date(state.countdownDate);
+                s.setDate(s.getDate() + startDay);
+                const e = new Date(state.countdownDate);
+                e.setDate(e.getDate() + endDay);
+                startDay = endDay;
+                return `${i + 1}. ${stop.city} | ${fmt(s)} → ${fmt(e)} (${stop.nights} noches) | ${stop.transport}`;
+            });
+            const text = `🗺️ EuroTrip 90 — Ruta Completa\n\n${lines.join('\n')}`;
+            navigator.clipboard.writeText(text).then(() => {
+                const icon = document.getElementById('copyRouteIcon');
+                icon.className = 'fa-solid fa-check text-emerald-400';
+                setTimeout(() => { icon.className = 'fa-regular fa-copy'; }, 1500);
             });
         }
     </script>
