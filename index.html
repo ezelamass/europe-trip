@@ -3533,7 +3533,7 @@
                                 <i class="fa-solid fa-bed text-amber-400 w-4"></i>
                                 <span class="font-bold">${escapeHTML(stop.hotelName)}</span>
                             </div>
-                            ${stop.address ? `<div class="flex items-start gap-2 text-slate-400 pl-6 text-[11px]"><i class="fa-solid fa-map-marker-alt text-slate-500 mt-0.5"></i><span>${escapeHTML(stop.address)}</span></div>` : ''}
+                            ${stop.address ? `<div class="flex items-center gap-2 text-slate-400 pl-6 text-[11px]"><i class="fa-solid fa-map-marker-alt text-slate-500 shrink-0"></i><span class="flex-1">${escapeHTML(stop.address)}</span><a href="https://maps.google.com/?q=${encodeURIComponent(stop.address)}" target="_blank" rel="noopener" class="shrink-0 flex items-center gap-1 bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold text-[10px] px-2 py-1 rounded-lg transition"><i class="fa-solid fa-map-location-dot"></i> Maps</a></div>` : ''}
                         </div>` : ''}
                         <div class="grid grid-cols-2 gap-2">
                             <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800">
@@ -3557,6 +3557,12 @@
 
             // El nº de reserva pertenece al pasaje solo cuando hay datos de vuelo cargados
             const ticketBooking = stop.flightDetails ? stop.confirmationNumber : null;
+            const airportMatch = stop.transport && stop.transport.match(/\b([A-Z]{3})\b/);
+            const departureCode = airportMatch ? airportMatch[1] : null;
+            const isFlightTransport = stop.transport && stop.transport.toLowerCase().includes('vuelo');
+            const airportMapsUrl = departureCode && isFlightTransport
+                ? `https://maps.google.com/?q=${departureCode}+aeropuerto`
+                : null;
 
             buildStopModal(`
                 <div class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-4">
@@ -3581,6 +3587,7 @@
                             </div>
                         </div>
                         ${stop.flightDetails ? `<div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[11px] text-slate-300 leading-relaxed"><i class="fa-solid fa-circle-info text-blue-400 mr-1"></i>${escapeHTML(stop.flightDetails)}</div>` : ''}
+                        ${airportMapsUrl ? `<a href="${airportMapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-600 active:scale-95 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition w-fit"><i class="fa-solid fa-plane text-[10px]"></i> Aeropuerto ${departureCode} en Maps</a>` : ''}
                         ${ticketBooking ? `<div class="bg-blue-950/20 border border-blue-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-blue-300"><i class="fa-solid fa-ticket text-blue-400"></i><span><strong>Booking:</strong> ${escapeHTML(ticketBooking)}</span></div>` : ''}
                         ${!stop.flightDetails ? `<div class="p-2.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[11px] leading-relaxed"><i class="fa-solid fa-circle-info text-slate-500 mr-1"></i>Sin detalle de reserva de pasaje cargado para este tramo (cubierto por Interrail o aún por confirmar).</div>` : ''}
                     </div>
