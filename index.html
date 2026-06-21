@@ -3405,13 +3405,24 @@
         function showCalendarDayModal(details) {
             const tempModal = document.createElement('div');
             tempModal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-all";
-            
+
+            // Extraer código IATA de salida del campo transport (ej: "BER", "PMI", "MAD")
+            const airportMatch = details.transport && details.transport.match(/\b([A-Z]{3})\b/);
+            const departureCode = airportMatch ? airportMatch[1] : null;
+            const isFlightTransport = details.transport && details.transport.toLowerCase().includes('vuelo');
+            const airportMapsUrl = departureCode && isFlightTransport
+                ? `https://maps.google.com/?q=${departureCode}+aeropuerto`
+                : null;
+            const hotelMapsUrl = details.address && details.address !== 'No especificada'
+                ? `https://maps.google.com/?q=${encodeURIComponent(details.address)}`
+                : null;
+
             tempModal.innerHTML = `
                 <div class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-4">
                     <button onclick="this.closest('.fixed').remove()" class="absolute right-4 top-4 text-slate-400 hover:text-white transition-all text-lg">
                         <i class="fa-solid fa-times"></i>
                     </button>
-                    
+
                     <div class="flex items-start gap-3">
                         <div class="p-2.5 bg-blue-950/50 border border-blue-900/30 text-blue-400 rounded-xl">
                             <i class="fa-solid fa-map-pin text-lg"></i>
@@ -3428,9 +3439,12 @@
                                 <i class="fa-solid fa-hotel text-amber-400 w-4"></i>
                                 <span class="font-bold">${escapeHTML(details.hotel)}</span>
                             </div>
-                            <div class="flex items-start gap-2 text-slate-400 pl-6 text-[11px]">
-                                <i class="fa-solid fa-map-marker-alt text-slate-500 mt-0.5"></i>
-                                <span>${escapeHTML(details.address)}</span>
+                            <div class="flex items-center gap-2 text-slate-400 pl-6 text-[11px]">
+                                <i class="fa-solid fa-map-marker-alt text-slate-500 shrink-0"></i>
+                                <span class="flex-1">${escapeHTML(details.address)}</span>
+                                ${hotelMapsUrl ? `<a href="${hotelMapsUrl}" target="_blank" rel="noopener" class="shrink-0 flex items-center gap-1 bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold text-[10px] px-2 py-1 rounded-lg transition">
+                                    <i class="fa-solid fa-map-location-dot"></i> Maps
+                                </a>` : ''}
                             </div>
                         </div>
 
@@ -3445,13 +3459,16 @@
                             </div>
                         </div>
 
-                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1">
+                        <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 space-y-1.5">
                             <span class="text-[11px] text-slate-500 uppercase font-semibold block">Llegada / Conectividad</span>
                             <div class="flex items-center justify-between text-slate-200">
                                 <span><i class="fa-solid fa-plane-departure text-indigo-400 mr-1.5"></i>${escapeHTML(details.transport)}</span>
                                 <span class="font-bold">${details.cost > 0 ? '€' + details.cost : '—'}</span>
                             </div>
                             ${details.flightDetails ? `<div class="text-[11px] text-slate-400 pl-6 mt-1">${escapeHTML(details.flightDetails)}</div>` : ''}
+                            ${airportMapsUrl ? `<a href="${airportMapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-600 active:scale-95 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition w-fit mt-1">
+                                <i class="fa-solid fa-plane text-[10px]"></i> Aeropuerto ${departureCode} en Maps
+                            </a>` : ''}
                         </div>
 
                         ${details.confirmationNumber ? `
