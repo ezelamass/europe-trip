@@ -1612,13 +1612,21 @@
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Joda",
-                hack: "Parada entre Ibiza y Berlín. Vuelo a Berlín el 7 jul: Ryanair PMI→BER 9:20-12:05. Booking: P325RJ.",
+                hack: "Airbnb confirmado en Pollença (Townhouse Calvari · Home Villas 360), 1–7 jul. Self check-in con lockbox; avisar hora de llegada a reservas@homevillas360.com. Total $1.314,06 USD ÷ 4 personas = $328,52 c/u (~€288). Vuelo a Berlín el 7 jul: Ryanair PMI→BER 9:20-12:05. Booking: P325RJ.",
                 isFixed: true,
-                hotelName: "Por confirmar",
-                address: "Palma de Mallorca, España",
-                accommodationCost: 0,
+                isConfirmed: true,
+                hotelName: "Townhouse Calvari · Pollença (Home Villas 360)",
+                address: "9 Carrer d'Alacantí, Pollença, Illes Balears 07460, España",
+                accommodationCost: 287.67,
                 confirmationNumber: "P325RJ",
-                flightDetails: "Ryanair (Malta Air) PMI 9:20 → BER 12:05 | 7 jul 2026 | €53.39 | Booking: P325RJ"
+                flightDetails: "Ryanair (Malta Air) PMI 9:20 → BER 12:05 | 7 jul 2026 | €53.39 | Booking: P325RJ",
+                lodgingConfirmation: "HMNEKE5CXN",
+                lodgingHost: "Pep Vicens Llobera · Home Villas 360",
+                lodgingCheckIn: "Mié 1 jul 2026 · 16:00",
+                lodgingCheckOut: "Mar 7 jul 2026 · 10:00",
+                lodgingCheckInMethod: "Self check-in con Lockbox",
+                lodgingContact: "reservas@homevillas360.com",
+                lodgingCostNote: "$1.314,06 USD total ÷ 4 personas = $328,52 c/u (~€287,67)"
             },
             {
                 id: "stop-berlin-solo",
@@ -3543,6 +3551,16 @@
                             </div>
                             ${stop.accommodationCost ? `<div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Costo Alojamiento</span><span class="text-xs font-bold text-slate-200">€${stop.accommodationCost}</span></div>` : `<div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Presup. Diario</span><span class="text-xs font-bold text-slate-200">€${stop.dailyBudget}/día</span></div>`}
                         </div>
+                        ${(stop.lodgingCheckIn || stop.lodgingCheckOut) ? `
+                        <div class="grid grid-cols-2 gap-2">
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Check-in</span><span class="text-xs font-bold text-emerald-300">${escapeHTML(stop.lodgingCheckIn || '—')}</span></div>
+                            <div class="bg-slate-950 p-2.5 rounded-lg border border-slate-800"><span class="text-[11px] text-slate-500 uppercase font-semibold block">Check-out</span><span class="text-xs font-bold text-rose-300">${escapeHTML(stop.lodgingCheckOut || '—')}</span></div>
+                        </div>` : ''}
+                        ${stop.lodgingConfirmation ? `<div class="bg-amber-950/20 border border-amber-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-amber-300"><i class="fa-brands fa-airbnb text-amber-400"></i><span><strong>Cód. Airbnb:</strong> ${escapeHTML(stop.lodgingConfirmation)}</span></div>` : ''}
+                        ${stop.lodgingHost ? `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-slate-300"><i class="fa-solid fa-user text-amber-400 w-4 shrink-0"></i><span><strong>Host:</strong> ${escapeHTML(stop.lodgingHost)}</span></div>` : ''}
+                        ${stop.lodgingCheckInMethod ? `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-slate-300"><i class="fa-solid fa-key text-amber-400 w-4 shrink-0"></i><span>${escapeHTML(stop.lodgingCheckInMethod)}</span></div>` : ''}
+                        ${stop.lodgingContact ? `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-slate-300"><i class="fa-solid fa-envelope text-amber-400 w-4 shrink-0"></i><a href="mailto:${escapeHTML(stop.lodgingContact)}" class="underline decoration-dotted hover:text-amber-300">${escapeHTML(stop.lodgingContact)}</a></div>` : ''}
+                        ${stop.lodgingCostNote ? `<div class="bg-slate-950 border border-slate-800 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-slate-300"><i class="fa-solid fa-coins text-amber-400 w-4 shrink-0"></i><span>${escapeHTML(stop.lodgingCostNote)}</span></div>` : ''}
                         ${lodgingBooking ? `<div class="bg-amber-950/20 border border-amber-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-amber-300"><i class="fa-solid fa-hashtag text-amber-400"></i><span><strong>Nº Reserva:</strong> ${escapeHTML(lodgingBooking)}</span></div>` : ''}
                         ${stop.cashAlert ? `<div class="bg-rose-950/20 border border-rose-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-rose-300"><i class="fa-solid fa-money-bill-wave text-rose-400"></i><span><strong>Pago en efectivo al llegar.</strong></span></div>` : ''}
                         ${stop.hack ? `<div class="p-3 bg-slate-950 border border-slate-800 text-slate-300 rounded-xl leading-relaxed text-[11px]"><i class="fa-solid fa-note-sticky text-slate-400 mr-1"></i>${escapeHTML(stop.hack)}</div>` : ''}
