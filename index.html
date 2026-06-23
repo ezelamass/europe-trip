@@ -193,7 +193,7 @@
                             <input type="number" id="base-flight-input" onchange="updateBaseFlightUSD(this.value)" value="1076" class="w-16 text-xs bg-transparent border-none text-center font-bold text-slate-200 focus:outline-none">
                             <span class="text-xs text-slate-400 font-bold">USD</span>
                         </div>
-                        <div class="text-left sm:text-right">
+                        <div id="base-flight-conversion" class="text-left sm:text-right">
                             <span id="base-flight-rate-hint" class="text-[11px] text-slate-500 block">Conversión (~0.86 EUR)</span>
                             <span id="base-flight-eur-display" class="font-bold text-slate-200 text-xs sm:text-sm">€927.00</span>
                         </div>
@@ -1882,7 +1882,7 @@
                     if (loadedState.appliedBenefits) state.appliedBenefits = loadedState.appliedBenefits;
                     if (loadedState.highSpeedReservations !== undefined) state.highSpeedReservations = loadedState.highSpeedReservations;
                     if (loadedState.baseFlightUSD !== undefined) state.baseFlightUSD = loadedState.baseFlightUSD;
-                    if (loadedState.usdToEurRate !== undefined) state.usdToEurRate = loadedState.usdToEurRate;
+                    if (typeof loadedState.usdToEurRate === 'number' && loadedState.usdToEurRate > 0) state.usdToEurRate = loadedState.usdToEurRate;
                     if (loadedState.displayCurrency !== undefined) state.displayCurrency = loadedState.displayCurrency;
                     if (loadedState.includeBaseFlight !== undefined) state.includeBaseFlight = loadedState.includeBaseFlight;
                     if (loadedState.backpackExpanded !== undefined) state.backpackExpanded = loadedState.backpackExpanded;
@@ -2661,6 +2661,10 @@
             document.getElementById('base-flight-eur-display').innerText = `€${baseFlightEur.toFixed(2)}`;
             const rateHintEl = document.getElementById('base-flight-rate-hint');
             if (rateHintEl) rateHintEl.innerText = `Conversión (~${state.usdToEurRate.toFixed(2)} EUR)`;
+            // La conversión a EUR del vuelo base sólo tiene sentido cuando se muestra en EUR;
+            // en modo USD se oculta (el input ya está en USD) para no mezclar monedas.
+            const baseConvEl = document.getElementById('base-flight-conversion');
+            if (baseConvEl) baseConvEl.style.display = (state.displayCurrency === 'USD') ? 'none' : '';
 
             // Sync currency toggle (símbolo en etiquetas de inputs, switch global y campo de tasa)
             document.querySelectorAll('.cur-sym').forEach(el => { el.innerText = curSym(); });
@@ -3139,7 +3143,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <label class="text-[10px] font-bold text-slate-400 uppercase tracking-wider whitespace-nowrap">Costo (${curSym()}):</label>
-                                <input type="number" min="0" value="${eurToInput(stop.cost, 0)}" onchange="updateStopTransportCost('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-700 text-slate-100 rounded-lg text-right focus:outline-none">
+                                <input type="number" min="0" step="0.01" value="${eurToInput(stop.cost, 2)}" onchange="updateStopTransportCost('${stop.id}', this.value)" class="w-full text-xs p-2 bg-slate-900 border border-slate-700 text-slate-100 rounded-lg text-right focus:outline-none">
                             </div>
                         </div>
                     `;
