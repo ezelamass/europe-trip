@@ -3089,7 +3089,10 @@
                     const ticketPill = isOrigin ? '' : (hasTicket
                         ? `<button onclick="showStopTicketModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-300 bg-emerald-950/30 hover:bg-emerald-950/60 border border-emerald-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver detalle del pasaje de llegada"><i class="fa-solid fa-plane-arrival"></i>Pasaje de llegada</button>`
                         : `<span class="inline-flex items-center gap-1.5 text-[11px] font-bold text-rose-400 bg-rose-950/30 border border-rose-900/40 rounded-lg px-2.5 py-1.5 opacity-60 cursor-default" title="Sin datos de pasaje"><i class="fa-solid fa-plane-arrival"></i>Pasaje de llegada</span>`);
-                    const detailButtons = `<div class="flex flex-wrap items-center gap-2 pt-1">${lodgingPill}${ticketPill}</div>`;
+                    const ibizaPill = stop.id === 'stop-ibiza'
+                        ? `<button onclick="showIbizaDetailsModal()" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-purple-300 bg-purple-950/30 hover:bg-purple-950/60 border border-purple-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver guía completa de Ibiza"><i class="fa-solid fa-umbrella-beach"></i>Guía Ibiza</button>`
+                        : '';
+                    const detailButtons = `<div class="flex flex-wrap items-center gap-2 pt-1">${lodgingPill}${ticketPill}${ibizaPill}</div>`;
 
                     item.innerHTML = `
                         <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-indigo-500 shadow-sm"></span>
@@ -3710,6 +3713,139 @@
                         ${airportMapsUrl ? `<a href="${airportMapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-1.5 bg-indigo-700 hover:bg-indigo-600 active:scale-95 text-white font-bold text-[10px] px-2.5 py-1.5 rounded-lg transition w-fit"><i class="fa-solid fa-plane text-[10px]"></i> Aeropuerto ${departureCode} en Maps</a>` : ''}
                         ${ticketBooking ? `<div class="bg-blue-950/20 border border-blue-900/30 p-2.5 rounded-xl flex items-center gap-2 text-[11px] text-blue-300"><i class="fa-solid fa-ticket text-blue-400"></i><span><strong>Booking:</strong> ${escapeHTML(ticketBooking)}</span></div>` : ''}
                         ${!stop.flightDetails ? `<div class="p-2.5 bg-slate-950 border border-slate-800 text-slate-400 rounded-xl text-[11px] leading-relaxed"><i class="fa-solid fa-circle-info text-slate-500 mr-1"></i>Sin detalle de reserva de pasaje cargado para este tramo (cubierto por Interrail o aún por confirmar).</div>` : ''}
+                    </div>
+                </div>
+            `);
+        }
+
+        // Modal con guía completa de Ibiza (fiestas, playas, entradas, discobus)
+        function showIbizaDetailsModal() {
+            buildStopModal(`
+                <div class="bg-slate-900 border border-slate-700 max-w-2xl w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-5 overflow-y-auto max-h-[85vh]">
+                    <button onclick="this.closest('.fixed').remove()" class="absolute right-4 top-4 text-slate-400 hover:text-white transition-all text-lg z-10">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <div class="flex items-start gap-3 pr-8">
+                        <div class="p-2.5 bg-purple-950/50 border border-purple-900/30 text-purple-400 rounded-xl shrink-0">
+                            <i class="fa-solid fa-umbrella-beach text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Guía Completa</span>
+                            <h4 class="font-bold text-white text-base sm:text-lg leading-snug">Ibiza 🏝️ — Verano 2026</h4>
+                        </div>
+                    </div>
+
+                    <!-- Hacks de entradas -->
+                    <div class="space-y-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🎟️</span>
+                            <h5 class="font-bold text-white text-sm">Hacks de Entradas de Último Momento</h5>
+                        </div>
+                        <p class="text-[11px] text-slate-400 italic leading-relaxed">Ya están en fase <strong class="text-amber-300">Final Release</strong> — pero hay 3 trucos para sacar descuentos:</p>
+                        <div class="space-y-2 text-[11px]">
+                            <div class="bg-emerald-950/30 border border-emerald-900/30 rounded-xl p-3">
+                                <p class="font-bold text-emerald-300">1. La regla del "Early Entry"</p>
+                                <p class="text-slate-400 leading-relaxed mt-1">Ibiza Spotlight o las webs oficiales venden tickets más baratos si entrás <strong class="text-white">antes de una hora fija</strong> (ej. antes de las 18:00 en Ushuaïa o 01:00 en Amnesia). Son €10–€20 más baratas que el ticket general.</p>
+                            </div>
+                            <div class="bg-blue-950/30 border border-blue-900/30 rounded-xl p-3">
+                                <p class="font-bold text-blue-300">2. Plataformas Oficiales Únicamente</p>
+                                <p class="text-slate-400 leading-relaxed mt-1">No busquen en reventa. Usen <strong class="text-white">Ibiza Spotlight</strong> o <strong class="text-white">TicketsIbiza</strong>. Los e-tickets llegan instantáneamente al mail.</p>
+                            </div>
+                            <div class="bg-amber-950/30 border border-amber-900/30 rounded-xl p-3">
+                                <p class="font-bold text-amber-300">3. RRPP y Pulseras en la Playa</p>
+                                <p class="text-slate-400 leading-relaxed mt-1">Caminen por <strong class="text-white">Playa d'en Bossa</strong> o el paseo marítimo de San Antonio. Los relaciones públicas de los clubes reparten pulseras de descuento o pases con consumición incluida para las fiestas que no están Sold Out.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ruta de fiestas -->
+                    <div class="space-y-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🪩</span>
+                            <h5 class="font-bold text-white text-sm">Ruta del Cachenge & Reggaetón</h5>
+                        </div>
+                        <div class="space-y-2 text-[11px]">
+                            <div class="bg-slate-950 border border-purple-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-purple-300 bg-purple-950/60 rounded px-1.5 py-0.5 uppercase">Viernes noche</span>
+                                <p class="font-bold text-white mt-1.5">Puro Reggaeton — Es Paradis (San Antonio)</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Boliche con estructura de templo romano, cerca del hotel. Los viernes es 100% música urbana, reggaetón y público joven.</p>
+                            </div>
+                            <div class="bg-slate-950 border border-orange-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-orange-300 bg-orange-950/60 rounded px-1.5 py-0.5 uppercase">Sábado tarde</span>
+                                <p class="font-bold text-white mt-1.5">Ushuaïa Ibiza — Playa d'en Bossa</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Day club con aviones pasando sobre la pileta. Si coinciden con residencias de <strong class="text-white">Ozuna</strong> o <strong class="text-white">J Balvin</strong>, es el day club definitivo.</p>
+                            </div>
+                            <div class="bg-slate-950 border border-rose-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-rose-300 bg-rose-950/60 rounded px-1.5 py-0.5 uppercase">Domingo noche ⭐</span>
+                                <p class="font-bold text-white mt-1.5">BRESH — Amnesia</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">El templo del techno se transforma en la fiesta de cachenge más grande del mundo. Clásicos, reggaetón viejo y nuevo, trap y pop. <strong class="text-rose-300">Entrada anticipada sí o sí.</strong></p>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-700 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-slate-300 bg-slate-800 rounded px-1.5 py-0.5 uppercase">Domingo previa</span>
+                                <p class="font-bold text-white mt-1.5">D-Groove — Dunes Ibiza (Playa d'en Bossa)</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Previa antes de Amnesia. Reggaetón y hits desde las 20:30. <strong class="text-emerald-300">Entrada gratis.</strong></p>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-700 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-slate-300 bg-slate-800 rounded px-1.5 py-0.5 uppercase">Lunes noche</span>
+                                <p class="font-bold text-white mt-1.5">You Know The Vibes — Es Paradis</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Si quedan con energía después de Formentera. 100% Hip Hop y Reggaetón.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Playas -->
+                    <div class="space-y-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🏖️</span>
+                            <h5 class="font-bold text-white text-sm">Cronograma de Playas y Formentera</h5>
+                        </div>
+                        <div class="space-y-2 text-[11px]">
+                            <div class="bg-slate-950 border border-cyan-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-cyan-300 bg-cyan-950/60 rounded px-1.5 py-0.5 uppercase">Viernes — Llegada</span>
+                                <p class="font-bold text-white mt-1.5">Cala Tarida</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Cerca del hotel. Amplia, arena blanca, paradores con gente joven. Ideal para el primer chapuzón sin complicarse.</p>
+                            </div>
+                            <div class="bg-slate-950 border border-cyan-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-cyan-300 bg-cyan-950/60 rounded px-1.5 py-0.5 uppercase">Sábado</span>
+                                <p class="font-bold text-white mt-1.5">Cala Comte (Cala Conta)</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Vayan al mediodía. Aguas turquesas de otro planeta. Quédense a ver el atardecer antes de prepararse para la joda.</p>
+                            </div>
+                            <div class="bg-slate-950 border border-cyan-900/40 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-cyan-300 bg-cyan-950/60 rounded px-1.5 py-0.5 uppercase">Domingo — Recuperación</span>
+                                <p class="font-bold text-white mt-1.5">Cala Salada & Cala Saladeta</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Al norte de San Antonio. Para Saladeta, caminan unos minutos por las rocas. Agua como una pileta natural transparente — perfecta para curar la resaca.</p>
+                            </div>
+                            <div class="bg-indigo-950/30 border border-indigo-900/40 rounded-xl p-3">
+                                <div class="flex items-center gap-1.5 flex-wrap">
+                                    <span class="text-[10px] font-bold text-indigo-300 bg-indigo-950/60 rounded px-1.5 py-0.5 uppercase">Lunes — Side Quest</span>
+                                    <span class="text-[10px] font-bold text-emerald-300">⭐ OBLIGATORIO</span>
+                                </div>
+                                <p class="font-bold text-white mt-1.5">FORMENTERA 🏝️ — Playa de Ses Illetes</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">¿Por qué lunes? Los fines de semana los ferrys van colapsados de turistas. El lunes respira. Ferry rápido ida y vuelta: <strong class="text-white">~€40</strong>. Directo a Ses Illetes — el Caribe europeo.</p>
+                            </div>
+                            <div class="bg-slate-950 border border-slate-700 rounded-xl p-3">
+                                <span class="text-[10px] font-bold text-slate-300 bg-slate-800 rounded px-1.5 py-0.5 uppercase">Martes — Último día</span>
+                                <p class="font-bold text-white mt-1.5">Playa d'en Bossa / Dalt Vila</p>
+                                <p class="text-slate-400 leading-relaxed mt-0.5">Tarde en el centro histórico, caminen por las murallas de Dalt Vila y tómense algo en el puerto viejo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Discobus -->
+                    <div class="space-y-2.5">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base">🚌</span>
+                            <h5 class="font-bold text-white text-sm">El Discobus: Tu Conexión Nocturna</h5>
+                        </div>
+                        <div class="bg-amber-950/20 border border-amber-900/30 rounded-xl p-3 text-[11px] text-slate-300 leading-relaxed space-y-2">
+                            <p>Olvidate de los taxis (<strong class="text-rose-300">€30–€40 por tramo</strong>). El <strong class="text-amber-300">Discobus</strong> conecta San José, San Antonio, Playa d'en Bossa e Ibiza Ciudad — pasan por la puerta de los boliches grandes.</p>
+                            <div class="flex items-center gap-2 bg-amber-950/40 border border-amber-900/40 rounded-lg px-3 py-2">
+                                <i class="fa-solid fa-ticket text-amber-400 shrink-0"></i>
+                                <span class="font-bold text-amber-200 text-xs">€4 – €5 el billete</span>
+                                <span class="text-slate-500">·</span>
+                                <span class="text-slate-400">Con música a bordo. ¡A disfrutar con los pibes!</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `);
