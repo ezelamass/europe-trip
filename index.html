@@ -1492,7 +1492,33 @@
         ];
 
         // Default Preloaded Side Quests
-        const DEFAULT_SIDE_QUESTS = [];
+        const DEFAULT_SIDE_QUESTS = [
+            {
+                id: "quest-formentera",
+                title: "Formentera 🏝️ — Ses Illetes & Faro",
+                totalCost: 85,
+                includedInBudget: false,
+                days: 1,
+                details: { ferry: 40, transport: 30, food: 15 },
+                itinerary: [
+                    { day: "09:00", title: "Ferry desde Ibiza Ciudad", desc: "Aquabus o Balearia desde el puerto. 30-40 min de viaje. Vayan desayunados o con mates para disfrutar la cubierta." },
+                    { day: "09:45", title: "La Savina — Alquiler de Motos", desc: "Apenas bajan, ignoren los taxis. Ir directo a alquilar motos de 125cc (carnet de auto +3 años) o bicis. La isla es chica y plana, se recorre al toque." },
+                    { day: "10:30", title: "⭐ Playa de Ses Illetes", desc: "Parque Natural de las Salinas. Lengua de arena blanca finísima con agua turquesa que parece una pileta artificial. Hack gasolero: traigan viandas, lona y cervezas heladas — los beach clubs cobran €80 por un pescado." },
+                    { day: "14:30", title: "Es Pujols — Almuerzo y Helado", desc: "La zona con más onda joven de la isla. Pizza al paso o paninis económicos, y un helado paseando por el paseo marítimo." },
+                    { day: "16:00", title: "Faro de Cap de Barbaria 📸", desc: "Paisaje desértico con acantilados brutales mirando al mar. Al lado del faro: Cova Foradada, un agujero en el piso que sale a una cueva natural colgada sobre el mar. Fotos épicas con los pibes." },
+                    { day: "19:30", title: "Atardecer — Cala Saona o Beso Beach", desc: "Plan tranqui: Cala Saona entre acantilados rojizos (el sol pinta todo de naranja). Plan fiesta: Beso Beach con DJ en vivo y movida joven (los tragos son caros pero el ambiente vale)." },
+                    { day: "21:30", title: "Ferry de regreso a Ibiza", desc: "Devuelven las motos en el puerto de La Savina y se suben al ferry. Llegan a la isla grande bañados por el sol, listos para cenar algo por San José." }
+                ],
+                hacks: [
+                    "Aquabus y Balearia son las más económicas. Ferry rápido ida y vuelta: ~€40. Compren en la web con anticipación — el lunes hay más disponibilidad.",
+                    "Motos de 125cc requieren carnet de auto con 3+ años de antigüedad o carnet de moto. Si no cumplen, alquilen bicis — la isla es plana y perfecta para pedalear.",
+                    "Hack gasolero: compren viandas, papas fritas y cervezas heladas en un super de Ibiza antes de subir al ferry. Los beach clubs de Ses Illetes son ridículamente caros.",
+                    "Vayan el lunes: los fines de semana los ferrys van colapsados de turistas de tres días. El lunes la isla respira y el alquiler de motos en La Savina es más ágil.",
+                    "La Cova Foradada está al lado del Faro de Cap de Barbaria — hay un agujero en el piso, se meten agachados y salen a una cueva colgada sobre el mar con una vista increíble."
+                ],
+                isDefault: true
+            }
+        ];
 
         // Default Checklist Pack for Luggage section (including Romantic Crown backpack)
         const DEFAULT_LUGGAGE_ITEMS = [
@@ -1873,7 +1899,15 @@
                     if (loadedState.dataVersion === DATA_VERSION) {
                         if (Array.isArray(loadedState.routeStops)) state.routeStops = loadedState.routeStops;
                         if (Array.isArray(loadedState.customFacts)) state.customFacts = loadedState.customFacts;
-                        if (Array.isArray(loadedState.sideQuests) && loadedState.sideQuests.length) state.sideQuests = loadedState.sideQuests;
+                        if (Array.isArray(loadedState.sideQuests) && loadedState.sideQuests.length) {
+                            state.sideQuests = loadedState.sideQuests;
+                            // Inyectar quests default que no estén ya en el estado guardado
+                            for (const defQ of DEFAULT_SIDE_QUESTS) {
+                                if (!state.sideQuests.find(q => q.id === defQ.id)) {
+                                    state.sideQuests.unshift(JSON.parse(JSON.stringify(defQ)));
+                                }
+                            }
+                        }
                         if (Array.isArray(loadedState.luggageItems) && loadedState.luggageItems.length) state.luggageItems = loadedState.luggageItems;
                         if (Array.isArray(loadedState.customCatalogCities)) state.catalogCities = [...BASE_CATALOG_CITIES, ...loadedState.customCatalogCities];
                     }
