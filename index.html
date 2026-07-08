@@ -1517,6 +1517,55 @@
                     "La Cova Foradada está al lado del Faro de Cap de Barbaria — hay un agujero en el piso, se meten agachados y salen a una cueva colgada sobre el mar con una vista increíble."
                 ],
                 isDefault: true
+            },
+            {
+                id: "quest-berlin-jul9",
+                title: "Berlín 🏛️ — Jueves 9 jul: Muro, Mirador & Kreuzberg",
+                totalCost: 30,
+                includedInBudget: false,
+                days: 1,
+                details: { transport: 8, tickets: 4, food: 18 },
+                itinerary: [
+                    { day: "09:30", title: "Gedenkstätte Berliner Mauer (Bernauer Str.)", desc: "El memorial REAL del Muro — no confundir con la East Side Gallery. 1.4km con tramo original, torre de vigilancia, el 'Fenster des Gedenkens' y centro de documentación. Entrada gratis. U8 Bernauer Straße." },
+                    { day: "11:00", title: "Traslado a Tiergarten", desc: "U-Bahn/S-Bahn ~25 min hacia el gran parque central de Berlín." },
+                    { day: "11:30", title: "⭐ Mirador Columna de la Victoria (Siegessäule)", desc: "285 escalones sin ascensor hasta la plataforma. La mejor vista panorámica de Berlín: Tiergarten, Reichstag y la Puerta de Brandeburgo a lo lejos. Entrada ~€4, solo efectivo." },
+                    { day: "13:00", title: "Almuerzo en Tiergarten", desc: "Picnic en el parque o algo rápido cerca del Café am Neuen See, junto al lago con biergarten." },
+                    { day: "15:00", title: "Traslado a Kreuzberg", desc: "20-25 min en U-Bahn/bus." },
+                    { day: "15:30", title: "Kreuzberg alternativo", desc: "Oranienstraße y Bergmannkiez: arte callejero, tiendas vintage y la vibra multicultural más under de Berlín." },
+                    { day: "18:30", title: "Atardecer en el Landwehrkanal", desc: "Paseo tranquilo junto al canal, punto de encuentro local para sentarse en el pasto con una cerveza." },
+                    { day: "20:00", title: "Cena en barrio auténtico", desc: "Kreuzberg es meca turco-alemana: Curry 36 (currywurst clásico) o un kebab real en Hasir. Si cae jueves, Markthalle Neun tiene 'Street Food Thursday' (17-22h) con puestos de todo el mundo." }
+                ],
+                hacks: [
+                    "El 9 de julio 2026 cae jueves: Markthalle Neun hace su 'Street Food Thursday' semanal — buena opción gasolera para cenar variado (conviene confirmar que el evento siga vigente).",
+                    "La entrada a la Siegessäule se paga en efectivo, no aceptan tarjeta.",
+                    "No confundas el Memorial del Muro (Bernauer Str.) con la East Side Gallery — son dos cosas distintas y las dos valen la pena; la East Side Gallery está planeada para el día 10, más cerca de tu hostel."
+                ],
+                isDefault: true
+            },
+            {
+                id: "quest-berlin-jul10",
+                title: "Berlín 🛫 — Viernes 10 jul: Tempelhof, East Side & Holzmarkt",
+                totalCost: 35,
+                includedInBudget: false,
+                days: 1,
+                details: { transport: 8, bikeRental: 10, food: 17 },
+                itinerary: [
+                    { day: "09:30", title: "Tempelhofer Feld (aeropuerto viejo)", desc: "Entrada libre. Alquilá una bici en la entrada (~€10) para recorrer las pistas de aterrizaje reconvertidas en parque urbano: kitesurf con ruedas, huertas urbanas y el hangar histórico del puente aéreo de Berlín." },
+                    { day: "12:00", title: "Traslado a Neukölln", desc: "15-20 min caminando o en bus desde Tempelhof." },
+                    { day: "12:30", title: "Türkenmarkt am Maybachufer", desc: "Mercado turco sobre el canal Landwehr, solo martes y viernes — justo el 10 cae viernes. Almorzá gözleme, falafel y fruta baratísima sentado en el pasto del canal." },
+                    { day: "14:00", title: "Neukölln alternativo", desc: "Weserstraße y Sonnenallee: el barrio más under de Berlín, cafés de especialidad, librerías y arte urbano." },
+                    { day: "16:00", title: "Traslado a Friedrichshain", desc: "25-30 min, volviendo cerca de tu hostel." },
+                    { day: "16:30", title: "East Side Gallery", desc: "El tramo más largo que queda del Muro (1.3km), pintado por 100+ artistas en 1990. Imperdible el mural del beso Brézhnev-Honecker." },
+                    { day: "17:30", title: "RAW-Gelände", desc: "Ex depósito ferroviario bombardeado en la guerra, hoy zona alternativa con arte callejero, skatepark y bares. A 5 min caminando de East Side Gallery, junto a Warschauer Straße." },
+                    { day: "19:00", title: "Atardecer en Holzmarkt 25", desc: "El espacio cultural sobre el río Spree del video — terrazas, bares y buena música. Entrada libre, solo pagás lo que consumís." },
+                    { day: "20:30", title: "Cena en el Kiez de Boxhagener Platz", desc: "A 10 min de tu hostel: el barrio auténtico de Friedrichshain con biergartens y Kneipen locales, lejos del circuito turístico de Simon-Dach-Str." }
+                ],
+                hacks: [
+                    "El mercado de Maybachufer es solo martes y viernes — el 10 de julio (viernes) cae perfecto para no perdértelo.",
+                    "RAW-Gelände y East Side Gallery están a 5-10 min caminando entre sí, junto a la estación Warschauer Straße.",
+                    "Holzmarkt 25 queda cruzando el río desde RAW-Gelände, caminando."
+                ],
+                isDefault: true
             }
         ];
 
@@ -1614,7 +1663,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-06-22-1";
+        const DATA_VERSION = "2026-07-08-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
