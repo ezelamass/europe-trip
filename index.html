@@ -3984,7 +3984,7 @@
                                 <h4 class="font-bold text-white text-base sm:text-lg leading-snug truncate">${escapeHTML(stop.city)}</h4>
                             </div>
                         </div>
-                        <button onclick="closeBerlinItinModal()" class="text-slate-400 hover:text-white transition-all text-lg shrink-0">
+                        <button onclick="closeBerlinItinModal()" class="p-2.5 -m-1 rounded-lg text-slate-400 hover:text-white active:bg-slate-800 transition-all text-lg shrink-0" aria-label="Cerrar">
                             <i class="fa-solid fa-times"></i>
                         </button>
                     </div>
@@ -4021,7 +4021,7 @@
             container.innerHTML = berlinItinQuests.map(q => {
                 const active = q.id === berlinItinState.questId;
                 const label = q.dateLabel || q.title;
-                return `<button onclick="berlinItinSetDay('${q.id}')" class="text-xs font-bold px-3 py-1.5 rounded-lg border transition ${active ? 'bg-sky-600 border-sky-500 text-white' : 'bg-slate-950 border-slate-700 text-slate-400 hover:text-slate-200'}">${escapeHTML(label)}</button>`;
+                return `<button onclick="berlinItinSetDay('${q.id}')" class="text-xs font-bold px-3 py-2.5 rounded-lg border transition active:scale-95 ${active ? 'bg-sky-600 border-sky-500 text-white' : 'bg-slate-950 border-slate-700 text-slate-400 hover:text-slate-200'}">${escapeHTML(label)}</button>`;
             }).join('');
         }
 
@@ -4031,7 +4031,7 @@
             const views = [{ id: 'map', icon: 'fa-map', label: 'Mapa' }, { id: 'list', icon: 'fa-list', label: 'Lista' }];
             container.innerHTML = views.map(v => {
                 const active = v.id === berlinItinState.view;
-                return `<button onclick="berlinItinSetView('${v.id}')" class="text-xs font-bold px-3 py-1.5 rounded-lg border transition flex items-center gap-1.5 ${active ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-slate-950 border-slate-700 text-slate-400 hover:text-slate-200'}"><i class="fa-solid ${v.icon}"></i>${v.label}</button>`;
+                return `<button onclick="berlinItinSetView('${v.id}')" class="text-xs font-bold px-3 py-2.5 rounded-lg border transition active:scale-95 flex items-center gap-1.5 ${active ? 'bg-indigo-600 border-indigo-500 text-white' : 'bg-slate-950 border-slate-700 text-slate-400 hover:text-slate-200'}"><i class="fa-solid ${v.icon}"></i>${v.label}</button>`;
             }).join('');
         }
 
