@@ -3215,10 +3215,64 @@
                 timelineContainer.innerHTML = '';
                 let dayAccumulator = 0;
 
+                // Pre-pass: calcula fechas de cada parada contra HOY para detectar tramos ya
+                // finalizados. Como las fechas son acumulativas, los "pasados" siempre son un
+                // prefijo contiguo — no hace falta lógica más compleja que un corte temprano.
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                let preAccumulator = 0;
+                const stopDateRanges = state.routeStops.map(stop => {
+                    const s = new Date(state.countdownDate);
+                    s.setDate(s.getDate() + preAccumulator);
+                    preAccumulator += stop.nights;
+                    const e = new Date(state.countdownDate);
+                    e.setDate(e.getDate() + preAccumulator);
+                    return { start: s, end: e, isPast: e <= today };
+                });
+                let pastCount = 0;
+                while (pastCount < stopDateRanges.length && stopDateRanges[pastCount].isPast) pastCount++;
+
+                if (pastCount > 0) {
+                    const cleanCities = [];
+                    state.routeStops.slice(0, pastCount).forEach(s => {
+                        const cleanName = s.city.split('(')[0].trim();
+                        if (cleanCities[cleanCities.length - 1] !== cleanName) cleanCities.push(cleanName);
+                    });
+                    const fmtShort = (d) => d.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
+                    const rangeText = `${fmtShort(stopDateRanges[0].start)} – ${fmtShort(stopDateRanges[pastCount - 1].end)}`;
+
+                    const summary = document.createElement('div');
+                    summary.className = "relative bg-slate-900/60 border border-dashed border-emerald-900/40 rounded-xl p-4 cursor-pointer hover:border-emerald-700/60 transition-all";
+                    summary.innerHTML = `
+                        <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-emerald-600 shadow-sm"></span>
+                        <div class="flex items-center justify-between gap-3">
+                            <div class="flex items-center gap-2.5 min-w-0">
+                                <i class="fa-solid fa-circle-check text-emerald-400 text-lg shrink-0"></i>
+                                <div class="min-w-0">
+                                    <p class="font-bold text-emerald-300 text-sm">${pastCount} tramo${pastCount > 1 ? 's' : ''} completado${pastCount > 1 ? 's' : ''}</p>
+                                    <p class="text-[11px] text-slate-500 truncate">${rangeText} · ${cleanCities.map(escapeHTML).join(' → ')}</p>
+                                </div>
+                            </div>
+                            <button onclick="toggleCompletedStops()" class="shrink-0 text-[11px] font-bold text-emerald-300 bg-emerald-950/40 border border-emerald-900/40 rounded-lg px-3 py-1.5 hover:bg-emerald-950/70 transition active:scale-95">
+                                ${showCompletedStops ? '<i class="fa-solid fa-chevron-up mr-1"></i>Ocultar' : '<i class="fa-solid fa-chevron-down mr-1"></i>Ver detalle'}
+                            </button>
+                        </div>
+                    `;
+                    summary.addEventListener('click', (e) => {
+                        if (e.target.closest('button')) return;
+                        toggleCompletedStops();
+                    });
+                    timelineContainer.appendChild(summary);
+                }
+
                 state.routeStops.forEach((stop, index) => {
                     const startDay = dayAccumulator;
                     dayAccumulator += stop.nights;
                     const endDay = dayAccumulator;
+
+                    // Tramos ya finalizados quedan colapsados dentro del resumen de arriba,
+                    // salvo que el usuario los despliegue con "Ver detalle".
+                    if (index < pastCount && !showCompletedStops) return;
 
                     let stopStartDate = new Date(state.countdownDate);
                     stopStartDate.setDate(stopStartDate.getDate() + startDay);
@@ -3325,6 +3379,12 @@
                     timelineContainer.appendChild(item);
                 });
             }
+        }
+
+        // Expande/colapsa los tramos ya finalizados (fecha real vs. fecha del tramo)
+        function toggleCompletedStops() {
+            showCompletedStops = !showCompletedStops;
+            renderRouteTab();
         }
 
         // Render Side Quests Content (Tab 3)
@@ -3499,6 +3559,7 @@
         let lastMapSignature = null; // para evitar reconstruir el mapa si la ruta no cambió
         let berlinItinMapInstance = null;
         let berlinItinState = { questId: null, view: 'map' }; // estado del modal de itinerario día a día
+        let showCompletedStops = false; // los tramos ya finalizados (fecha real) arrancan colapsados
 
         // Alternar sub-vistas de itinerario
         function switchRouteView(view) {
