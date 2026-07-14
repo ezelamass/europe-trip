@@ -3560,6 +3560,7 @@
         let berlinItinMapInstance = null;
         let berlinItinState = { questId: null, view: 'map' }; // estado del modal de itinerario día a día
         let showCompletedStops = false; // los tramos ya finalizados (fecha real) arrancan colapsados
+        let berlinItinCityName = ''; // nombre de ciudad del stop actualmente abierto en el modal de itinerario (contexto para el prompt de Gemini)
 
         // Alternar sub-vistas de itinerario
         function switchRouteView(view) {
@@ -4087,6 +4088,76 @@
             `);
         }
 
+        // Escapa un string para insertarlo de forma segura como argumento de un onclick="...('...')":
+        // primero como literal JS (comillas/backslash) y ese resultado otra vez como atributo HTML,
+        // porque el navegador decodifica entidades HTML ANTES de que el motor JS lea el atributo.
+        function jsAttr(str) {
+            const jsEscaped = String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+            return escapeHTML(jsEscaped);
+        }
+
+        // Prompt estructurado y reutilizable para pedirle a Gemini (u otra IA) una guía turística
+        // de un lugar puntual del itinerario: historia, contexto actual, importancia y datos curiosos.
+        function buildPlaceGuidePrompt(title, place, cityName) {
+            return `Actuá como guía turístico experto e historiador. Buscá información en blogs de viajeros, sitios de historia y reseñas para asegurar precisión y variedad de fuentes, y armá una guía turística completa en español (voseo rioplatense, tono cercano y conversacional — nada de tono de folleto turístico ni de artículo de Wikipedia) sobre este lugar:
+
+📍 Lugar: ${title}
+📌 Ubicación: ${place}${cityName ? ` (${cityName})` : ''}
+
+Estructurá la respuesta en estas secciones:
+1. Historia: origen del lugar, fechas y hechos históricos clave, en orden cronológico.
+2. Contexto actual: qué es hoy, cómo se usa, qué te vas a encontrar al llegar.
+3. Importancia: por qué vale la pena visitarlo y qué representa para la ciudad/país.
+4. Datos curiosos: entre 5 y 15 datos curiosos o poco conocidos — ajustá la cantidad según cuánta historia tenga el lugar (si es un monumento con siglos de historia, dame más; si es un barrio o mercado más simple, con 5-6 alcanza). Evitá lo obvio que dice cualquier folleto turístico.
+
+Sé preciso con fechas y hechos: si no estás seguro de un dato, aclaralo en vez de inventarlo.`;
+        }
+
+        // Copia el prompt de guía al portapapeles, con fallback para navegadores/contextos sin
+        // Clipboard API (ej. http no seguro) y feedback visual breve en el botón presionado.
+        function copyPlacePrompt(title, place, cityName, btnEl) {
+            const prompt = buildPlaceGuidePrompt(title, place, cityName);
+            const onOk = () => showCopyFeedback(btnEl, false);
+            const onFail = () => showCopyFeedback(btnEl, true);
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(prompt).then(onOk).catch(() => fallbackCopyToClipboard(prompt, onOk, onFail));
+            } else {
+                fallbackCopyToClipboard(prompt, onOk, onFail);
+            }
+        }
+
+        function fallbackCopyToClipboard(text, onOk, onFail) {
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.focus();
+                ta.select();
+                const ok = document.execCommand('copy');
+                document.body.removeChild(ta);
+                ok ? onOk() : onFail();
+            } catch (e) {
+                onFail();
+            }
+        }
+
+        function showCopyFeedback(btnEl, failed) {
+            if (!btnEl) return;
+            if (btnEl.dataset.feedbackTimeout) clearTimeout(Number(btnEl.dataset.feedbackTimeout));
+            if (!btnEl.dataset.originalHtml) btnEl.dataset.originalHtml = btnEl.innerHTML;
+            btnEl.innerHTML = failed
+                ? '<i class="fa-solid fa-triangle-exclamation"></i>'
+                : '<i class="fa-solid fa-check"></i>';
+            const timeoutId = setTimeout(() => {
+                btnEl.innerHTML = btnEl.dataset.originalHtml;
+                delete btnEl.dataset.originalHtml;
+                delete btnEl.dataset.feedbackTimeout;
+            }, 1400);
+            btnEl.dataset.feedbackTimeout = String(timeoutId);
+        }
+
         // Quests (itinerarios día a día) asociadas al modal de itinerario actualmente abierto
         let berlinItinQuests = [];
 
@@ -4100,6 +4171,7 @@
                 .filter(Boolean);
             if (berlinItinQuests.length === 0) return;
 
+            berlinItinCityName = stop.city.split('(')[0].trim();
             berlinItinState = { questId: berlinItinQuests[0].id, view: 'map' };
 
             const modal = document.createElement('div');
@@ -4208,7 +4280,11 @@
                                 <div class="min-w-0 flex-1 space-y-1">
                                     <p class="font-bold text-slate-200 text-xs">${escapeHTML(item.title)}</p>
                                     <p class="text-[11px] text-slate-400 leading-relaxed">${escapeHTML(item.desc)}</p>
-                                    ${mapsUrl ? `<a href="${mapsUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 mt-1 bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition"><i class="fa-solid fa-map-location-dot"></i> Ver en Maps</a>` : ''}
+                                    ${mapsUrl ? `
+                                    <div class="flex items-center gap-1.5 mt-1">
+                                        <a href="${mapsUrl}" target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg transition"><i class="fa-solid fa-map-location-dot"></i> Ver en Maps</a>
+                                        <button onclick="copyPlacePrompt('${jsAttr(item.title)}', '${jsAttr(item.place)}', '${jsAttr(berlinItinCityName)}', this)" title="Copiar prompt para pedirle a Gemini la guía turística de este lugar" class="inline-flex items-center justify-center bg-indigo-700 hover:bg-indigo-600 active:scale-95 text-white text-[10px] w-[26px] h-[26px] rounded-lg transition"><i class="fa-solid fa-clipboard"></i></button>
+                                    </div>` : ''}
                                 </div>
                             </div>`;
                         }).join('')}
@@ -4225,11 +4301,14 @@
                         ${stopsWithCoords.map((item, i) => {
                             const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(item.place)}`;
                             return `
-                            <a href="${mapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-2 bg-slate-950 border border-slate-800 hover:border-sky-800 rounded-lg px-2.5 py-2 transition">
-                                <span class="shrink-0 w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-extrabold flex items-center justify-center">${i + 1}</span>
-                                <span class="text-[11px] text-slate-300 font-semibold truncate flex-1">${escapeHTML(item.title)}</span>
-                                <i class="fa-solid fa-up-right-from-square text-slate-500 text-[10px] shrink-0"></i>
-                            </a>`;
+                            <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 hover:border-sky-800 rounded-lg pl-2.5 pr-1.5 py-2 transition">
+                                <a href="${mapsUrl}" target="_blank" rel="noopener" class="flex items-center gap-2 min-w-0 flex-1">
+                                    <span class="shrink-0 w-5 h-5 rounded-full bg-sky-600 text-white text-[10px] font-extrabold flex items-center justify-center">${i + 1}</span>
+                                    <span class="text-[11px] text-slate-300 font-semibold truncate flex-1">${escapeHTML(item.title)}</span>
+                                    <i class="fa-solid fa-up-right-from-square text-slate-500 text-[10px] shrink-0"></i>
+                                </a>
+                                <button onclick="copyPlacePrompt('${jsAttr(item.title)}', '${jsAttr(item.place)}', '${jsAttr(berlinItinCityName)}', this)" title="Copiar prompt para pedirle a Gemini la guía turística de este lugar" class="shrink-0 inline-flex items-center justify-center bg-indigo-700 hover:bg-indigo-600 active:scale-95 text-white text-[10px] w-[22px] h-[22px] rounded-md transition"><i class="fa-solid fa-clipboard"></i></button>
+                            </div>`;
                         }).join('')}
                     </div>
                 </div>
@@ -4268,7 +4347,10 @@
                     <div class="text-slate-900 font-sans p-1 space-y-1 min-w-[160px]">
                         <h6 class="font-extrabold text-xs border-b pb-1 text-slate-800">${i + 1}. ${escapeHTML(item.title)}</h6>
                         <p class="text-[11px] text-slate-600">${escapeHTML(item.day)}</p>
-                        <a href="${mapsUrl}" target="_blank" rel="noopener" style="color:#0284c7;font-weight:700;font-size:11px;">Ver en Google Maps →</a>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:2px;">
+                            <a href="${mapsUrl}" target="_blank" rel="noopener" style="color:#0284c7;font-weight:700;font-size:11px;">Ver en Google Maps →</a>
+                            <button onclick="copyPlacePrompt('${jsAttr(item.title)}', '${jsAttr(item.place)}', '${jsAttr(berlinItinCityName)}', this)" title="Copiar prompt para pedirle a Gemini la guía turística de este lugar" style="background:#4338ca;color:#fff;border:none;border-radius:5px;width:22px;height:22px;font-size:10px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;"><i class="fa-solid fa-clipboard"></i></button>
+                        </div>
                     </div>
                 `;
                 L.marker([item.lat, item.lng], { icon }).addTo(berlinItinMapInstance).bindPopup(popupContent);
