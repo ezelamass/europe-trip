@@ -1624,21 +1624,23 @@
             },
             {
                 id: "quest-amsterdam-day3",
-                title: "Ámsterdam ✈️ — Día 3: Flores, Mercado y Partida",
+                title: "Ámsterdam 🚆 — Día 3: Flores, Mercado y Tren a Bruselas",
                 dateLabel: "Día 3 (16 jul)",
-                totalCost: 30,
+                totalCost: 70,
                 includedInBudget: false,
                 days: 1,
-                details: { transport: 5, food: 15, souvenirs: 10 },
+                details: { transport: 45, food: 15, souvenirs: 10 },
                 itinerary: [
                     { day: "09:30", title: "Mercado de Flores (Bloemenmarkt)", desc: "Caminá entre los puestos de flores flotantes sobre el canal. Ideal para fotos y comprar algún recuerdo típico.", place: "Bloemenmarkt, Singel 630g, 1017 AZ Amsterdam", lat: 52.3672, lng: 4.8917 },
                     { day: "11:30", title: "Mercado Albert Cuyp y almuerzo en De Pijp", desc: "Caminá al sur, al barrio de De Pijp. Recorré los cientos de puestos del mercado callejero más grande de Europa. Almorzá al paso: stroopwafels calientes, papas fritas dobles y arenque (herring).", place: "Albert Cuypstraat, 1073 BD Amsterdam", lat: 52.3565, lng: 4.8917 },
-                    { day: "13:45", title: "Descanso en Sarphatipark", desc: "A dos cuadras del mercado, relajate en este parque de estilo inglés antes de ir a buscar las valijas.", place: "Sarphatipark, 1073 CZ Amsterdam", lat: 52.3556, lng: 4.8934 },
-                    { day: "15:30", title: "Rumbo al aeropuerto", desc: "Buscá el equipaje en el hotel y tomá el tren directo en la Estación Central hacia el aeropuerto de Schiphol (15 minutos de trayecto).", place: "Amsterdam Schiphol Airport", lat: 52.3105, lng: 4.7683 }
+                    { day: "13:45", title: "Descanso en Sarphatipark", desc: "A dos cuadras del mercado, relajate en este parque de estilo inglés antes de cruzar los canales rumbo a la estación.", place: "Sarphatipark, 1073 CZ Amsterdam", lat: 52.3556, lng: 4.8934 },
+                    { day: "16:30", title: "Retiro de equipaje y traslado a Amsterdam Centraal", desc: "Andá a buscar las valijas al hotel o al locker. El tren internacional a Bruselas sale directo desde la misma Estación Central de Ámsterdam — mucho más simple que viajar al aeropuerto. Caminá o tomá el tranvía cruzando los canales, sin apuro, para despedirte de la ciudad.", place: "Amsterdam Centraal, Stationsplein, Amsterdam", lat: 52.3791, lng: 4.9003 },
+                    { day: "17:30", title: "Embarque: tren internacional a Bruselas", desc: "Para trenes internacionales conviene estar en el andén 30-45 min antes por los controles de acceso y andenes específicos. Dos opciones: Eurostar (ex-Thalys), ~1h50 directo a Bruxelles-Midi/Brussel-Zuid, con reserva de asiento obligatoria; o Intercity, ~2h45, sin reserva obligatoria y con tickets flexibles. Salida entre las 18:00 y 19:00. Al llegar tenés conexión directa con metro y trenes locales hacia tu alojamiento en Bruselas.", place: "Amsterdam Centraal, Stationsplein, Amsterdam", lat: 52.3791, lng: 4.9003 }
                 ],
                 hacks: [
-                    "El tren a Schiphol sale directo de Amsterdam Centraal cada pocos minutos, no hace falta reservar — 15 min de trayecto.",
-                    "Calculá el horario del check-in del hotel/valijas antes de las 15:30 para no andar cargando todo por el mercado."
+                    "El Eurostar/ex-Thalys es más rápido (1h50) pero requiere reserva de asiento obligatoria — comprala con antelación online. El Intercity es más barato y flexible (billetes sin reserva) pero tarda casi una hora más (2h45).",
+                    "Llegá al andén 30-45 min antes de la salida: los trenes internacionales tienen control de acceso, a diferencia de los trenes regionales.",
+                    "Al bajar en Bruxelles-Midi/Brussel-Zuid hay conexión directa de metro y trenes locales hacia el alojamiento en Bruselas."
                 ],
                 isDefault: true
             }
@@ -1738,7 +1740,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-07-08-5";
+        const DATA_VERSION = "2026-07-14-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
