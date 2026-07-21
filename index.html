@@ -1643,6 +1643,72 @@
                     "Al bajar en Bruxelles-Midi/Brussel-Zuid hay conexión directa de metro y trenes locales hacia el alojamiento en Bruselas."
                 ],
                 isDefault: true
+            },
+            {
+                id: "quest-vienna-day1",
+                title: "Viena 🚂 — Llegada: Naschmarkt y Karlskirche",
+                dateLabel: "Llegada (21 jul)",
+                totalCost: 20,
+                includedInBudget: false,
+                days: 1,
+                details: { transport: 5, food: 15 },
+                itinerary: [
+                    { day: "17:00", title: "Llegada a Wien Hauptbahnhof", desc: "El tren desde Praga llega a la Estación Central (Hauptbahnhof), no a Westbahnhof — confirmá el andén antes de bajar. Es la misma estación desde la que vas a salir hacia Hallstatt el día 23.", place: "Wien Hauptbahnhof, Vienna", lat: 48.1858, lng: 16.3764 },
+                    { day: "17:30", title: "Check-in en el hotel", desc: "MOOONS Vienna está a 10-15 min caminando de la estación, o una parada de metro/tranvía. Dejá las valijas y salí liviano — todo lo de esta tarde queda a pasos del hotel.", place: "MOOONS Vienna, Wiedner Gürtel 16, Vienna", lat: 48.1900, lng: 16.3680 },
+                    { day: "18:30", title: "Cena en el Naschmarkt", desc: "El mercado gastronómico más famoso de Viena, a 5-10 min caminando del hotel. Puestos de comida turca, balcánica y austríaca — ideal para picar variado en vez de sentarse en un solo lugar. Abierto de lunes a sábado.", place: "Naschmarkt, Vienna", lat: 48.1974, lng: 16.3639 },
+                    { day: "20:00", title: "Karlskirche de noche", desc: "La iglesia barroca más importante de Viena, a 5 min del Naschmarkt. De noche, iluminada y con la plaza tranquila, es un cierre lindo y relajado para el primer día sin necesidad de entrar.", place: "Karlskirche, Vienna", lat: 48.1982, lng: 16.3712 }
+                ],
+                hacks: [
+                    "Confirmá que el tren llegue a Hauptbahnhof y no a Westbahnhof — son estaciones distintas, a varios km una de la otra.",
+                    "El Naschmarkt cierra los domingos — el 21 de julio cae martes, así que no hay problema.",
+                    "Primera noche: mejor no forzar mucho más después de un día entero viajando. Con Naschmarkt + Karlskirche alcanza."
+                ],
+                isDefault: true
+            },
+            {
+                id: "quest-vienna-day2",
+                title: "Viena 👑 — Día 2: Schönbrunn y Centro Histórico",
+                dateLabel: "Día 2 (22 jul)",
+                totalCost: 55,
+                includedInBudget: false,
+                days: 1,
+                details: { tickets: 26, transport: 8, food: 21 },
+                itinerary: [
+                    { day: "09:00", title: "⭐ Palacio de Schönbrunn", desc: "La residencia de verano de los Habsburgo — Imperial Tour por los salones (~€26 pp) o simplemente recorrer los jardines, que son gratis y espectaculares (subí hasta la Gloriette para la vista panorámica). Arrancá temprano para evitar las colas.", place: "Schönbrunn Palace, Vienna", lat: 48.1858, lng: 16.3122 },
+                    { day: "12:30", title: "Almuerzo cerca del centro", desc: "Volviendo de Schönbrunn hacia el casco histórico, paren a almorzar algo tranquilo antes de seguir caminando." },
+                    { day: "13:30", title: "Catedral de San Esteban (Stephansdom)", desc: "El corazón simbólico de Viena, con su techo de tejas multicolor. Entrada a la nave principal gratis; subir a la torre tiene costo aparte si quieren la vista.", place: "Stephansdom, Vienna", lat: 48.2084, lng: 16.3731 },
+                    { day: "14:30", title: "Hofburg y Michaelerplatz", desc: "El palacio imperial de invierno de los Habsburgo. Se puede ver el imponente exterior y la Michaelerplatz sin pagar entrada — ahí también está la Escuela Española de Equitación, famosa por los caballos lipizzanos.", place: "Hofburg, Vienna", lat: 48.2082, lng: 16.3661 },
+                    { day: "15:30", title: "Graben y Kärntner Straße", desc: "Las calles peatonales más elegantes del centro, con la columna de la peste (Pestsäule) en el medio del Graben. Buen tramo para caminar sin apuro y curiosear vidrieras.", place: "Graben, Vienna", lat: 48.2088, lng: 16.3707 },
+                    { day: "16:30", title: "Café clásico vienés", desc: "Parada obligada: un café tradicional (Café Central o Demel) con Sachertorte. La cultura del café vienés es Patrimonio Inmaterial de la UNESCO — no es solo tomar un café, es sentarse a no hacer nada por un rato largo.", place: "Café Central, Vienna", lat: 48.2103, lng: 16.3654 },
+                    { day: "18:00", title: "Ringstraße al atardecer", desc: "El gran bulevar que rodea el centro histórico: Rathaus (ayuntamiento neogótico), el Parlamento y la Ópera Estatal quedan todos sobre esta misma avenida, a pocos minutos caminando entre sí.", place: "Rathaus, Vienna", lat: 48.2107, lng: 16.3572 },
+                    { day: "20:00", title: "Cena en el centro", desc: "Cerrá el día con algo típico austríaco — un Wiener Schnitzel en alguna Beisl (taberna tradicional) del casco histórico." }
+                ],
+                hacks: [
+                    "Los jardines de Schönbrunn son gratis — si el presupuesto aprieta, se puede disfrutar el palacio solo por fuera y desde la Gloriette sin pagar el tour de los salones.",
+                    "Comprá la entrada a Schönbrunn online con anticipación para saltear la cola de la boletería.",
+                    "Café Central suele tener fila larga al mediodía — yendo a media tarde (como en este plan) se hace más corto."
+                ],
+                isDefault: true
+            },
+            {
+                id: "quest-vienna-day3",
+                title: "Viena 🎨 — Salida: Belvedere y tren a Hallstatt",
+                dateLabel: "Salida (23 jul)",
+                totalCost: 25,
+                includedInBudget: false,
+                days: 1,
+                details: { tickets: 21, transport: 4 },
+                itinerary: [
+                    { day: "09:30", title: "Palacio Belvedere", desc: "A minutos caminando del hotel y de Hauptbahnhof — de paso hacia la estación. El Belvedere Superior tiene 'El Beso' de Klimt (entrada ~€21 pp); si prefieren ahorrar, los jardines barrocos son gratis y ya justifican la parada.", place: "Belvedere Palace, Vienna", lat: 48.1916, lng: 16.3809 },
+                    { day: "11:30", title: "Retiro de equipaje en el hotel", desc: "Vuelta rápida a MOOONS Vienna a buscar las valijas antes de ir a la estación.", place: "MOOONS Vienna, Wiedner Gürtel 16, Vienna", lat: 48.1900, lng: 16.3680 },
+                    { day: "12:30", title: "Tren a Hallstatt", desc: "Salida desde Wien Hauptbahnhof. El viaje a Hallstatt no es directo: se toma un tren hasta Attnang-Puchheim con combinación a Hallstatt, y desde la estación de Hallstatt un ferry corto cruza el lago hasta el pueblo. Calculá varias horas de viaje en total.", place: "Wien Hauptbahnhof, Vienna", lat: 48.1858, lng: 16.3764 }
+                ],
+                hacks: [
+                    "El Belvedere queda literalmente de paso entre el hotel y la estación — no hace falta desviarse.",
+                    "Revisá los horarios de combinación a Hallstatt con anticipación (vía Attnang-Puchheim): si el tren de conexión sale justo, no da margen para llegar tarde a la estación.",
+                    "El último tramo a Hallstatt es en ferry — asegurate de bajar en la estación correcta (Hallstatt, del lado del lago opuesto al pueblo) y no en Obertraun."
+                ],
+                isDefault: true
             }
         ];
 
@@ -1740,7 +1806,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-07-14-1";
+        const DATA_VERSION = "2026-07-21-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -1916,7 +1982,8 @@
                 isMomTrip: true,
                 hotelName: "MOOONS Vienna",
                 address: "Wiedner Gürtel 16, Vienna",
-                accommodationCost: 239.57
+                accommodationCost: 239.57,
+                itineraryQuestIds: ["quest-vienna-day1", "quest-vienna-day2", "quest-vienna-day3"]
             },
             {
                 id: "stop-hallstatt-mom",
