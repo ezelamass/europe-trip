@@ -1806,7 +1806,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-07-21-1";
+        const DATA_VERSION = "2026-08-25-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2023,34 +2023,67 @@
                 lodgingCostNote: "€32.29 + €18.63 + €22.69 + €20.45 = €94.06 total (4 noches, 1 huésped, no reembolsable)"
             },
             {
-                id: "stop-alpes-dani",
-                city: "Múnich y Alpes (Alemania) 🇩🇪",
+                id: "stop-norte-espana",
+                city: "Pueblos del Norte de España 🇪🇸",
                 nights: 5,
                 transport: "Auto de alquiler",
-                cost: 80,
-                dailyBudget: 24,
-                category: "Aventura y Naturaleza",
+                cost: 0,
+                dailyBudget: 30,
+                category: "Hub / Familiar",
                 costLvl: "Medio",
-                core: "Deporte",
-                hack: "Viaje con Dani 🏔️. Baviera y Tirol.",
+                core: "Paisaje",
+                hack: "Con Mamá y Laura 👩. Reemplazó el plan original de Alpes con Dani. 29 jul – 3 ago.",
                 isConfirmed: true,
                 isFixed: true,
-                isDaniTrip: true,
-                hotelName: "Alpes Alemanes & Múnich",
-                address: "Múnich, Garmisch, Tirol",
-                accommodationCost: 150.00
+                isMomTrip: true
             },
             {
-                id: "stop-3",
-                city: "Roma / Florencia (Italia)",
-                nights: 14,
-                transport: "Interrail + Reserva",
-                cost: 15,
-                dailyBudget: 48,
+                id: "stop-madrid-2",
+                city: "Madrid (España)",
+                nights: 18,
+                transport: "Auto de alquiler / Tren",
+                cost: 0,
+                dailyBudget: 20,
+                category: "Hub / Familiar",
+                costLvl: "Bajo",
+                core: "Negocios/Tech",
+                hack: "Con Mamá y Laura 👩, y luego solo. 3 – 21 ago. Alojamiento gratis en familia.",
+                isConfirmed: true,
+                isFixed: true,
+                isMomTrip: true
+            },
+            {
+                id: "stop-roma",
+                city: "Roma (Italia) 🇮🇹",
+                nights: 4,
+                transport: "Vuelo / Tren",
+                cost: 0,
+                dailyBudget: 30,
                 category: "Premium & Networking",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Coliseo y Foro Romano a solo €2 por ser Joven UE. ~2 semanas en Italia; el resto de los días queda libre para sumar destinos."
+                hack: "Solo. Coliseo y Foro Romano a solo €2 por ser Joven UE. Alojamiento: Free Hostels Rome.",
+                isConfirmed: true,
+                isFixed: true,
+                hotelName: "Free Hostels Rome",
+                address: "Roma, Italia"
+            },
+            {
+                id: "stop-bari",
+                city: "Bari / Puglia (Italia) 🇮🇹",
+                nights: 5,
+                transport: "Tren",
+                cost: 0,
+                dailyBudget: 30,
+                category: "Aventura y Naturaleza",
+                costLvl: "Medio",
+                core: "Paisaje",
+                hack: "Solo. Reserva confirmada. Gatto Bianco le Dimore. Check-in: Mié 26 ago 15:00–23:00. Check-out: Dom 30 ago hasta las 10:30.",
+                isConfirmed: true,
+                isFixed: true,
+                hotelName: "Gatto Bianco le Dimore",
+                address: "Bari, Puglia, Italia",
+                accommodationCost: 350.00
             }
         ];
 
@@ -3599,6 +3632,9 @@
             "Budapest (Hungría)": [47.497912, 19.040235],
             "Ámsterdam (Países Bajos)": [52.367573, 4.904138],
             "Roma / Florencia (Italia)": [41.902783, 12.496366],
+            "Roma (Italia) 🇮🇹": [41.902783, 12.496366],
+            "Bari / Puglia (Italia) 🇮🇹": [41.117143, 16.871871],
+            "Pueblos del Norte de España 🇪🇸": [43.262985, -2.925176],
             "París (Francia)": [48.856614, 2.352222],
             "Ibiza (España) 🏝️": [38.908857, 1.432378],
             "Viena (Austria) 🇦🇹": [48.208174, 16.373819],
