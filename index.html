@@ -2038,7 +2038,6 @@
                 costLvl: "Medio",
                 core: "Paisaje",
                 hack: "Con Mamá y Laura 👩. Reemplazó el plan original de Alpes con Dani. 29 jul – 3 ago.",
-                isConfirmed: true,
                 isFixed: true,
                 isMomTrip: true
             },
@@ -2053,7 +2052,6 @@
                 costLvl: "Bajo",
                 core: "Negocios/Tech",
                 hack: "Con Mamá y Laura 👩, y luego solo. 3 – 21 ago. Alojamiento gratis en familia.",
-                isConfirmed: true,
                 isFixed: true,
                 isMomTrip: true
             },
@@ -2150,6 +2148,16 @@
                         }
                         if (Array.isArray(loadedState.luggageItems) && loadedState.luggageItems.length) state.luggageItems = loadedState.luggageItems;
                         if (Array.isArray(loadedState.customCatalogCities)) state.catalogCities = [...BASE_CATALOG_CITIES, ...loadedState.customCatalogCities];
+                    } else if (Array.isArray(loadedState.routeStops)) {
+                        // Excepcion a la regla de arriba: los albumes de fotos los carga el usuario
+                        // desde la UI y no existen en los datos hardcodeados, asi que subir
+                        // DATA_VERSION no puede borrarlos. Se rescatan por id; si el HTML ya trae
+                        // un link para esa parada, manda el hardcodeado (fuente de verdad).
+                        loadedState.routeStops.forEach(savedStop => {
+                            if (!savedStop || !savedStop.photosAlbumUrl) return;
+                            const stop = state.routeStops.find(s => s.id === savedStop.id);
+                            if (stop && !stop.photosAlbumUrl) stop.photosAlbumUrl = savedStop.photosAlbumUrl;
+                        });
                     }
 
                     // Las preferencias de UI se restauran siempre (no son "contenido").
@@ -2257,7 +2265,8 @@
                 backpackExpanded: state.backpackExpanded,
                 backpackUsbConnected: state.backpackUsbConnected,
                 mamaPaysMomTrip: state.mamaPaysMomTrip,
-                routeFullScreen: state.routeFullScreen
+                routeFullScreen: state.routeFullScreen,
+                esimPhoneNumber: state.esimPhoneNumber
             }));
         }
 
@@ -4743,7 +4752,7 @@ Sé preciso con fechas y hechos: si no estás seguro de un dato, aclaralo en vez
 
         function saveEsimPhone(val) {
             state.esimPhoneNumber = val;
-            saveState();
+            saveToStorage();
         }
 
         function copyRoute() {
