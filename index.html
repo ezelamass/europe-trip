@@ -1806,7 +1806,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-25-1";
+        const DATA_VERSION = "2026-08-25-2";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -1926,7 +1926,8 @@
                 accommodationCost: 504.93,
                 confirmationNumber: "X2R8XY",
                 flightDetails: "KLM | BER 17:30 → AMS 18:45 | Ticket: 07421397986 32 | USD 218.33",
-                itineraryQuestIds: ["quest-amsterdam-day1", "quest-amsterdam-day2", "quest-amsterdam-day3"]
+                itineraryQuestIds: ["quest-amsterdam-day1", "quest-amsterdam-day2", "quest-amsterdam-day3"],
+                photosAlbumUrl: "https://photos.app.goo.gl/uZcQjoLVQM7iAYjw8"
             },
             {
                 id: "stop-brussels-mom",
@@ -1944,7 +1945,8 @@
                 isMomTrip: true,
                 hotelName: "Numa Brussels Royal Galleries",
                 address: "Bruselas, Bélgica",
-                accommodationCost: 536.28
+                accommodationCost: 536.28,
+                photosAlbumUrl: "https://photos.app.goo.gl/9Pix6ofhSL2vNmcp7"
             },
             {
                 id: "stop-prague-mom",
@@ -1964,7 +1966,8 @@
                 address: "Vejvodova 4, Prague 1",
                 accommodationCost: 196.00,
                 confirmationNumber: "XLRM8T",
-                flightDetails: "Brussels Airlines LH5673 BRU 14:25→FRA 15:35 + LH1400 FRA 16:50→PRG 17:50 | 18 jul 2026 | Pax: Paula + Ezequiel"
+                flightDetails: "Brussels Airlines LH5673 BRU 14:25→FRA 15:35 + LH1400 FRA 16:50→PRG 17:50 | 18 jul 2026 | Pax: Paula + Ezequiel",
+                photosAlbumUrl: "https://photos.app.goo.gl/8jQg7rPV661ihE8h8"
             },
             {
                 id: "stop-vienna-mom",
@@ -1983,7 +1986,8 @@
                 hotelName: "MOOONS Vienna",
                 address: "Wiedner Gürtel 16, Vienna",
                 accommodationCost: 239.57,
-                itineraryQuestIds: ["quest-vienna-day1", "quest-vienna-day2", "quest-vienna-day3"]
+                itineraryQuestIds: ["quest-vienna-day1", "quest-vienna-day2", "quest-vienna-day3"],
+                photosAlbumUrl: "https://photos.app.goo.gl/4Ve4bgwM8KCPMXow6"
             },
             {
                 id: "stop-hallstatt-mom",
@@ -2001,7 +2005,8 @@
                 isMomTrip: true,
                 hotelName: "B&B Hallstatt Lake Obertraun",
                 address: "Seestrasse 177, Obertraun",
-                accommodationCost: 419.10
+                accommodationCost: 419.10,
+                photosAlbumUrl: "https://photos.app.goo.gl/gDiqRaWaFEh22Pj77"
             },
             {
                 id: "stop-transit-2",
@@ -3418,7 +3423,10 @@
                     const itineraryPill = (stop.itineraryQuestIds && stop.itineraryQuestIds.length > 0)
                         ? `<button onclick="showDayItineraryModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-sky-300 bg-sky-950/30 hover:bg-sky-950/60 border border-sky-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver itinerario día a día con mapa"><i class="fa-solid fa-map-location-dot"></i>Itinerario</button>`
                         : '';
-                    const detailButtons = `<div class="flex flex-wrap items-center gap-2 pt-1">${lodgingPill}${ticketPill}${ibizaPill}${itineraryPill}</div>`;
+                    const photosPill = stop.photosAlbumUrl
+                        ? `<button onclick="showStopPhotosModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-pink-300 bg-pink-950/30 hover:bg-pink-950/60 border border-pink-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Ver álbum de fotos"><i class="fa-solid fa-images"></i>Fotos</button>`
+                        : `<button onclick="showStopPhotosModal('${stop.id}')" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-slate-400 bg-slate-950/40 hover:bg-pink-950/30 hover:text-pink-300 border border-slate-800 hover:border-pink-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95" title="Agregar link del álbum de fotos"><i class="fa-solid fa-plus"></i><i class="fa-solid fa-images"></i>Fotos</button>`;
+                    const detailButtons = `<div class="flex flex-wrap items-center gap-2 pt-1">${lodgingPill}${ticketPill}${ibizaPill}${itineraryPill}${photosPill}</div>`;
 
                     item.innerHTML = `
                         <span class="absolute -left-[30px] sm:-left-[31px] top-6 w-4 h-4 rounded-full border-4 border-slate-900 bg-indigo-500 shadow-sm"></span>
@@ -4056,6 +4064,73 @@
                     </div>
                 </div>
             `);
+        }
+
+        // Modal de ÁLBUM DE FOTOS (Google Photos) de una parada — ver, agregar o editar el link
+        function showStopPhotosModal(stopId) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+
+            buildStopModal(`
+                <div class="bg-slate-900 border border-slate-700 max-w-md w-full rounded-2xl p-5 sm:p-6 shadow-2xl relative space-y-4">
+                    <button onclick="this.closest('.fixed').remove()" class="absolute right-4 top-4 text-slate-400 hover:text-white transition-all text-lg">
+                        <i class="fa-solid fa-times"></i>
+                    </button>
+                    <div class="flex items-start gap-3">
+                        <div class="p-2.5 bg-pink-950/50 border border-pink-900/30 text-pink-400 rounded-xl">
+                            <i class="fa-solid fa-images text-lg"></i>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Álbum de Fotos</span>
+                            <h4 class="font-bold text-white text-base sm:text-lg leading-snug">${escapeHTML(stop.city)}</h4>
+                        </div>
+                    </div>
+                    <div class="space-y-3 text-xs">
+                        ${stop.photosAlbumUrl ? `
+                        <a href="${escapeHTML(stop.photosAlbumUrl)}" target="_blank" rel="noopener" class="flex items-center justify-center gap-2 bg-pink-700 hover:bg-pink-600 active:scale-95 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition">
+                            <i class="fa-solid fa-up-right-from-square"></i> Abrir álbum en Google Photos
+                        </a>` : `
+                        <p class="text-slate-400 text-[11px] leading-relaxed"><i class="fa-solid fa-circle-info text-slate-500 mr-1"></i>Todavía no cargaste el link del álbum de Google Photos de este tramo.</p>`}
+                        <div class="space-y-1.5">
+                            <label class="text-[11px] text-slate-500 uppercase font-semibold block">${stop.photosAlbumUrl ? 'Editar link' : 'Pegar link del álbum'}</label>
+                            <div class="flex gap-2">
+                                <input id="photos-url-input-${stop.id}" type="url" value="${stop.photosAlbumUrl ? escapeHTML(stop.photosAlbumUrl) : ''}" placeholder="https://photos.app.goo.gl/..." class="flex-1 bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-pink-600 transition">
+                                <button onclick="saveStopPhotosAlbum('${stop.id}', this)" class="shrink-0 bg-emerald-700 hover:bg-emerald-600 active:scale-95 text-white font-bold text-xs px-3 py-2 rounded-lg transition" title="Guardar link"><i class="fa-solid fa-check"></i></button>
+                            </div>
+                            ${stop.photosAlbumUrl ? `<button onclick="removeStopPhotosAlbum('${stop.id}', this)" class="text-[11px] text-rose-400 hover:text-rose-300 font-semibold transition"><i class="fa-solid fa-trash mr-1"></i>Quitar link</button>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `);
+        }
+
+        // Guarda (o edita) el link del álbum de fotos de una parada
+        function saveStopPhotosAlbum(stopId, btnEl) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+            const input = document.getElementById(`photos-url-input-${stopId}`);
+            if (!input) return;
+            const url = input.value.trim();
+            if (url && !/^https?:\/\//i.test(url)) {
+                showNotification('El link tiene que empezar con http:// o https://', 'warning');
+                return;
+            }
+            stop.photosAlbumUrl = url || null;
+            saveToStorage();
+            renderAll();
+            if (btnEl) btnEl.closest('.fixed').remove();
+            showNotification(url ? `¡Álbum de "${stop.city.split('(')[0].trim()}" guardado!` : 'Link quitado');
+        }
+
+        // Quita el link del álbum de fotos de una parada
+        function removeStopPhotosAlbum(stopId, btnEl) {
+            const stop = state.routeStops.find(s => s.id === stopId);
+            if (!stop) return;
+            stop.photosAlbumUrl = null;
+            saveToStorage();
+            renderAll();
+            if (btnEl) btnEl.closest('.fixed').remove();
+            showNotification('Link quitado');
         }
 
         // Modal con guía completa de Ibiza (fiestas, playas, entradas, discobus)
