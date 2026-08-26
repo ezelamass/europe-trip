@@ -1819,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-26-5";
+        const DATA_VERSION = "2026-08-27-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2109,40 +2109,57 @@
                 flightDetails: "Itabus bus 1181 | Roma (Tiburtina Terminal Bus, Largo Guido Mazzoni) 25 ago 23:25 → Bari (FS Park, Via Capruzzi) 26 ago 05:20 | Asiento 62 · Wow! Comfort | €17,99 | Incluye 1 bolso de mano (42x30x18) + 1 valija de bodega (80x50x30, máx 20 kg)"
             },
             {
+                id: "stop-sorrento-final",
+                city: "Sorrento (Italia)",
+                nights: 2,
+                transport: "Bari → Nápoles (bus) → Sorrento (Circumvesuviana, ~1h)",
+                cost: 0,
+                dailyBudget: 40,
+                category: "Aventura y Naturaleza",
+                costLvl: "Medio",
+                core: "Paisaje",
+                hack: "Solo. 30 ago: llega y recorre Sorrento. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche). Sin reservar todavía — pendiente."
+            },
+            {
                 id: "stop-napoles-final",
                 city: "Nápoles / Costa Amalfitana (Italia)",
-                nights: 4,
-                transport: "Tren Bari → Nápoles (Frecciarossa/Italo, ~3h30) + mismo día ferry Nápoles→Amalfi",
+                nights: 2,
+                transport: "Sorrento → Nápoles (Circumvesuviana, ~1h)",
                 cost: 0,
                 dailyBudget: 42,
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Amalfi/Capri en vez de sumar más Italia). Capri sale ~$200/noche de alojamiento — descartado dormir ahí, se hace como day-trip. Orden: 30 ago: tren Bari→Nápoles (~3h30, salir con el 1er/2do tren tras check-out 10:30) + mismo día ferry Nápoles→Amalfi (última sale 17:40, ~1h50, duerme en Amalfi). 31 ago: día completo en Amalfi (duerme ahí de nuevo — 2 noches en Amalfi en vez de 1). 1 sep: ferry Amalfi→Capri 08:25 (llega ~9-9:25), día completo en Capri (equipaje en depósito de Marina Grande ~€3), ferry de vuelta Capri→Nápoles a la noche (salidas hasta 19:10-21:00+, duerme en Nápoles). 2 sep: Nápoles centro completo. 3 sep: traslado local a aeropuerto (Alibus/taxi, ~20-30min, sin apuro) → vuelo 16:15. Sin dependencia de bus de larga distancia el día del vuelo. Reservar con antelación Nápoles→Amalfi (baja frecuencia); Amalfi↔Capri y Capri→Nápoles se sacan más cerca de la fecha. Sin reservar todavía — pendiente."
+                hack: "Solo. 1 sep: centro histórico (Spaccanapoli, Via Toledo, Cappella Sansevero — reservar Cristo Velato online), pizza a la noche. 2 sep: Pompeya (tren ~30-40min) a la mañana, Castel Sant'Elmo al atardecer, cena temprana — último día completo antes de un despertar muy temprano, no forzar de más. 3 sep, 05:00-05:15: taxi/Uber PRE-RESERVADO al aeropuerto (ningún bus sirve a esa hora — el primer Alibus sale 06:30, tarde para el vuelo de las 07:25). Sin reservar alojamiento todavía — pendiente."
             },
             {
                 id: "stop-londres-final",
                 city: "Londres (Reino Unido) 🇬🇧",
                 nights: 4,
-                transport: "Vuelo Nápoles (NAP) → Londres, directo ~3h (easyJet NAP-LGW 16:15→18:20, €166, 3 sep)",
-                cost: 0,
+                transport: "Vuelo Nápoles (NAP) → Londres (STN), self-transfer vía Eindhoven — COMPRADO",
+                cost: 70.98,
                 dailyBudget: 75,
                 category: "Premium & Networking",
                 costLvl: "Alto",
                 core: "Paisaje",
-                hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). 3 sep (vuelo + llegada noche) + 4, 5, 6 sep completos + 7 sep medio día. Vuelo LON→MAD el 7 sep a la tarde (Ryanair STN-MAD 17:20→20:50, €59) — deja el 8 entero como colchón antes del vuelo internacional. Sin reservar todavía — pendiente."
+                isConfirmed: true,
+                confirmationNumber: "40-1082799443 / PIN 3315 (Booking.com)",
+                flightDetails: "Ryanair FR6832 NAP→EIN 07:25→09:50 (€17.99) + self-transfer en Eindhoven (2h25, recoger y re-facturar equipaje) + Ryanair FR2533 EIN→STN 12:15→12:20 (€52.99) | 3 sep 2026 | Total $89.34",
+                hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). Vuelo de ida madrugador (sale 07:25 de Nápoles) — implica salir del alojamiento en Nápoles ~05:00-05:15 en taxi pre-reservado. 3 sep (llegada mediodía) + 4, 5, 6, 7 sep completos. UK ETA aprobada (ref 2020-0000-6070-3591, válida hasta 26 ago 2028, costó €24,30)."
             },
             {
                 id: "stop-madrid-cierre",
                 city: "Madrid (España)",
                 nights: 1,
-                transport: "Vuelo Londres → Madrid, directo ~2h30 (Ryanair STN-MAD 17:20→20:50, €59, 7 sep)",
+                transport: "Vuelo Londres (STN) → Madrid — COMPRADO, Ryanair FR499",
                 cost: 0,
                 dailyBudget: 15,
                 category: "Hub / Familiar",
                 costLvl: "Bajo",
                 core: "Negocios/Tech",
-                hack: "Cierre del viaje. Llega la noche del 7 sep (~20:50). El 8 entero queda libre en Madrid con familia, sin nada logístico pendiente — colchón contra demoras/cancelaciones antes del vuelo internacional de las 20:00 del 8 sep (cambiado desde el 22 sep original).",
+                isConfirmed: true,
+                flightDetails: "Ryanair FR499 STN→MAD 20:45→00:15 (+1, llega 8 sep) | 7 sep 2026 | Precio no visible en la confirmación",
+                hack: "Cierre del viaje. Día completo en Londres el 7 sep, vuelo recién a las 20:45 — llega Madrid pasada la medianoche (ya 8 sep). El 8 queda con ~20h de colchón en Madrid con familia antes del vuelo internacional de las 20:00 (cambiado desde el 22 sep original).",
                 isFixed: true
             }
         ];
@@ -3718,6 +3735,7 @@
             "Múnich (Alemania) 🇩🇪": [48.135125, 11.581981],
             "Bruselas (Bélgica)": [50.850340, 4.351710],
             "Nápoles / Costa Amalfitana (Italia)": [40.851800, 14.268100],
+            "Sorrento (Italia)": [40.626700, 14.375500],
             "Londres (Reino Unido) 🇬🇧": [51.507351, -0.127758],
             "Cinque Terre (Italia)": [44.127900, 9.709500],
             "Venecia (Italia)": [45.440800, 12.315500],
