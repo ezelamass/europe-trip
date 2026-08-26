@@ -98,7 +98,7 @@
                 <div class="flex justify-between items-start mb-4">
                     <div>
                         <h2 class="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-blue-300 mb-1">Duración del Viaje</h2>
-                        <div class="text-3xl sm:text-4xl font-extrabold text-slate-100">90 Días</div>
+                        <div class="text-3xl sm:text-4xl font-extrabold text-slate-100">76 Días</div>
                     </div>
                     <span class="bg-white/10 text-slate-200 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium backdrop-blur-sm border border-white/10">
                         <i class="fa-solid fa-calendar-days mr-1"></i> Verano 2026
@@ -112,7 +112,7 @@
                     </div>
                     <div class="flex items-center justify-between">
                         <span class="text-slate-300"><i class="fa-solid fa-calendar-minus mr-2 w-4"></i>Fin:</span>
-                        <span class="font-semibold text-slate-100">22 de Septiembre, 2026</span>
+                        <span class="font-semibold text-slate-100">8 de Septiembre, 2026</span>
                     </div>
                     <div class="border-t border-slate-800 my-2"></div>
                     <div class="flex items-center justify-between text-[11px] sm:text-xs">
@@ -1339,6 +1339,19 @@
                 activities: ["Pizza napolitana", "Ruinas de Pompeya", "Ferry a Capri", "Costa Amalfitana"]
             },
             {
+                id: "city-londres",
+                name: "Londres (Reino Unido) 🇬🇧",
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                minDays: 3,
+                maxDays: 5,
+                dynamic: "Solo",
+                hack: "British Museum, Tate Modern y National Gallery son gratis. Oyster card / contactless para transporte.",
+                budget: 75,
+                core: "Paisaje",
+                activities: ["British Museum €0", "Camden Market", "Torre de Londres", "West End / Soho"]
+            },
+            {
                 id: "city-cinqueterre",
                 name: "Cinque Terre (Italia)",
                 category: "Aventura y Naturaleza",
@@ -1806,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-25-4";
+        const DATA_VERSION = "2026-08-26-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2094,6 +2107,43 @@
                 accommodationCost: 350.00,
                 confirmationNumber: "OX3D7N",
                 flightDetails: "Itabus bus 1181 | Roma (Tiburtina Terminal Bus, Largo Guido Mazzoni) 25 ago 23:25 → Bari (FS Park, Via Capruzzi) 26 ago 05:20 | Asiento 62 · Wow! Comfort | €17,99 | Incluye 1 bolso de mano (42x30x18) + 1 valija de bodega (80x50x30, máx 20 kg)"
+            },
+            {
+                id: "stop-napoles-final",
+                city: "Nápoles / Costa Amalfitana (Italia)",
+                nights: 3,
+                transport: "Tren Bari → Nápoles (Trenitalia/Italo, ~4h vía Caserta)",
+                cost: 0,
+                dailyBudget: 42,
+                category: "Aventura y Naturaleza",
+                costLvl: "Medio",
+                core: "Paisaje",
+                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Sorrento/Amalfi/Capri en vez de sumar más Italia). 30 ago (llegada, medio día) + 2 días completos (31 ago–1 sep): 1 día Costa Amalfitana (Positano/Amalfi) o Capri, 1 día Nápoles centro + pizza. Sin reservar todavía — pendiente."
+            },
+            {
+                id: "stop-londres-final",
+                city: "Londres (Reino Unido) 🇬🇧",
+                nights: 4,
+                transport: "Vuelo Nápoles (NAP) → Londres (~2h45, easyJet/BA/Ryanair)",
+                cost: 0,
+                dailyBudget: 75,
+                category: "Premium & Networking",
+                costLvl: "Alto",
+                core: "Paisaje",
+                hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). 2 sep (vuelo + llegada tarde) + 3, 4, 5 sep completos. Vuelo LON→MAD el 6 sep (NO el 7, para no jugarse el margen contra el vuelo internacional del 8). Sin reservar todavía — pendiente."
+            },
+            {
+                id: "stop-madrid-cierre",
+                city: "Madrid (España)",
+                nights: 2,
+                transport: "Vuelo Londres → Madrid (~2h30, varias frecuencias diarias)",
+                cost: 0,
+                dailyBudget: 15,
+                category: "Hub / Familiar",
+                costLvl: "Bajo",
+                core: "Negocios/Tech",
+                hack: "Cierre del viaje. Llega la noche del 6 sep o a más tardar la mañana del 7 (colchón contra demoras/cancelaciones antes del vuelo internacional). El 7 entero queda libre en Madrid con familia, sin nada logístico pendiente. 8 sep 20:00: vuelo de regreso (cambiado desde el 22 sep original).",
+                isFixed: true
             }
         ];
 
@@ -3668,6 +3718,7 @@
             "Múnich (Alemania) 🇩🇪": [48.135125, 11.581981],
             "Bruselas (Bélgica)": [50.850340, 4.351710],
             "Nápoles / Costa Amalfitana (Italia)": [40.851800, 14.268100],
+            "Londres (Reino Unido) 🇬🇧": [51.507351, -0.127758],
             "Cinque Terre (Italia)": [44.127900, 9.709500],
             "Venecia (Italia)": [45.440800, 12.315500],
             "Niza / Costa Azul (Francia)": [43.710200, 7.262000],
