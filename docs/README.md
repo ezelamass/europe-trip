@@ -52,21 +52,25 @@ Ya hubo un parche puntual para esto (los links de fotos se rescatan al subir la
 versión), pero es una excepción, no un modelo. Hay que reemplazarlo por
 migraciones reales con propiedad de campos explícita.
 
-### 2. La data vive sólo en un `localStorage`, en un repo público
+### 2. La data vive sólo en un `localStorage`, sin backup
 
-Dos problemas distintos, uno arriba del otro:
-
-- **Durabilidad:** todo está en la clave `eurotrip_state_lego` de un solo
-  navegador. Borrar datos del sitio, cambiar de teléfono o usar otro navegador
-  = se pierde todo. Para un diario de años, eso no alcanza.
-- **Privacidad:** el repo `ezelamass/europe-trip` es **público**, y ya contiene 10
-  links de álbumes de Google Photos. A medida que se acumulen viajes, fotos y
-  fechas, esto es cada vez más información personal publicada.
+Todo está en la clave `eurotrip_state_lego` de un solo navegador. Borrar datos del
+sitio, cambiar de teléfono o usar otro navegador = **se pierde todo**. No hay export,
+ni backup, ni sincronización. Para un diario que pretende durar años, eso no alcanza.
 
 La recomendación (detallada en [02-modelo-de-datos.md](02-modelo-de-datos.md)) es
-mover la data a `data/viajes.json` versionado en git **y pasar el repo a privado**.
-Eso resuelve durabilidad y privacidad de una, y encaja con cómo ya se trabaja:
-los datos se cargan pidiéndoselos a Claude, que los commitea.
+mover la data a `data/viajes.json` versionado en git, para que **git sea el backup**:
+historial completo y posibilidad de revertir. Encaja con cómo ya se trabaja — los
+datos se cargan pidiéndoselos a Claude, que los commitea.
+
+Antes que eso, lo más barato y urgente es un **botón de exportar/importar JSON**
+(Fase 0): hoy no existe ninguna red de seguridad.
+
+> **Sobre la visibilidad del repo:** `ezelamass/europe-trip` es público **por decisión
+> explícita del usuario**. El contenido del viaje ya es públicamente legible porque
+> está hardcodeado en `index.html`, así que mover los datos a un JSON del mismo repo
+> no cambia la exposición. Qué queda visible y cómo acotarlo sin pasar a privado:
+> ver [02-modelo-de-datos.md](02-modelo-de-datos.md#nota-sobre-el-repo-público).
 
 ## Principios que el plan respeta
 

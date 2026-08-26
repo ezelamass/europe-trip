@@ -275,21 +275,27 @@ dos problemas serios.
 - **Límite:** `localStorage` ronda los 5 MB. Sólo texto y links, alcanza de sobra
   para decenas de viajes. Pero **hay que mantener la regla de no guardar imágenes
   en base64**, o se rompe.
-- **Privacidad:** el repo es **público** y ya publica 10 links de álbumes de Google
-  Photos. Cada viaje nuevo suma fechas, alojamientos y fotos personales.
+- **Visibilidad:** el repo es **público por decisión explícita del usuario**. Todo el
+  contenido del viaje ya es públicamente legible hoy, porque está hardcodeado en
+  `index.html`: álbumes de fotos, direcciones de alojamiento, fechas y códigos de
+  reserva. Ver "Nota sobre el repo público" abajo.
 
 ### Opciones
 
-| Opción | Durabilidad | Privacidad | Esfuerzo | Offline |
-|---|---|---|---|---|
-| **A.** Sólo `localStorage` (hoy) | ✗ Se pierde | Links en repo público | — | ✓ |
-| **B.** `localStorage` + botón Export/Import JSON | ~ Manual, depende de acordarse | Igual | S | ✓ |
-| **C.** `data/viajes.json` en el repo + `localStorage` como capa de trabajo | ✓ Versionado en git | ✓ Si el repo es privado | M | ✓ (precacheado) |
-| **D.** Backend (Supabase, etc.) | ✓ | ✓ | L | ✗ Necesita red |
+| Opción | Durabilidad | Esfuerzo | Offline |
+|---|---|---|---|
+| **A.** Sólo `localStorage` (hoy) | ✗ Se pierde | — | ✓ |
+| **B.** `localStorage` + botón Export/Import JSON | ~ Manual, depende de acordarse | S | ✓ |
+| **C.** `data/viajes.json` en el repo + `localStorage` como capa de trabajo | ✓ Versionado en git | M | ✓ (precacheado) |
+| **D.** Backend (Supabase, etc.) | ✓ | L | ✗ Necesita red |
+
+La columna de privacidad se sacó de la tabla: con el repo público, **A, B y C exponen
+exactamente lo mismo**, porque los datos ya viven en `index.html`. No es un criterio
+que distinga entre las opciones.
 
 ### Recomendación: C, con B como red de seguridad
 
-**Mover la data a `data/viajes.json` versionado en git, y pasar el repo a privado.**
+**Mover la data a `data/viajes.json` versionado en git.**
 
 Por qué encaja:
 
@@ -298,8 +304,8 @@ Por qué encaja:
   no un parche.
 - **Git es el backup.** Cada cambio queda con historial y se puede revertir. Es
   exactamente lo que un archivo de recuerdos necesita.
-- **Resuelve la privacidad de una.** Repo privado = fotos, fechas y alojamientos
-  dejan de ser públicos. Vercel sirve repos privados sin problema.
+- **No cambia la exposición.** Los datos ya están en `index.html`, que es público.
+  Moverlos a un JSON del mismo repo no publica nada nuevo.
 - **Sigue andando offline.** El JSON entra en `PRECACHE_URLS` del service worker.
 
 Cómo quedaría el flujo de carga:
@@ -318,8 +324,25 @@ el JSON listo para commitear. **Ese botón (opción B) conviene construirlo prim
 en la Fase 0, incluso si C se pospone: es la red de seguridad más barata que existe y
 hoy no hay ninguna.
 
-> **Pendiente de decisión del usuario:** pasar el repo a privado. Ver preguntas
-> abiertas en [06-roadmap.md](06-roadmap.md).
+### Nota sobre el repo público
+
+**Decisión tomada: el repo queda público.** Queda registrada acá para que no se
+vuelva a discutir en cada cambio, y para que sea consciente qué implica:
+
+- Lo que hoy es públicamente legible: links de álbumes de Google Photos ("cualquiera
+  con el link"), nombres y direcciones de alojamientos, fechas exactas de estadía,
+  presupuestos, y **códigos de reserva** (`OX3D7N`, `AOAI-1-5200897`, `QHH4X`, …).
+  Los códigos de reserva son el dato más sensible del conjunto: en algunos operadores
+  alcanzan, con el apellido, para consultar o modificar una reserva.
+- Con cada viaje nuevo, ese conjunto crece.
+
+**Qué implica para el plan:** nada bloqueante. La opción C sigue siendo la
+recomendada, porque la exposición no cambia respecto de hoy.
+
+Si en algún momento se quiere acotar sin pasar el repo a privado, la vía más simple
+es sacar del repo sólo los códigos de reserva y los links de fotos —dejándolos vivir
+únicamente en `localStorage` y en el JSON exportado— y mantener en git el resto del
+itinerario. Es una variante de C, no un cambio de rumbo.
 
 ## Funciones de acceso que hay que introducir
 

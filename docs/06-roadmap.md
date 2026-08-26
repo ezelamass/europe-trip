@@ -142,7 +142,7 @@ Nada de esto es necesario para que funcione; se hace si sobra ganas.
 | **Pérdida de datos al migrar** | Alto — recuerdos irrecuperables | Export (0.1) y backup (0.2) **antes** de cualquier otra cosa |
 | **La Fase 1 rompe algo en silencio** | Alto | Fase aislada, test de humo contra `main`, invariantes de presupuesto y cantidad de paradas |
 | **`index.html` se vuelve inmanejable** | Medio — ya son 4.784 líneas y el plan las duplicaría | Sacar datos a `data/*.js` en 1.5; no partir la lógica todavía |
-| **Datos personales en repo público** | Medio y creciente | Decisión pendiente del usuario (ver abajo) |
+| **Datos personales en repo público** | Asumido | Decisión tomada: el repo queda público. No bloquea nada; ver pregunta 1 |
 | **Romper el offline** | Medio | Cada archivo nuevo entra a `PRECACHE_URLS` **y** se sube `CACHE_VERSION` |
 | **Límite de ~5 MB de localStorage** | Bajo con texto | Regla firme: fotos siempre por link, nunca base64 |
 
@@ -152,16 +152,21 @@ Nada de esto es necesario para que funcione; se hace si sobra ganas.
 
 Necesitan decisión antes de arrancar la fase correspondiente.
 
-### 1. ¿El repo pasa a privado? — *bloquea Fase 0/1*
+### 1. ~~¿El repo pasa a privado?~~ — ✅ RESUELTA: queda público
 
-El repo es **público** y ya publica 10 links de álbumes de Google Photos ("cualquiera
-con el link"). Con cada viaje se suman fechas, alojamientos y fotos.
+Decisión explícita del usuario: **el repo sigue siendo público.**
 
-- **Recomendación:** pasarlo a privado y mover la data a `data/viajes.json` versionado
-  en git. Resuelve durabilidad y privacidad juntas, y encaja con el flujo actual de
-  cargar datos pidiéndoselos a Claude. Vercel sirve repos privados sin problema.
-- **Alternativa:** dejarlo público y que la data viva sólo en `localStorage` + export
-  manual. Más frágil y sigue publicando los links ya commiteados.
+Consecuencias para el plan:
+
+- **La durabilidad se resuelve igual.** La opción C (`data/viajes.json` versionado en
+  git) sigue siendo la recomendada. Como el contenido del viaje ya está hardcodeado en
+  `index.html`, que es público, mover los datos a un JSON del mismo repo **no cambia
+  la exposición**.
+- **No bloquea ninguna fase.** El botón de export de la Fase 0 y el JSON de la Fase 1
+  se construyen igual.
+- Qué queda públicamente legible y la variante para acotarlo sin pasar a privado:
+  ver "Nota sobre el repo público" en
+  [02-modelo-de-datos.md](02-modelo-de-datos.md#nota-sobre-el-repo-público).
 
 ### 2. ¿Estampa por país, o por país + viaje? — *bloquea Fase 3*
 
