@@ -1819,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-26-1";
+        const DATA_VERSION = "2026-08-26-2";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2111,38 +2111,38 @@
             {
                 id: "stop-napoles-final",
                 city: "Nápoles / Costa Amalfitana (Italia)",
-                nights: 3,
+                nights: 4,
                 transport: "Tren Bari → Nápoles (Trenitalia/Italo, ~4h vía Caserta)",
                 cost: 0,
                 dailyBudget: 42,
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Sorrento/Amalfi/Capri en vez de sumar más Italia). 30 ago (llegada, medio día) + 2 días completos (31 ago–1 sep): 1 día Costa Amalfitana (Positano/Amalfi) o Capri, 1 día Nápoles centro + pizza. Sin reservar todavía — pendiente."
+                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Sorrento/Amalfi/Capri en vez de sumar más Italia). 30-31 ago: Nápoles centro + pizza. 1 sep: day-trip Costa Amalfitana (Positano/Amalfi). 2 sep: day-trip Capri en ferry desde Sorrento. 3 sep a la tarde: vuelo a Londres. Sin reservar todavía — pendiente."
             },
             {
                 id: "stop-londres-final",
                 city: "Londres (Reino Unido) 🇬🇧",
                 nights: 4,
-                transport: "Vuelo Nápoles (NAP) → Londres, directo ~3h (easyJet NAP-LGW desde €147, varias salidas/día)",
+                transport: "Vuelo Nápoles (NAP) → Londres, directo ~3h (easyJet NAP-LGW 16:15→18:20, €166, 3 sep)",
                 cost: 0,
                 dailyBudget: 75,
                 category: "Premium & Networking",
                 costLvl: "Alto",
                 core: "Paisaje",
-                hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). 2 sep (vuelo + llegada tarde) + 3, 4, 5 sep completos. Vuelo LON→MAD el 6 sep (NO el 7, para no jugarse el margen contra el vuelo internacional del 8). Sin reservar todavía — pendiente."
+                hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). 3 sep (vuelo + llegada noche) + 4, 5, 6 sep completos + 7 sep medio día. Vuelo LON→MAD el 7 sep a la tarde (Ryanair STN-MAD 17:20→20:50, €59) — deja el 8 entero como colchón antes del vuelo internacional. Sin reservar todavía — pendiente."
             },
             {
                 id: "stop-madrid-cierre",
                 city: "Madrid (España)",
-                nights: 2,
-                transport: "Vuelo Londres → Madrid, directo ~2h30 (Wizz Air/Ryanair/easyJet desde €32, muchas frecuencias/día)",
+                nights: 1,
+                transport: "Vuelo Londres → Madrid, directo ~2h30 (Ryanair STN-MAD 17:20→20:50, €59, 7 sep)",
                 cost: 0,
                 dailyBudget: 15,
                 category: "Hub / Familiar",
                 costLvl: "Bajo",
                 core: "Negocios/Tech",
-                hack: "Cierre del viaje. Llega la noche del 6 sep o a más tardar la mañana del 7 (colchón contra demoras/cancelaciones antes del vuelo internacional). El 7 entero queda libre en Madrid con familia, sin nada logístico pendiente. 8 sep 20:00: vuelo de regreso (cambiado desde el 22 sep original).",
+                hack: "Cierre del viaje. Llega la noche del 7 sep (~20:50). El 8 entero queda libre en Madrid con familia, sin nada logístico pendiente — colchón contra demoras/cancelaciones antes del vuelo internacional de las 20:00 del 8 sep (cambiado desde el 22 sep original).",
                 isFixed: true
             }
         ];
