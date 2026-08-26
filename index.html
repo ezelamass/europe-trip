@@ -1806,7 +1806,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-25-3";
+        const DATA_VERSION = "2026-08-25-4";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2080,18 +2080,20 @@
                 id: "stop-bari",
                 city: "Bari / Puglia (Italia) 🇮🇹",
                 nights: 5,
-                transport: "Tren",
-                cost: 0,
+                transport: "Bus nocturno Itabus (Roma Tiburtina 23:25 → Bari 05:20)",
+                cost: 17.99,
                 dailyBudget: 30,
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. Reserva confirmada. Gatto Bianco le Dimore. Check-in: Mié 26 ago 15:00–23:00. Check-out: Dom 30 ago hasta las 10:30.",
+                hack: "Solo. La noche del 25 se pasó a bordo del bus nocturno (sin alojamiento). Reserva confirmada. Gatto Bianco le Dimore. Check-in: Mié 26 ago 15:00–23:00. Check-out: Dom 30 ago hasta las 10:30.",
                 isConfirmed: true,
                 isFixed: true,
                 hotelName: "Gatto Bianco le Dimore",
                 address: "Bari, Puglia, Italia",
-                accommodationCost: 350.00
+                accommodationCost: 350.00,
+                confirmationNumber: "OX3D7N",
+                flightDetails: "Itabus bus 1181 | Roma (Tiburtina Terminal Bus, Largo Guido Mazzoni) 25 ago 23:25 → Bari (FS Park, Via Capruzzi) 26 ago 05:20 | Asiento 62 · Wow! Comfort | €17,99 | Incluye 1 bolso de mano (42x30x18) + 1 valija de bodega (80x50x30, máx 20 kg)"
             }
         ];
 
