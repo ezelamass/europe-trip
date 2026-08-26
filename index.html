@@ -1819,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-27-2";
+        const DATA_VERSION = "2026-08-27-3";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2112,19 +2112,20 @@
                 id: "stop-sorrento-final",
                 city: "Sorrento (Italia)",
                 nights: 2,
-                transport: "Bari → Nápoles (bus) → Sorrento (Circumvesuviana, ~1h)",
-                cost: 0,
+                transport: "FlixBus Bari → Nápoles → Sorrento (2 tramos, transbordo en Nápoles) — COMPRADO, €44",
+                cost: 44,
                 dailyBudget: 40,
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
                 isConfirmed: true,
+                flightDetails: "FlixBus Ruta 571: Bari (FS Park Via Capruzzi) 06:45 → Nápoles (FS Park Stazione Centrale) 09:50, asiento 20A | Transbordo 1h55 | FlixBus Ruta 563: Nápoles (FS Park Stazione Centrale) 11:45 → Sorrento 13:25, asiento 14C | 30 ago 2026 | €44",
                 hotelName: "Seven Hostel",
                 address: "Via Iommella Grande, Sant'Agnello, Sorrento, Italia",
                 confirmationNumber: "26673-579651838",
                 accommodationCost: 54.50,
                 lodgingCostNote: "$62.23 USD total ($9.31 pagado online, ~€45.64 a pagar en el hostel al llegar) · 8 Bed Mixed Dorm Ensuite",
-                hack: "Solo. 30 ago: llega y recorre Sorrento. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
+                hack: "Solo. 30 ago: llega 13:25 en FlixBus, recorre Sorrento a la tarde/noche. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
             },
             {
                 id: "stop-napoles-final",
