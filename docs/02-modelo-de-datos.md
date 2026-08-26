@@ -120,17 +120,35 @@ pero el viaje pasa a tener fechas reales:
 **Regla:** un viaje archivado **congela** sus fechas. Al pasar a `archived` se
 escribe `endDate` explícito y no se vuelve a derivar. Un recuerdo no se recalcula.
 
-### El hueco de Bari (deuda de datos conocida)
+### Noches en tránsito (caso resuelto: Bari)
 
-El modelo de noches encadenadas no admite huecos. Por eso hoy Bari figura 25–30
-aunque la reserva confirmada dice check-in el 26. Opciones para el futuro:
+El modelo de noches encadenadas no admite huecos, y durante un tiempo pareció que
+Bari tenía uno: figuraba 25–30 aunque la reserva dice check-in el 26.
 
-- **A)** Aceptarlo: la "parada" es el tramo en la región, el alojamiento tiene sus
-  propias fechas en el modal. Costo cero.
-- **B)** Permitir `stop.gapBefore: 1` (días sin alojamiento antes de la parada).
-  Más fiel, pero toca todo el cálculo de fechas y el calendario.
+**No era un hueco.** La noche del 25 se pasó a bordo del bus nocturno Itabus de Roma
+a Bari (sale 25 ago 23:25, llega 26 ago 05:20). El tramo arranca cuando sale el bus;
+el alojamiento empieza al día siguiente. Cargado en `main` (`635b171`).
 
-Recomendación: **A** por ahora, **B** sólo si aparecen más casos.
+**Patrón a seguir:** una noche en tránsito (bus o tren nocturno, vuelo con escala
+larga) se modela como **parte del tramo de destino**, usando los campos de transporte
+que ya existen:
+
+| Campo | Qué lleva |
+|---|---|
+| `transport` | `"Bus nocturno Itabus (Roma Tiburtina 23:25 → Bari 05:20)"` |
+| `cost` | Precio del pasaje, en EUR |
+| `flightDetails` | Detalle completo: servicio, terminales, horarios, asiento, equipaje |
+| `confirmationNumber` | Código del pasaje |
+| `hack` | Aclaración de que esa noche fue a bordo |
+
+> **Ojo con `confirmationNumber`:** los modales lo asignan según haya o no
+> `flightDetails` (`index.html:3983` y `:4039`). Con `flightDetails` presente el
+> código se muestra como **pasaje**; sin él, como **reserva de alojamiento**. Si un
+> tramo tuviera ambos códigos, haría falta separarlos en dos campos.
+
+Por lo tanto **no hace falta** un `stop.gapBefore`, que habría obligado a tocar todo
+el cálculo de fechas y el calendario. Se revisa sólo si aparece una noche que de
+verdad no pertenezca a ningún tramo.
 
 ## Propiedad de campos: quién gana en un conflicto
 

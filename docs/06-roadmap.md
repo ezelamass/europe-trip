@@ -183,11 +183,18 @@ Opciones: (a) que el tab de Beneficios sólo aparezca en viajes con países UE;
 (b) que los beneficios sean parte del contenido de cada viaje, editables.
 Recomendación: **(a) para v1**, (b) si aparece un segundo viaje europeo.
 
-### 5. ¿Cuánto vale arreglar el hueco de fechas de Bari? — *afecta Fase 0*
+### 5. ~~¿Cuánto vale arreglar el hueco de fechas de Bari?~~ — ✅ RESUELTA
 
-Hoy el itinerario muestra Bari 25–30 pero la reserva confirmada dice check-in el 26,
-porque el modelo de noches encadenadas no admite huecos. Sigue sin confirmarse dónde
-se durmió la noche del 25.
+**No era un hueco.** La noche del 25 se pasó a bordo del bus nocturno Itabus de Roma
+a Bari (sale 25 ago 23:25, llega 26 ago 05:20). El tramo de Bari arranca cuando sale
+el bus y el alojamiento empieza al día siguiente, así que **25–30 es correcto**.
 
-Recomendación: **aceptar la aproximación** (la parada es el tramo en la región; el
-alojamiento tiene sus fechas exactas en el modal) salvo que aparezcan más casos así.
+Cargado en `main` (`635b171`): el pasaje quedó en los campos de transporte de la
+parada (`transport`, `cost`, `flightDetails`, `confirmationNumber`) y la nota del
+tramo aclara que esa noche fue a bordo.
+
+**Sirve como precedente:** las noches en tránsito (bus nocturno, tren nocturno, vuelo
+con escala larga) **no necesitan** el `stop.gapBefore` que se evaluaba en
+[02-modelo-de-datos.md](02-modelo-de-datos.md). Se modelan como parte del tramo de
+destino, usando los campos de transporte que ya existen. La opción **A** (aceptar la
+aproximación) queda confirmada como la correcta.

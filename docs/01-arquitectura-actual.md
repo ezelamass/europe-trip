@@ -100,9 +100,12 @@ Consecuencias prácticas:
 - Un viaje **necesita una fecha de inicio y de fin reales** para decidir si está
   activo o archivado. Hoy el fin es implícito (inicio + suma de noches).
 - No se puede representar un hueco entre paradas (un día sin alojamiento cargado).
-  Esto ya generó una inconsistencia real: la reserva de Bari dice check-in el 26 de
-  agosto, pero el itinerario muestra 25–30, porque la parada anterior tiene que
-  encadenar sin huecos.
+  El caso que lo puso a prueba fue Bari, que figura 25–30 aunque la reserva dice
+  check-in el 26: resultó **no ser un hueco** sino una noche en tránsito (bus nocturno
+  Roma→Bari), y se modela dentro del tramo de destino. Ver
+  [02-modelo-de-datos.md](02-modelo-de-datos.md#noches-en-tránsito-caso-resuelto-bari).
+  La limitación sigue existiendo para una noche que de verdad no pertenezca a ningún
+  tramo, pero todavía no apareció ese caso.
 
 Los tramos ya pasados se detectan comparando esas fechas derivadas contra hoy
 (`index.html:3288`) y se colapsan en un resumen "N tramos completados". **Esa lógica
