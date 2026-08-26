@@ -1819,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-26-2";
+        const DATA_VERSION = "2026-08-26-4";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2112,13 +2112,13 @@
                 id: "stop-napoles-final",
                 city: "Nápoles / Costa Amalfitana (Italia)",
                 nights: 4,
-                transport: "Tren Bari → Nápoles (Trenitalia/Italo, ~4h vía Caserta)",
+                transport: "Tren Bari → Nápoles (Frecciarossa/Italo, ~3h30) + mismo día ferry Nápoles→Amalfi",
                 cost: 0,
                 dailyBudget: 42,
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Sorrento/Amalfi/Capri en vez de sumar más Italia). 30-31 ago: Nápoles centro + pizza. 1 sep: day-trip Costa Amalfitana (Positano/Amalfi). 2 sep: day-trip Capri en ferry desde Sorrento. 3 sep a la tarde: vuelo a Londres. Sin reservar todavía — pendiente."
+                hack: "Solo. Cierre de la parte italiana del viaje (ya conocido Roma + Bari, así que acá foco en Amalfi/Capri en vez de sumar más Italia). Orden pensado para minimizar traslados y dejar Nápoles (ciudad del aeropuerto) al final: 30 ago: tren Bari→Nápoles (~3h30, salir con el 1er/2do tren tras check-out 10:30) + mismo día ferry Nápoles→Amalfi (última sale 17:40, ~1h50, duerme en Amalfi). 31 ago tarde: ferry Amalfi→Capri (~35-50min, duerme en Capri). 1 sep tarde/noche: ferry Capri→Nápoles DIRECTO (17-20 salidas/día, la ruta más robusta del tramo, duerme en Nápoles). 2 sep: Nápoles centro completo. 3 sep: traslado local a aeropuerto (Alibus/taxi, ~20-30min, sin apuro) → vuelo 16:15. Sin dependencia de bus de larga distancia el día del vuelo. Reservar con antelación Nápoles→Amalfi y Amalfi→Capri (baja frecuencia); Capri→Nápoles se saca el mismo día. Sin reservar todavía — pendiente."
             },
             {
                 id: "stop-londres-final",
