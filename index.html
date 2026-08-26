@@ -1819,7 +1819,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-27-1";
+        const DATA_VERSION = "2026-08-27-2";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2118,7 +2118,13 @@
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. 30 ago: llega y recorre Sorrento. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche). Sin reservar todavía — pendiente."
+                isConfirmed: true,
+                hotelName: "Seven Hostel",
+                address: "Via Iommella Grande, Sant'Agnello, Sorrento, Italia",
+                confirmationNumber: "26673-579651838",
+                accommodationCost: 54.50,
+                lodgingCostNote: "$62.23 USD total ($9.31 pagado online, ~€45.64 a pagar en el hostel al llegar) · 8 Bed Mixed Dorm Ensuite",
+                hack: "Solo. 30 ago: llega y recorre Sorrento. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
             },
             {
                 id: "stop-napoles-final",
@@ -2130,7 +2136,7 @@
                 category: "Aventura y Naturaleza",
                 costLvl: "Medio",
                 core: "Paisaje",
-                hack: "Solo. 1 sep: centro histórico (Spaccanapoli, Via Toledo, Cappella Sansevero — reservar Cristo Velato online), pizza a la noche. 2 sep: Pompeya (tren ~30-40min) a la mañana, Castel Sant'Elmo al atardecer, cena temprana — último día completo antes de un despertar muy temprano, no forzar de más. 3 sep, 05:00-05:15: taxi/Uber PRE-RESERVADO al aeropuerto (ningún bus sirve a esa hora — el primer Alibus sale 06:30, tarde para el vuelo de las 07:25). Sin reservar alojamiento todavía — pendiente."
+                hack: "Solo. 1 sep: centro histórico (Spaccanapoli, Via Toledo, Cappella Sansevero — reservar Cristo Velato online), pizza a la noche. 2 sep: Pompeya (tren ~30-40min) a la mañana, Castel Sant'Elmo al atardecer, cena temprana — último día completo antes de un despertar muy temprano, no forzar de más. 3 sep, 05:00-05:15: taxi/Uber PRE-RESERVADO al aeropuerto (ningún bus sirve a esa hora — el primer Alibus sale 06:30, tarde para el vuelo de las 07:25). ⚠️ ÚNICO alojamiento del tramo todavía sin reservar — pendiente."
             },
             {
                 id: "stop-londres-final",
@@ -2143,8 +2149,12 @@
                 costLvl: "Alto",
                 core: "Paisaje",
                 isConfirmed: true,
-                confirmationNumber: "40-1082799443 / PIN 3315 (Booking.com)",
+                confirmationNumber: "40-1082799443 / PIN 3315 (Booking.com, vuelo)",
                 flightDetails: "Ryanair FR6832 NAP→EIN 07:25→09:50 (€17.99) + self-transfer en Eindhoven (2h25, recoger y re-facturar equipaje) + Ryanair FR2533 EIN→STN 12:15→12:20 (€52.99) | 3 sep 2026 | Total $89.34",
+                hotelName: "Palmers Lodge - Swiss Cottage",
+                lodgingConfirmation: "14348-579652597",
+                accommodationCost: 152.53,
+                lodgingCostNote: "$174.15 USD total ($39.18 pagado, resto a pagar en el hostel) · Standard 8 Bed Mixed Dorm · 03-07 sep, 4 noches",
                 hack: "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). Vuelo de ida madrugador (sale 07:25 de Nápoles) — implica salir del alojamiento en Nápoles ~05:00-05:15 en taxi pre-reservado. 3 sep (llegada mediodía) + 4, 5, 6, 7 sep completos. UK ETA aprobada (ref 2020-0000-6070-3591, válida hasta 26 ago 2028, costó €24,30)."
             },
             {
