@@ -1,6 +1,7 @@
 # Documentación de producto — Diario de Viajes
 
 > **Estado: PARCIALMENTE IMPLEMENTADO (2026-08-28).**
+> El rediseño mobile ya está hecho: ver [07-rediseno-mobile.md](07-rediseno-mobile.md).
 > La app se migró a Vite + React + TypeScript y ya es multi-viaje: los 7 viajes,
 > el itinerario por viaje y el mapa mundial con el perfil de viajero están andando
 > (ver el [README](../README.md)). Lo que sigue pendiente de estos documentos son

@@ -28,7 +28,7 @@ await page.evaluate(() => {
 await page.reload({ waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
 
-await page.locator('nav button:visible:has-text("Mi Mundo")').first().click();
+await page.locator('nav button:has-text("Mi Mundo")').first().click();
 await page.waitForTimeout(1200);
 
 const paises = await page.locator('[data-stat="Países"]').textContent();
@@ -48,10 +48,10 @@ const banner = await page.locator('text=no están en el perfil').count();
 check('ofrece sincronizar los paises de los viajes que faltan', banner > 0);
 
 // Ajustes migrados
-await page.locator('nav button:visible:has-text("Viajes")').first().click();
-await page.waitForTimeout(400);
-await page.locator('nav button:visible:has-text("Itinerario")').first().click();
-await page.waitForTimeout(500);
+await page.locator('nav button:has-text("Viajes")').first().click();
+await page.waitForTimeout(700);
+await page.locator('[data-trip="europa-2026"] button').first().click();
+await page.waitForTimeout(800);
 const moneda = await page.locator('button[title="Cambiar moneda de visualización"]').textContent();
 check('migra la moneda elegida (EUR)', /EUR/.test(moneda||''), (moneda||'').trim());
 
@@ -65,8 +65,7 @@ check('no destruye el estado de la app vieja', !!viejo);
 
 // El itinerario curado NO se pisa con el guardado viejo (la app vieja tampoco lo hacía
 // cuando la dataVersion no coincidía), pero sí se rescata el álbum de fotos.
-await page.locator('nav button:visible:has-text("Itinerario")').first().click();
-await page.waitForTimeout(600);
+await page.waitForTimeout(400);
 const primeraParada = await page.locator('main .rounded-2xl h3').first().textContent();
 check('no pisa el itinerario curado con el guardado viejo', !/VIEJO/.test(primeraParada||''), (primeraParada||'').trim());
 const paradas = await page.locator('main .rounded-2xl h3').count();
@@ -78,8 +77,10 @@ const album = await page.evaluate(() => {
 check('rescata el album de fotos de la parada vieja', album === 'https://photos.app.goo.gl/ALBUM-VIEJO', album||'(ninguno)');
 
 // Los hacks predefinidos no pueden desaparecer al migrar los propios
-await page.locator('nav button:visible:has-text("Hacks")').first().click();
+await page.locator('nav button:has-text("Inicio")').first().click();
 await page.waitForTimeout(600);
+await page.locator('main button:has-text("Hacks")').first().click();
+await page.waitForTimeout(800);
 const hacks = await page.locator('main .rounded-2xl h3').allTextContents();
 check('repone los hacks predefinidos junto al propio del usuario',
       hacks.length === 4 && hacks.some(h=>/Interrail/.test(h)) && hacks.some(h=>/Hack propio/.test(h)),

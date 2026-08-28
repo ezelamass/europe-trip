@@ -2,12 +2,12 @@ interface Props {
   label: string;
   value: string | number;
   icon?: string;
-  tone?: 'default' | 'indigo' | 'emerald' | 'amber';
+  tone?: 'default' | 'accent' | 'emerald' | 'amber';
 }
 
 const TONES = {
   default: 'bg-slate-900 border-slate-800 text-slate-100',
-  indigo: 'bg-indigo-950/40 border-indigo-900/50 text-indigo-100',
+  accent: 'bg-accent-400/10 border-accent-400/25 text-accent-50',
   emerald: 'bg-emerald-950/40 border-emerald-900/50 text-emerald-100',
   amber: 'bg-amber-950/40 border-amber-900/50 text-amber-100',
 };

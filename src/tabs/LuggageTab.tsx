@@ -6,7 +6,7 @@ const LOCATIONS = ['Mochila', 'Carry-on', 'Valija Grande'] as const;
 const CATEGORIES = ['Documentos', 'Tecnología', 'Ropa/Calzado', 'Salud/Aseo', 'Otros'] as const;
 
 const LOC_STYLE: Record<string, string> = {
-  Mochila: 'bg-indigo-950/50 text-indigo-300 border-indigo-900/50',
+  Mochila: 'bg-accent-400/10 text-accent-300 border-accent-400/25',
   'Carry-on': 'bg-amber-950/50 text-amber-300 border-amber-900/50',
   'Valija Grande': 'bg-emerald-950/50 text-emerald-300 border-emerald-900/50',
 };

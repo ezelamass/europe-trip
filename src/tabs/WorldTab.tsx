@@ -95,7 +95,7 @@ export default function WorldTab() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-        <StatTile label="Del mundo" value={`${pct}%`} icon="fa-earth-americas" tone="indigo" />
+        <StatTile label="Del mundo" value={`${pct}%`} icon="fa-earth-americas" tone="accent" />
         <StatTile label="Países" value={`${visited.length}/${TOTAL_COUNTRIES}`} icon="fa-flag" />
         <StatTile label="Continentes" value={`${stats.continentsTouched}/6`} icon="fa-globe" tone="emerald" />
         <StatTile label="Regiones" value={stats.regions} icon="fa-map-location-dot" />
@@ -132,7 +132,7 @@ export default function WorldTab() {
             onClick={() => setView(c)}
             className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-bold border transition ${
               view === c
-                ? 'bg-indigo-600 border-indigo-500 text-white'
+                ? 'bg-accent-400 border-accent-400 text-slate-950'
                 : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
             }`}
           >
@@ -158,7 +158,7 @@ export default function WorldTab() {
               className="w-full text-left group"
             >
               <div className="flex items-center justify-between text-xs mb-1">
-                <span className="font-semibold text-slate-200 group-hover:text-indigo-300 transition">
+                <span className="font-semibold text-slate-200 group-hover:text-accent-300 transition">
                   {CONTINENTS[c]}
                 </span>
                 <span className="text-slate-400 tabular-nums">
@@ -167,7 +167,7 @@ export default function WorldTab() {
               </div>
               <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-rose-500 to-indigo-500 rounded-full transition-all duration-500"
+                  className="h-full bg-gradient-to-r from-rose-500 to-accent-400 rounded-full transition-all duration-500"
                   style={{ width: `${p}%` }}
                 />
               </div>

@@ -22,9 +22,11 @@ export default defineConfig({
       },
       workbox: {
         // Todo el bundle se precachea: la app tiene que abrir sin red.
+        // Las portadas (.webp) van precacheadas: sin ellas la pantalla principal
+        // queda vacía offline, que es cuando más se usa la app.
         // Sin `woff`: cualquier navegador con service worker soporta woff2, así que
         // precachear el fallback era bajar 223 KB que nunca se leen.
-        globPatterns: ['**/*.{js,css,html,svg,woff2}'],
+        globPatterns: ['**/*.{js,css,html,svg,webp,woff2}'],
         // Los tiles de OSM son lo único que se pide online; cache-first con tope.
         runtimeCaching: [
           {

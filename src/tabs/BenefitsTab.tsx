@@ -76,7 +76,7 @@ export default function BenefitsTab() {
                     Costo: {b.cost === 0 ? 'gratis' : money(b.cost)}
                   </span>
                   {b.badgeText && (
-                    <span className="px-2 py-1 rounded-lg bg-indigo-950/50 text-indigo-300 border border-indigo-900/50">
+                    <span className="px-2 py-1 rounded-lg bg-accent-400/10 text-accent-300 border border-accent-400/25">
                       {b.badgeText}
                     </span>
                   )}

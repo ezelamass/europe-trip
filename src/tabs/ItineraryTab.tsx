@@ -4,7 +4,6 @@ import { useStore } from '../store/useStore';
 import { formatRange, getCostBadgeColor, stopRange } from '../lib/format';
 import { useMoney } from '../lib/useMoney';
 import { computeBudget, withDynamicCosts } from '../lib/budget';
-import { tripNights } from '../data/trips';
 import StatTile from '../components/StatTile';
 import Modal from '../components/Modal';
 import { Button, TipCallout, GHOST_LINK_CLS } from '../components/ui';
@@ -65,7 +64,7 @@ function StopCard({
     <div
       className={`relative rounded-2xl border p-4 sm:p-5 transition ${
         phase === 'actual'
-          ? 'bg-indigo-950/30 border-indigo-700/60 shadow-lg shadow-indigo-950/40'
+          ? 'bg-accent-400/[0.07] border-accent-400/40'
           : phase === 'pasado'
             ? 'bg-slate-900/50 border-slate-800 opacity-70'
             : 'bg-slate-900 border-slate-800'
@@ -75,7 +74,7 @@ function StopCard({
         <div className="flex items-start gap-3 min-w-0">
           <div
             className={`shrink-0 w-8 h-8 rounded-lg grid place-items-center text-sm font-bold ${
-              phase === 'actual' ? 'bg-indigo-600 text-white' : 'bg-slate-800 text-slate-300'
+              phase === 'actual' ? 'bg-accent-400 text-slate-950' : 'bg-slate-800 text-slate-300'
             }`}
           >
             {index + 1}
@@ -257,14 +256,12 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-start justify-between gap-3">
-        <div>
-          <h2 className="text-xl font-bold text-white">
-            {trip.emoji} {trip.title}
-          </h2>
-          <p className="text-sm text-slate-400 mt-1">
-            {trip.dateLabel} · {tripNights(trip, stops)} noches · {stops.length} paradas
-          </p>
-        </div>
+        <h2 className="text-lg font-bold text-white">
+          Itinerario
+          <span className="ml-2 text-sm font-medium text-slate-400">
+            {stops.length} {stops.length === 1 ? 'parada' : 'paradas'}
+          </span>
+        </h2>
         <div className="flex items-center gap-2">
           <div className="flex rounded-lg overflow-hidden border border-slate-700">
             {(['lista', 'mapa'] as const).map((v) => (
@@ -272,7 +269,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
                 key={v}
                 onClick={() => setView(v)}
                 className={`px-3 py-1.5 text-xs font-bold transition ${
-                  view === v ? 'bg-indigo-600 text-white' : 'bg-slate-900 text-slate-400'
+                  view === v ? 'bg-accent-400 text-slate-950' : 'bg-slate-900 text-slate-400'
                 }`}
               >
                 <i className={`fa-solid ${v === 'lista' ? 'fa-list' : 'fa-map'} mr-1.5`} />
@@ -293,7 +290,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
       {hasBudget ? (
         <>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <StatTile label="Total estimado" value={money(totals.total)} icon="fa-wallet" tone="indigo" />
+            <StatTile label="Total estimado" value={money(totals.total)} icon="fa-wallet" tone="accent" />
             <StatTile label="Alojamiento" value={money(totals.lodging)} icon="fa-hotel" />
             <StatTile label="Transporte" value={money(totals.transport)} icon="fa-train" />
             <StatTile label="Gasto diario" value={money(totals.daily)} icon="fa-utensils" />
@@ -334,7 +331,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
               type="checkbox"
               checked={includeBaseFlight}
               onChange={toggleBaseFlight}
-              className="accent-indigo-500"
+              className="accent-accent-400"
             />
             Incluir vuelo internacional (${baseFlightUSD} USD)
           </label>
@@ -343,7 +340,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
               type="checkbox"
               checked={momPaysHerTrip}
               onChange={toggleMomInvitation}
-              className="accent-indigo-500"
+              className="accent-accent-400"
             />
             Mamá paga su tramo
           </label>

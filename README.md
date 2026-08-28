@@ -32,6 +32,16 @@ npx http-server dist -p 8099 --silent &
 npm test
 ```
 
+## Navegación
+
+Cuatro destinos en la barra inferior: **Inicio** (el viaje en curso, o los pasados si no
+hay ninguno), **Viajes** (`Activos | Pasados`), **Mi Mundo** (mapa) y **Métricas**.
+Las herramientas de un viaje —beneficios, hacks, valija, side quests— se abren desde
+Inicio, no desde la barra. El detalle de un viaje es una vista apilada, no un tab.
+
+El diseño y de dónde sale cada decisión están en
+[`docs/07-rediseno-mobile.md`](docs/07-rediseno-mobile.md).
+
 ## Estructura
 
 ```
@@ -43,14 +53,18 @@ src/
     worldGeometry.ts# GENERADO — solo los paths SVG; separado para que no entren
                     #   al chunk inicial (ver la nota de bundle abajo)
     coordinates.ts  # coordenadas por ciudad, única fuente para el mapa de ruta
+    countryOfStop.ts# saca el país del nombre de la parada ("Roma (Italia)")
+    covers.ts       # portadas de los viajes + créditos (public/covers/)
   store/
     useStore.ts     # estado + persistencia + export/import
     legacy.ts       # migración one-shot desde el localStorage de la app vieja
   tabs/             # una tab por pantalla
-  components/       # Modal, StatTile, WorldMap, RouteMap, BackupPanel
+  views/            # pantallas apiladas (detalle de viaje)
+  components/       # Modal, StatTile, TripCard, BottomNav, WorldMap, RouteMap…
   lib/
     format.ts       # moneda, fechas, banderas, distancias
     budget.ts       # el cálculo del presupuesto, en un solo lugar
+    stats.ts        # las métricas, derivadas de los viajes
     useMoney.ts     # formateador ligado a la moneda elegida
 tests/              # suites de regresión en Chromium (ver tests/README.md)
 ```
@@ -96,6 +110,14 @@ correcciones publicadas después.
 
 El razonamiento completo de la migración está en
 `perfil/decision-migrar-planner-react.md` del segundo cerebro.
+
+## Fotos de portada
+
+Siete imágenes de Wikimedia Commons en `public/covers/` (WebP 800×450, 318 KB en total),
+precacheadas para que la pantalla principal no quede vacía sin señal.
+`npm run covers` las regenera; `src/data/covers.json` guarda autor y licencia de cada una.
+Varias son CC BY / CC BY-SA, así que **la atribución es obligatoria** — se muestra en
+Viajes → Créditos de las fotos.
 
 ## Bundle
 

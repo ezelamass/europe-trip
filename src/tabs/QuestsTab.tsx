@@ -66,7 +66,7 @@ export default function QuestsTab() {
                   type="checkbox"
                   checked={q.includedInBudget}
                   onChange={() => toggleBudget(q.id)}
-                  className="accent-indigo-500"
+                  className="accent-accent-400"
                 />
                 En el presupuesto
               </label>
@@ -90,7 +90,7 @@ export default function QuestsTab() {
               <ol className="space-y-3">
                 {detail.itinerary.map((it, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="shrink-0 text-[11px] font-bold text-indigo-300 bg-indigo-950/50 border border-indigo-900/50 rounded-lg px-2 py-1 h-fit tabular-nums">
+                    <span className="shrink-0 text-[11px] font-bold text-accent-300 bg-accent-400/10 border border-accent-400/25 rounded-lg px-2 py-1 h-fit tabular-nums">
                       {it.day}
                     </span>
                     <div className="min-w-0">

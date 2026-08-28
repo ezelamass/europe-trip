@@ -18,7 +18,11 @@ import type { ViewCode } from '../data/worldMap';
  *  son datos que cargó el usuario, no contenido de la app. */
 export const DATA_VERSION = '2026-08-28-react-1';
 
-export type TabId = 'trips' | 'itinerary' | 'world' | 'benefits' | 'hacks' | 'quests' | 'luggage';
+/** `home`, `trips`, `world` y `stats` están en la barra inferior; el resto son
+ *  herramientas de un viaje, a las que se entra desde Inicio. */
+export type TabId =
+  | 'home' | 'trips' | 'world' | 'stats'
+  | 'benefits' | 'hacks' | 'quests' | 'luggage';
 
 interface Persisted {
   dataVersion: string;
@@ -130,7 +134,7 @@ export const useStore = create<Store>()(
   persist(
     (set, get) => ({
       ...initial,
-      activeTab: 'trips',
+      activeTab: 'home',
       profileContinent: 'WORLD',
 
       setTab: (activeTab) => set({ activeTab }),

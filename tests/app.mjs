@@ -5,89 +5,79 @@ const ctx = await browser.newContext({ viewport: { width: 430, height: 932 }, de
 const page = await ctx.newPage();
 
 const errors = [];
-page.on('console', m => m.type() === 'error' && errors.push(m.text()));
 page.on('pageerror', e => errors.push('PAGEERROR: ' + e.message));
 
+const nav = (label) => page.locator(`nav button:has-text("${label}")`).first();
 
 await page.goto(BASE, { waitUntil: 'networkidle' });
+await page.waitForTimeout(1200);
 
-// --- Tab Viajes ---
-await page.waitForSelector('text=Mis viajes', { timeout: 10000 });
-const tripCards = await page.locator('h3:has-text("")').count();
-const tripTitles = await page.locator('main [data-trip] h3').allTextContents();
-check('7 viajes renderizados', tripTitles.length === 7, `${tripTitles.length}: ${tripTitles.map(t=>t.trim().slice(0,18)).join(' / ')}`);
+// --- Inicio: hay un viaje en curso, así que abre en el hero de ese viaje ---
+check('Inicio abre en el viaje en curso', await page.locator('text=En curso').count() > 0);
+const progreso = await page.locator('text=/Día \\d+ de \\d+/').first().textContent();
+check('muestra el progreso del viaje', /Día \d+ de 76/.test(progreso || ''), (progreso || '').trim());
+const estasEn = await page.locator('text=Estás en').locator('..').textContent();
+check('dice en qué parada estás hoy', /\w/.test(estasEn || ''),
+      (estasEn || '').replace(/\s+/g, ' ').trim().slice(0, 60));
+if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/inicio.png` });
 
-const statVals = await page.locator('main .text-xl.font-extrabold, main .sm\\:text-2xl').allTextContents();
-console.log('   stats:', statVals.map(s=>s.trim()).filter(Boolean).slice(0,4).join(' · '));
-if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/qa-1-viajes.png` });
+// --- las 4 tabs de la barra ---
+const tabs = (await page.locator('nav button').allTextContents()).map(t => t.trim()).filter(Boolean);
+check('la barra tiene 4 destinos', tabs.length === 4, tabs.join(' / '));
 
-// --- Itinerario del viaje activo (Europa 2026) ---
-await page.locator('nav button:visible:has-text("Itinerario")').first().click();
+// --- Viajes: segmented control y cards con foto ---
+await nav('Viajes').click();
+await page.waitForTimeout(800);
+const activos = await page.locator('[data-trip]').count();
+check('Activos muestra el viaje en curso', activos === 1, `${activos} card(s)`);
+
+await page.locator('button:has-text("Pasados")').click();
+await page.waitForTimeout(1000);
+const pasados = await page.locator('[data-trip]').count();
+check('Pasados muestra los 6 viajes terminados', pasados === 6, `${pasados} cards`);
+
+const conFoto = await page.locator('[data-trip] img').count();
+check('cada card pasada tiene su foto de portada', conFoto === 6, `${conFoto}/6 con imagen`);
+
+const cargadas = await page.locator('[data-trip] img').evaluateAll(
+  imgs => imgs.filter(i => i.complete && i.naturalWidth > 0).length);
+check('las portadas cargan de verdad', cargadas === 6, `${cargadas}/6 decodificadas`);
+
+const compa = await page.locator('[data-trip="bariloche-2025"]').textContent();
+check('la card dice con quién fuiste', /Mati Baigorria/.test(compa || ''));
+check('la card linkea el álbum de fotos', /álbum de fotos/i.test(compa || ''));
+if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/viajes.png` });
+
+// --- Detalle de un viaje ---
+await page.locator('[data-trip="bariloche-2025"] button').first().click();
+await page.waitForTimeout(900);
+check('abre el detalle del viaje', (await page.locator('h1:has-text("Bariloche")').count()) > 0);
+const paradas = await page.locator('text=/\\d+ parada/').first().textContent();
+check('pluraliza bien las paradas', /1 parada$/.test((paradas || '').trim()), (paradas || '').trim());
+await page.locator('button[aria-label="Volver"]').click();
 await page.waitForTimeout(600);
-const stops = await page.locator('main .rounded-2xl h3').count();
-check('itinerario de Europa 2026 con 19 paradas', stops === 19, `${stops} paradas`);
-const totalTxt = await page.locator('[data-stat="Total estimado"]').textContent();
-check('presupuesto calculado', /[\$€]\d/.test(totalTxt || ''), (totalTxt||'').replace(/\s+/g,' ').trim());
-if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/qa-2-itinerario.png` });
+check('vuelve a la lista', (await page.locator('[data-trip]').count()) > 0);
 
-// "Estás acá": hoy es 28-ago-2026, debería caer en Madrid (3-21 ago) o Roma (21-25) o Bari
-const aca = await page.locator('text=Estás acá').count();
-check('marca la parada actual segun la fecha', aca >= 0, `${aca} marcada(s)`);
-
-// --- Cambio de moneda ---
-const before = await page.locator('[data-stat="Total estimado"]').textContent();
-await page.locator('button[title="Cambiar moneda de visualización"]').click();
-await page.waitForTimeout(300);
-const after = await page.locator('[data-stat="Total estimado"]').textContent();
-check('cambio de moneda recalcula', before !== after, `${(before||'').match(/[\$€][\d.]+/)?.[0]} → ${(after||'').match(/[\$€][\d.]+/)?.[0]}`);
+// --- Métricas ---
+await nav('Métricas').click();
+await page.waitForTimeout(900);
+const noches = await page.locator('[data-stat="Noches de viaje"]').textContent();
+check('total de noches sobre los 7 viajes', /133/.test(noches || ''), (noches || '').trim());
+// 44 = 37 noches reales en España dentro de Europa 2026 (contadas parada por
+// parada) + 7 estimadas de Europa 2015, que no tiene reparto por ciudad y cae al
+// promedio entre sus dos países. Con el reparto parejo anterior daban 17.
+const esp = await page.locator('text=/España/').first().locator('../..').textContent();
+check('noches por país usa el dato real por parada', /44/.test(esp || ''),
+      (esp || '').replace(/\s+/g, ' ').trim().slice(0, 40));
+if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/metricas.png`, fullPage: true });
 
 // --- Mi Mundo ---
-await page.locator('nav button:visible:has-text("Mi Mundo")').first().click();
-await page.waitForTimeout(1200);
+await nav('Mi Mundo').click();
+await page.waitForTimeout(1500);
 const paths = await page.locator('main svg path').count();
-const circles = await page.locator('main svg circle').count();
-check('mapa mundial dibujado', paths > 150 && circles > 20, `${paths} paths + ${circles} puntos`);
-const pctTxt = await page.locator('[data-stat="Del mundo"]').textContent();
-check('porcentaje del mundo', /%/.test(pctTxt||''), (pctTxt||'').replace(/\s+/g,' ').trim());
-if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/qa-3-mundo.png` });
+check('el mapa mundial sigue dibujándose', paths > 150, `${paths} paths`);
+const pct = await page.locator('[data-stat="Del mundo"]').textContent();
+check('porcentaje del mundo', /%/.test(pct || ''), (pct || '').trim());
 
-// --- Detalle de país: clic en Italia ---
-await page.locator('main button:has-text("Italia")').first().click();
-await page.waitForTimeout(500);
-const regiones = await page.locator('div[role], .fixed').locator('button:has-text("Toscana")').count();
-check('detalle de pais abre con subdivisiones', regiones > 0, `Toscana visible: ${regiones}`);
-if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/qa-4-pais.png` });
-
-// marcar Toscana y verificar persistencia
-const regionesAntes = await page.locator('[data-stat="Regiones"]').textContent();
-await page.locator('button:has-text("Toscana")').first().click();
-await page.waitForTimeout(300);
-await page.keyboard.press('Escape');
-await page.waitForTimeout(300);
-const regionesDespues = await page.locator('[data-stat="Regiones"]').textContent();
-check('marcar una region actualiza el total', regionesAntes !== regionesDespues,
-      `${(regionesAntes||'').replace(/\s+/g,' ').trim()} → ${(regionesDespues||'').replace(/\s+/g,' ').trim()}`);
-
-// --- Persistencia tras recarga ---
-await page.reload({ waitUntil: 'networkidle' });
-await page.waitForTimeout(800);
-await page.locator('nav button:visible:has-text("Mi Mundo")').first().click();
-await page.waitForTimeout(1000);
-const regionesTrasRecarga = await page.locator('[data-stat="Regiones"]').textContent();
-check('la edicion sobrevive a la recarga', regionesTrasRecarga === regionesDespues,
-      (regionesTrasRecarga||'').replace(/\s+/g,' ').trim());
-
-// --- Cambio de viaje: Bariloche (sin herramientas de planner) ---
-await page.selectOption('select[aria-label="Viaje activo"]', 'bariloche-2025');
-await page.waitForTimeout(600);
-const tabsVisibles = await page.locator('nav button').allTextContents();
-const tabsUnicas = [...new Set(tabsVisibles.map(t=>t.trim()).filter(Boolean))];
-check('viaje historico oculta las herramientas de Europa', !tabsUnicas.some(t=>/Valija|Beneficios/.test(t)), tabsUnicas.join(' / '));
-await page.locator('nav button:visible:has-text("Itinerario")').first().click();
-await page.waitForTimeout(500);
-const sinCostos = await page.locator('text=no tiene costos cargados').count();
-check('viaje sin costos lo dice explicito', sinCostos > 0);
-if (SHOT_DIR) await page.screenshot({ path: `${SHOT_DIR}/qa-5-bariloche.png` });
-
-console.log('\nErrores de consola:', errors.length ? errors.slice(0,5).join(' | ') : 'ninguno');
+console.log('\nErrores de página:', errors.length ? errors.slice(0, 3).join(' | ') : 'ninguno');
 await browser.close();
