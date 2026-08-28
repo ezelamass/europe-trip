@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <!-- Leaflet JS for Map -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Geometría + metadata del mapa mundial (Perfil de Viajero) -->
+    <script src="./world-map-data.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
         body {
@@ -286,6 +288,9 @@
                 </button>
                 <button onclick="switchTab('luggage')" id="tab-luggage" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
                     <i class="fa-solid fa-suitcase-rolling mr-1.5 text-emerald-400"></i> Mi Valija 🎒
+                </button>
+                <button onclick="switchTab('profile')" id="tab-profile" class="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3">
+                    <i class="fa-solid fa-earth-americas mr-1.5 text-rose-400"></i> Mi Mundo 🌍
                 </button>
             </div>
 
@@ -994,6 +999,81 @@
                     </div>
 
                 </div>
+            </div>
+
+            <!-- TAB 5: Traveler Profile / Stats -->
+            <div id="panel-profile" class="space-y-6 hidden">
+
+                <!-- Hero: global stats -->
+                <div class="bg-gradient-to-br from-rose-950 via-slate-950 to-slate-950 text-white p-5 sm:p-6 rounded-2xl shadow-md border border-rose-900/30 relative overflow-hidden">
+                    <div class="absolute -right-8 -bottom-10 opacity-[0.07] text-[9rem] sm:text-[11rem] pointer-events-none">
+                        <i class="fa-solid fa-earth-americas"></i>
+                    </div>
+                    <div class="relative z-10">
+                        <span class="text-[10px] font-bold text-rose-300 uppercase tracking-wider">Perfil de Viajero</span>
+                        <h3 class="text-base sm:text-lg font-bold mb-4 mt-0.5">Cuánto mundo llevo recorrido</h3>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="bg-slate-900/60 backdrop-blur-sm rounded-xl p-3 border border-slate-800">
+                                <div id="profile-stat-pct" class="text-2xl sm:text-3xl font-extrabold text-rose-400 tabular-nums">—</div>
+                                <div class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5">del mundo</div>
+                            </div>
+                            <div class="bg-slate-900/60 backdrop-blur-sm rounded-xl p-3 border border-slate-800">
+                                <div id="profile-stat-countries" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tabular-nums">—</div>
+                                <div class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5">países</div>
+                            </div>
+                            <div class="bg-slate-900/60 backdrop-blur-sm rounded-xl p-3 border border-slate-800">
+                                <div id="profile-stat-continents" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tabular-nums">—</div>
+                                <div class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5">continentes</div>
+                            </div>
+                            <div class="bg-slate-900/60 backdrop-blur-sm rounded-xl p-3 border border-slate-800">
+                                <div id="profile-stat-subs" class="text-2xl sm:text-3xl font-extrabold text-slate-100 tabular-nums">—</div>
+                                <div class="text-[10px] sm:text-xs text-slate-400 font-medium mt-0.5">regiones</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- World map -->
+                <div class="bg-slate-950 rounded-2xl shadow-sm border border-slate-800 overflow-hidden">
+                    <div class="flex items-center justify-between gap-3 p-4 pb-3">
+                        <h4 class="font-bold text-slate-100 text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-map text-rose-400"></i> Mapa del mundo
+                        </h4>
+                        <button onclick="openCountryPicker()" class="inline-flex items-center gap-1.5 text-[11px] font-bold text-rose-300 bg-rose-950/40 hover:bg-rose-950/70 border border-rose-900/40 rounded-lg px-2.5 py-1.5 transition active:scale-95">
+                            <i class="fa-solid fa-plus"></i> Agregar país
+                        </button>
+                    </div>
+                    <!-- Continent focus chips -->
+                    <div id="profile-continent-chips" class="flex gap-1.5 overflow-x-auto no-scrollbar px-4 pb-3"></div>
+                    <div class="relative bg-slate-900/40 border-y border-slate-800">
+                        <div id="world-map-wrap" class="w-full"></div>
+                        <div class="absolute bottom-2 left-3 flex items-center gap-3 text-[10px] text-slate-400 pointer-events-none">
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-rose-500 inline-block"></span> Visitado</span>
+                            <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-sm bg-slate-700 inline-block"></span> Pendiente</span>
+                        </div>
+                    </div>
+                    <p class="text-[11px] text-slate-500 px-4 py-2.5">Tocá cualquier país para ver el detalle, marcarlo como visitado o cargar sus provincias/estados.</p>
+                </div>
+
+                <!-- Continent breakdown -->
+                <div class="bg-slate-950 rounded-2xl shadow-sm border border-slate-800 p-4 sm:p-5">
+                    <h4 class="font-bold text-slate-100 text-sm sm:text-base mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-simple text-indigo-400"></i> Por continente
+                    </h4>
+                    <div id="profile-continent-bars" class="space-y-3.5"></div>
+                </div>
+
+                <!-- Visited countries list -->
+                <div class="bg-slate-950 rounded-2xl shadow-sm border border-slate-800 p-4 sm:p-5">
+                    <div class="flex items-center justify-between gap-3 mb-4">
+                        <h4 class="font-bold text-slate-100 text-sm sm:text-base flex items-center gap-2">
+                            <i class="fa-solid fa-list-check text-emerald-400"></i> Mis países
+                        </h4>
+                        <span id="profile-countries-count" class="text-[11px] text-slate-500 font-medium"></span>
+                    </div>
+                    <div id="profile-countries-list" class="space-y-2"></div>
+                </div>
+
             </div>
 
         </section>
@@ -1819,7 +1899,7 @@
         // ⚠️ FUENTE DE VERDAD: estos datos hardcodeados mandan sobre lo guardado en el celu.
         // Subí DATA_VERSION cada vez que edites datos hardcodeados (itinerario, valija, etc.)
         // para forzar que el navegador del celu descarte su copia vieja y tome la nueva.
-        const DATA_VERSION = "2026-08-27-4";
+        const DATA_VERSION = "2026-08-28-1";
 
         // Itinerario por defecto (única definición; el celu lo restaura solo dentro de la misma versión)
         const DEFAULT_ROUTE_STOPS = [
@@ -2181,6 +2261,31 @@
             }
         ];
 
+        // ==========================================
+        // PERFIL DE VIAJERO — países y regiones visitadas
+        // ==========================================
+        // `visits` = veces que estuvo en el país · `subs` = provincias/estados/regiones pisadas
+        // (los códigos salen de WORLD_SUBDIVISIONS en world-map-data.js).
+        // Semilla: los 15 países del perfil + las regiones que se pueden deducir del itinerario.
+        // Lo que no está confirmado queda vacío para completar a mano desde la app.
+        const DEFAULT_TRAVEL_PROFILE = {
+            AR: { visits: 1, subs: ['caba', 'ba'] },              // casa
+            UY: { visits: 1, subs: [] },
+            BR: { visits: 1, subs: [] },
+            CL: { visits: 1, subs: [] },
+            US: { visits: 1, subs: [] },
+            ES: { visits: 2, subs: ['mad', 'bal', 'cat'] },       // Madrid + Baleares (2026) · Barcelona (1er viaje)
+            FR: { visits: 1, subs: ['idf'] },                     // París (1er viaje)
+            IT: { visits: 1, subs: ['laz', 'pug', 'cam'] },       // Roma · Bari/Puglia · Nápoles-Sorrento-Capri
+            VA: { visits: 1, subs: [] },                          // sin subdivisiones
+            DE: { visits: 1, subs: ['be', 'by'] },                // Berlín · Múnich
+            AT: { visits: 1, subs: ['vie', 'alt'] },              // Viena · Hallstatt (Alta Austria)
+            NL: { visits: 1, subs: ['nh'] },                      // Ámsterdam
+            BE: { visits: 1, subs: ['bru'] },                     // Bruselas
+            CZ: { visits: 1, subs: ['pra'] },                     // Praga
+            GB: { visits: 1, subs: ['eng'] }                      // Londres
+        };
+
         // State Store
         let state = {
             customFacts: [],
@@ -2200,6 +2305,8 @@
             mamaPaysMomTrip: false, // Nueva propiedad
             routeFullScreen: false, // Pantalla completa de ruta
             esimPhoneNumber: "",
+            travelProfile: {},           // países visitados (se siembra en window.onload)
+            profileContinent: 'WORLD',   // foco del mapa: WORLD | EU | SA | NA | AS | AF | OC
             appliedBenefits: {
                 veranoJoven: true,
                 tse: true,
@@ -2216,6 +2323,7 @@
             state.routeStops = JSON.parse(JSON.stringify(DEFAULT_ROUTE_STOPS));
             state.sideQuests = JSON.parse(JSON.stringify(DEFAULT_SIDE_QUESTS));
             state.luggageItems = JSON.parse(JSON.stringify(DEFAULT_LUGGAGE_ITEMS));
+            state.travelProfile = JSON.parse(JSON.stringify(DEFAULT_TRAVEL_PROFILE));
 
             // Restaurar lo guardado en este dispositivo (ediciones rapidas hechas en el celu)
             const saved = localStorage.getItem('eurotrip_state_lego');
@@ -2263,6 +2371,13 @@
                     if (loadedState.mamaPaysMomTrip !== undefined) state.mamaPaysMomTrip = loadedState.mamaPaysMomTrip;
                     if (loadedState.routeFullScreen !== undefined) state.routeFullScreen = loadedState.routeFullScreen;
                     if (loadedState.esimPhoneNumber !== undefined) state.esimPhoneNumber = loadedState.esimPhoneNumber;
+                    // El perfil de viajero es contenido del usuario (lo edita desde la app, no
+                    // vive hardcodeado): se restaura SIEMPRE, aunque suba DATA_VERSION. Reemplaza
+                    // al default en vez de mergear, para respetar los países que haya borrado.
+                    if (loadedState.travelProfile && typeof loadedState.travelProfile === 'object') {
+                        state.travelProfile = loadedState.travelProfile;
+                    }
+                    if (loadedState.profileContinent) state.profileContinent = loadedState.profileContinent;
                 } catch(e) {
                     console.error("No se pudo cargar el estado guardado", e);
                 }
@@ -2357,7 +2472,9 @@
                 backpackUsbConnected: state.backpackUsbConnected,
                 mamaPaysMomTrip: state.mamaPaysMomTrip,
                 routeFullScreen: state.routeFullScreen,
-                esimPhoneNumber: state.esimPhoneNumber
+                esimPhoneNumber: state.esimPhoneNumber,
+                travelProfile: state.travelProfile,
+                profileContinent: state.profileContinent
             }));
         }
 
@@ -2394,12 +2511,14 @@
             const btnItinerary = document.getElementById('tab-itinerary');
             const btnQuests = document.getElementById('tab-quests');
             const btnLuggage = document.getElementById('tab-luggage');
+            const btnProfile = document.getElementById('tab-profile');
 
             const panelBenefits = document.getElementById('panel-benefits');
             const panelHacks = document.getElementById('panel-hacks');
             const panelItinerary = document.getElementById('panel-itinerary');
             const panelQuests = document.getElementById('panel-quests');
             const panelLuggage = document.getElementById('panel-luggage');
+            const panelProfile = document.getElementById('panel-profile');
 
             // Reset classes
             const normalClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-medium text-slate-400 hover:text-slate-200 rounded-lg transition-all whitespace-nowrap px-3";
@@ -2408,16 +2527,19 @@
             btnItinerary.className = normalClass;
             btnQuests.className = normalClass;
             btnLuggage.className = normalClass;
+            btnProfile.className = normalClass;
 
             panelBenefits.classList.add('hidden');
             panelHacks.classList.add('hidden');
             panelItinerary.classList.add('hidden');
             panelQuests.classList.add('hidden');
             panelLuggage.classList.add('hidden');
+            panelProfile.classList.add('hidden');
 
-            const activeClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-blue-950/40 text-blue-300 border border-blue-900/30 transition-all whitespace-nowrap px-3";
+            const activeClass ="flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-blue-950/40 text-blue-300 border border-blue-900/30 transition-all whitespace-nowrap px-3";
             const activeQuestClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-indigo-950/40 text-indigo-300 border border-indigo-900/30 transition-all whitespace-nowrap px-3";
             const activeLuggageClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-emerald-950/40 text-emerald-300 border border-emerald-900/30 transition-all whitespace-nowrap px-3";
+            const activeProfileClass = "flex-1 min-w-[125px] sm:min-w-[140px] py-3 text-center text-xs sm:text-sm font-semibold rounded-lg bg-rose-950/40 text-rose-300 border border-rose-900/30 transition-all whitespace-nowrap px-3";
 
             if (tab === 'benefits') {
                 btnBenefits.className = activeClass;
@@ -2434,6 +2556,10 @@
             } else if (tab === 'luggage') {
                 btnLuggage.className = activeLuggageClass;
                 panelLuggage.classList.remove('hidden');
+            } else if (tab === 'profile') {
+                btnProfile.className = activeProfileClass;
+                panelProfile.classList.remove('hidden');
+                renderTravelProfile();
             }
 
             // La pantalla completa solo colapsa el layout dentro del itinerario.
@@ -4638,6 +4764,393 @@ Sé preciso con fechas y hechos: si no estás seguro de un dato, aclaralo en vez
 
             const bounds = L.latLngBounds(latlngs);
             berlinItinMapInstance.fitBounds(bounds, { padding: [30, 30] });
+        }
+
+        // ==========================================
+        // PERFIL DE VIAJERO: mapa mundial + estadísticas
+        // ==========================================
+
+        // ISO alpha-2 -> emoji de bandera (indicadores regionales unicode)
+        function flagEmoji(iso) {
+            if (!iso || iso.length !== 2) return '🏳️';
+            return iso.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt(0)));
+        }
+
+        const TOTAL_COUNTRIES = Object.keys(WORLD_COUNTRIES).length; // 195 soberanos
+
+        // Países del perfil que existen en el catálogo (ignora basura vieja del storage)
+        function visitedIsoList() {
+            return Object.keys(state.travelProfile).filter(iso => WORLD_COUNTRIES[iso]);
+        }
+
+        // Cuántas subdivisiones tiene un país (0 = sin datos cargados para ese país)
+        function subsTotal(iso) {
+            const s = WORLD_SUBDIVISIONS[iso];
+            return s ? s.list.length : 0;
+        }
+        function subsVisited(iso) {
+            const e = state.travelProfile[iso];
+            if (!e || !Array.isArray(e.subs)) return 0;
+            const valid = new Set((WORLD_SUBDIVISIONS[iso] ? WORLD_SUBDIVISIONS[iso].list : []).map(x => x[0]));
+            return e.subs.filter(c => valid.has(c)).length;
+        }
+
+        function renderTravelProfile() {
+            renderProfileStats();
+            renderContinentChips();
+            renderWorldMap();
+            renderContinentBars();
+            renderProfileCountriesList();
+        }
+
+        function renderProfileStats() {
+            const visited = visitedIsoList();
+            const conts = new Set(visited.map(iso => WORLD_COUNTRIES[iso].c));
+            const totalSubs = visited.reduce((acc, iso) => acc + subsVisited(iso), 0);
+            const pct = (visited.length / TOTAL_COUNTRIES) * 100;
+
+            document.getElementById('profile-stat-pct').innerText = pct.toFixed(1) + '%';
+            document.getElementById('profile-stat-countries').innerText = visited.length;
+            document.getElementById('profile-stat-continents').innerText = conts.size + '/6';
+            document.getElementById('profile-stat-subs').innerText = totalSubs;
+        }
+
+        function renderContinentChips() {
+            const container = document.getElementById('profile-continent-chips');
+            if (!container) return;
+            const visited = visitedIsoList();
+            const chips = [['WORLD', 'Mundo 🌍']].concat(
+                Object.entries(WORLD_CONTINENTS).map(([code, name]) => [code, name])
+            );
+            container.innerHTML = chips.map(([code, name]) => {
+                const active = state.profileContinent === code;
+                const n = code === 'WORLD'
+                    ? visited.length
+                    : visited.filter(iso => WORLD_COUNTRIES[iso].c === code).length;
+                const cls = active
+                    ? 'bg-rose-950/50 text-rose-300 border-rose-800/50 font-bold'
+                    : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-200 font-medium';
+                return `<button onclick="setProfileContinent('${code}')" class="shrink-0 px-3 py-1.5 rounded-lg border text-[11px] transition active:scale-95 ${cls}">
+                    ${escapeHTML(name)} <span class="opacity-60 tabular-nums">${n}</span>
+                </button>`;
+            }).join('');
+        }
+
+        function setProfileContinent(code) {
+            state.profileContinent = code;
+            saveToStorage();
+            renderContinentChips();
+            renderWorldMap();
+        }
+
+        function renderWorldMap() {
+            const wrap = document.getElementById('world-map-wrap');
+            if (!wrap) return;
+            const view = WORLD_VIEWS[state.profileContinent] || WORLD_VIEWS.WORLD;
+            const isVisited = iso => !!state.travelProfile[iso];
+            // El trazo se escala con el zoom para que no se engorde al enfocar un continente
+            const strokeW = Math.max(0.4, (view[2] / 2000) * 1.4).toFixed(2);
+            const dotR = Math.max(2.5, (view[2] / 2000) * 7).toFixed(1);
+
+            let shapes = '';
+            Object.entries(WORLD_PATHS).forEach(([iso, d]) => {
+                const sovereign = !!WORLD_COUNTRIES[iso];
+                const vis = sovereign && isVisited(iso);
+                // Territorios no soberanos (Groenlandia, Sáhara Occidental...) van de fondo,
+                // sin interacción: no cuentan para las estadísticas de países.
+                const fill = vis ? '#f43f5e' : (sovereign ? '#334155' : '#293548');
+                const cursor = sovereign ? 'cursor:pointer;' : '';
+                const click = sovereign ? ` onclick="openCountryDetail('${iso}')"` : '';
+                shapes += `<path d="${d}" fill="${fill}" stroke="#0f172a" stroke-width="${strokeW}" fill-rule="evenodd" style="${cursor}"${click}><title>${escapeHTML(sovereign ? WORLD_COUNTRIES[iso].n : iso)}</title></path>`;
+            });
+            Object.entries(WORLD_DOTS).forEach(([iso, xy]) => {
+                if (!WORLD_COUNTRIES[iso]) return;
+                const vis = isVisited(iso);
+                shapes += `<circle cx="${xy[0]}" cy="${xy[1]}" r="${dotR}" fill="${vis ? '#f43f5e' : '#475569'}" stroke="#0f172a" stroke-width="${strokeW}" style="cursor:pointer;" onclick="openCountryDetail('${iso}')"><title>${escapeHTML(WORLD_COUNTRIES[iso].n)}</title></circle>`;
+            });
+
+            wrap.innerHTML = `<svg viewBox="${view.join(' ')}" preserveAspectRatio="xMidYMid meet" style="width:100%;height:auto;display:block;" role="img" aria-label="Mapa de países visitados">${shapes}</svg>`;
+        }
+
+        function renderContinentBars() {
+            const container = document.getElementById('profile-continent-bars');
+            if (!container) return;
+            const visited = visitedIsoList();
+            const rows = Object.entries(WORLD_CONTINENTS).map(([code, name]) => {
+                const total = Object.values(WORLD_COUNTRIES).filter(c => c.c === code).length;
+                const n = visited.filter(iso => WORLD_COUNTRIES[iso].c === code).length;
+                return { code, name, n, total, pct: total ? (n / total) * 100 : 0 };
+            }).sort((a, b) => b.pct - a.pct);
+
+            container.innerHTML = rows.map(r => `
+                <button onclick="setProfileContinent('${r.code}')" class="w-full text-left group">
+                    <div class="flex items-baseline justify-between gap-2 mb-1">
+                        <span class="text-xs font-semibold text-slate-200 group-hover:text-white transition">${escapeHTML(r.name)}</span>
+                        <span class="text-[11px] text-slate-400 tabular-nums shrink-0">
+                            <span class="font-bold ${r.n ? 'text-rose-400' : 'text-slate-500'}">${r.n}</span>/${r.total}
+                            <span class="text-slate-500 ml-1">${r.pct.toFixed(1)}%</span>
+                        </span>
+                    </div>
+                    <div class="h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                        <div class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-500" style="width:${Math.max(r.pct, r.n ? 2 : 0)}%"></div>
+                    </div>
+                </button>
+            `).join('');
+        }
+
+        function renderProfileCountriesList() {
+            const container = document.getElementById('profile-countries-list');
+            const countEl = document.getElementById('profile-countries-count');
+            if (!container) return;
+
+            const visited = visitedIsoList().sort((a, b) => {
+                const ca = WORLD_COUNTRIES[a].c, cb = WORLD_COUNTRIES[b].c;
+                if (ca !== cb) return ca.localeCompare(cb);
+                return WORLD_COUNTRIES[a].n.localeCompare(WORLD_COUNTRIES[b].n, 'es');
+            });
+            if (countEl) countEl.innerText = `${visited.length} de ${TOTAL_COUNTRIES}`;
+
+            if (!visited.length) {
+                container.innerHTML = `<div class="text-center py-6 text-slate-500 text-sm">Todavía no cargaste ningún país. Tocá "Agregar país" o elegí uno en el mapa.</div>`;
+                return;
+            }
+
+            let html = '';
+            let lastCont = null;
+            visited.forEach(iso => {
+                const c = WORLD_COUNTRIES[iso];
+                if (c.c !== lastCont) {
+                    lastCont = c.c;
+                    html += `<div class="text-[10px] font-bold text-slate-500 uppercase tracking-wider pt-3 pb-1 first:pt-0">${escapeHTML(WORLD_CONTINENTS[c.c])}</div>`;
+                }
+                const entry = state.travelProfile[iso] || {};
+                const st = subsTotal(iso), sv = subsVisited(iso);
+                const subPct = st ? (sv / st) * 100 : 0;
+                const visits = entry.visits || 1;
+                html += `
+                    <button onclick="openCountryDetail('${iso}')" class="w-full flex items-center gap-3 p-2.5 bg-slate-900 hover:bg-slate-800/80 border border-slate-800 rounded-xl transition active:scale-[0.99] text-left">
+                        <span class="text-xl shrink-0">${flagEmoji(iso)}</span>
+                        <div class="min-w-0 flex-1">
+                            <div class="text-sm font-semibold text-slate-100 truncate">${escapeHTML(c.n)}</div>
+                            <div class="text-[11px] text-slate-500">
+                                ${visits > 1 ? `<span class="text-amber-400 font-semibold">${visits} veces</span> · ` : ''}${
+                                    st ? `${sv}/${st} ${escapeHTML(WORLD_SUBDIVISIONS[iso].label)} · ${subPct.toFixed(0)}%` : 'sin subdivisiones cargadas'
+                                }
+                            </div>
+                        </div>
+                        ${st ? `<div class="w-14 h-1.5 bg-slate-800 rounded-full overflow-hidden shrink-0">
+                            <div class="h-full bg-rose-500 rounded-full" style="width:${subPct}%"></div>
+                        </div>` : ''}
+                        <i class="fa-solid fa-chevron-right text-slate-600 text-xs shrink-0"></i>
+                    </button>`;
+            });
+            container.innerHTML = html;
+        }
+
+        // ---------- Detalle de país (modal) ----------
+        function openCountryDetail(iso) {
+            if (!WORLD_COUNTRIES[iso]) return;
+            closeCountryDetail();
+            const modal = document.createElement('div');
+            modal.id = 'country-detail-modal';
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-all";
+            modal.innerHTML = `
+                <div class="bg-slate-900 border border-slate-700 max-w-lg w-full rounded-2xl shadow-2xl relative flex flex-col max-h-[92vh]">
+                    <div class="flex items-start justify-between gap-3 p-5 pb-4 border-b border-slate-800 shrink-0">
+                        <div class="flex items-center gap-3 min-w-0">
+                            <span class="text-3xl shrink-0">${flagEmoji(iso)}</span>
+                            <div class="min-w-0">
+                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">${escapeHTML(WORLD_CONTINENTS[WORLD_COUNTRIES[iso].c])}</span>
+                                <h4 class="font-bold text-white text-base sm:text-lg leading-snug truncate">${escapeHTML(WORLD_COUNTRIES[iso].n)}</h4>
+                            </div>
+                        </div>
+                        <button onclick="closeCountryDetail()" class="p-2.5 -m-1 rounded-lg text-slate-400 hover:text-white active:bg-slate-800 transition-all text-lg shrink-0" aria-label="Cerrar">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    <div id="country-detail-body" class="flex-1 overflow-y-auto p-5 custom-scrollbar space-y-4"></div>
+                </div>`;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', e => { if (e.target === modal) closeCountryDetail(); });
+            renderCountryDetailBody(iso);
+        }
+
+        function closeCountryDetail() {
+            const m = document.getElementById('country-detail-modal');
+            if (m) m.remove();
+        }
+
+        function renderCountryDetailBody(iso) {
+            const body = document.getElementById('country-detail-body');
+            if (!body) return;
+            const entry = state.travelProfile[iso];
+            const isVisited = !!entry;
+            const visits = entry ? (entry.visits || 1) : 0;
+            const st = subsTotal(iso), sv = subsVisited(iso);
+            const subPct = st ? (sv / st) * 100 : 0;
+
+            let html = `
+                <button onclick="toggleCountryVisited('${iso}')" class="w-full flex items-center justify-between gap-3 p-3.5 rounded-xl border transition active:scale-[0.99] ${
+                    isVisited ? 'bg-rose-950/40 border-rose-900/50 text-rose-300' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                }">
+                    <span class="flex items-center gap-2.5 font-bold text-sm">
+                        <i class="fa-${isVisited ? 'solid fa-circle-check' : 'regular fa-circle'} text-lg"></i>
+                        ${isVisited ? 'Visitado' : 'Marcar como visitado'}
+                    </span>
+                    ${isVisited ? '<span class="text-[11px] font-medium opacity-70">Tocá para quitar</span>' : ''}
+                </button>`;
+
+            if (isVisited) {
+                html += `
+                    <div class="flex items-center justify-between gap-3 p-3.5 bg-slate-950 border border-slate-800 rounded-xl">
+                        <div>
+                            <div class="text-sm font-semibold text-slate-200">Veces que fui</div>
+                            <div class="text-[11px] text-slate-500">Cuántos viajes distintos a este país</div>
+                        </div>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button onclick="adjustCountryVisits('${iso}', -1)" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition active:scale-95" aria-label="Restar">−</button>
+                            <span class="w-8 text-center text-lg font-extrabold text-amber-400 tabular-nums">${visits}</span>
+                            <button onclick="adjustCountryVisits('${iso}', 1)" class="w-9 h-9 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold transition active:scale-95" aria-label="Sumar">+</button>
+                        </div>
+                    </div>`;
+
+                if (st) {
+                    const label = WORLD_SUBDIVISIONS[iso].label;
+                    html += `
+                        <div>
+                            <div class="flex items-baseline justify-between gap-2 mb-2">
+                                <h5 class="text-sm font-bold text-slate-200 capitalize">${escapeHTML(label)}</h5>
+                                <span class="text-[11px] text-slate-400 tabular-nums">
+                                    <span class="font-bold text-rose-400">${sv}</span>/${st} · ${subPct.toFixed(0)}% del país
+                                </span>
+                            </div>
+                            <div class="h-2 bg-slate-950 rounded-full overflow-hidden border border-slate-800 mb-3">
+                                <div class="h-full bg-gradient-to-r from-rose-600 to-rose-400 rounded-full transition-all duration-500" style="width:${subPct}%"></div>
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-1.5">
+                                ${WORLD_SUBDIVISIONS[iso].list.map(([code, name]) => {
+                                    const on = (entry.subs || []).includes(code);
+                                    return `<button onclick="toggleSubdivision('${iso}','${code}')" class="flex items-center gap-2 px-2.5 py-2 rounded-lg border text-left transition active:scale-[0.98] ${
+                                        on ? 'bg-rose-950/40 border-rose-900/50 text-rose-200' : 'bg-slate-950 border-slate-800 text-slate-400 hover:text-slate-200'
+                                    }">
+                                        <i class="fa-${on ? 'solid fa-square-check' : 'regular fa-square'} text-sm shrink-0"></i>
+                                        <span class="text-[12px] font-medium truncate">${escapeHTML(name)}</span>
+                                    </button>`;
+                                }).join('')}
+                            </div>
+                        </div>`;
+                } else {
+                    html += `<div class="p-3.5 bg-slate-950 border border-slate-800 rounded-xl text-[12px] text-slate-500">
+                        ${WORLD_SUBDIVISIONS[iso] ? 'Este país no tiene subdivisiones para contar.' : 'Todavía no hay lista de provincias/estados cargada para este país. Se puede sumar en <code class="text-slate-400">world-map-data.js</code>.'}
+                    </div>`;
+                }
+            }
+
+            body.innerHTML = html;
+        }
+
+        function toggleCountryVisited(iso) {
+            if (state.travelProfile[iso]) delete state.travelProfile[iso];
+            else state.travelProfile[iso] = { visits: 1, subs: [] };
+            saveToStorage();
+            renderCountryDetailBody(iso);
+            renderTravelProfile();
+        }
+
+        function adjustCountryVisits(iso, delta) {
+            const entry = state.travelProfile[iso];
+            if (!entry) return;
+            entry.visits = Math.max(1, (entry.visits || 1) + delta);
+            saveToStorage();
+            renderCountryDetailBody(iso);
+            renderProfileCountriesList();
+        }
+
+        function toggleSubdivision(iso, code) {
+            const entry = state.travelProfile[iso];
+            if (!entry) return;
+            if (!Array.isArray(entry.subs)) entry.subs = [];
+            const i = entry.subs.indexOf(code);
+            if (i >= 0) entry.subs.splice(i, 1);
+            else entry.subs.push(code);
+            saveToStorage();
+            renderCountryDetailBody(iso);
+            renderProfileStats();
+            renderProfileCountriesList();
+        }
+
+        // ---------- Selector de países (modal con buscador) ----------
+        function openCountryPicker() {
+            closeCountryPicker();
+            const modal = document.createElement('div');
+            modal.id = 'country-picker-modal';
+            modal.className = "fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm transition-all";
+            modal.innerHTML = `
+                <div class="bg-slate-900 border border-slate-700 max-w-lg w-full rounded-2xl shadow-2xl relative flex flex-col max-h-[92vh]">
+                    <div class="flex items-start justify-between gap-3 p-5 pb-4 border-b border-slate-800 shrink-0">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Perfil de viajero</span>
+                            <h4 class="font-bold text-white text-base sm:text-lg leading-snug">Países visitados</h4>
+                        </div>
+                        <button onclick="closeCountryPicker()" class="p-2.5 -m-1 rounded-lg text-slate-400 hover:text-white active:bg-slate-800 transition-all text-lg shrink-0" aria-label="Cerrar">
+                            <i class="fa-solid fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 pb-3 border-b border-slate-800 shrink-0">
+                        <input id="country-picker-search" type="text" placeholder="Buscar país..." oninput="renderCountryPickerList()" autocomplete="off"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:border-rose-700 transition">
+                    </div>
+                    <div id="country-picker-list" class="flex-1 overflow-y-auto p-3 custom-scrollbar space-y-1"></div>
+                </div>`;
+            document.body.appendChild(modal);
+            modal.addEventListener('click', e => { if (e.target === modal) closeCountryPicker(); });
+            renderCountryPickerList();
+        }
+
+        function closeCountryPicker() {
+            const m = document.getElementById('country-picker-modal');
+            if (m) m.remove();
+        }
+
+        function renderCountryPickerList() {
+            const list = document.getElementById('country-picker-list');
+            if (!list) return;
+            const input = document.getElementById('country-picker-search');
+            const q = (input ? input.value : '').trim().toLowerCase();
+
+            const all = Object.keys(WORLD_COUNTRIES)
+                .filter(iso => !q || WORLD_COUNTRIES[iso].n.toLowerCase().includes(q) || iso.toLowerCase() === q)
+                .sort((a, b) => {
+                    // Los visitados primero, después alfabético
+                    const va = !!state.travelProfile[a], vb = !!state.travelProfile[b];
+                    if (va !== vb) return va ? -1 : 1;
+                    return WORLD_COUNTRIES[a].n.localeCompare(WORLD_COUNTRIES[b].n, 'es');
+                });
+
+            if (!all.length) {
+                list.innerHTML = `<div class="text-center py-6 text-slate-500 text-sm">Sin resultados.</div>`;
+                return;
+            }
+
+            list.innerHTML = all.map(iso => {
+                const on = !!state.travelProfile[iso];
+                return `<button onclick="toggleCountryFromPicker('${iso}')" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border transition active:scale-[0.99] text-left ${
+                    on ? 'bg-rose-950/40 border-rose-900/50' : 'bg-slate-950 border-slate-800 hover:border-slate-700'
+                }">
+                    <span class="text-xl shrink-0">${flagEmoji(iso)}</span>
+                    <span class="flex-1 min-w-0 text-sm font-medium ${on ? 'text-rose-200' : 'text-slate-300'} truncate">${escapeHTML(WORLD_COUNTRIES[iso].n)}</span>
+                    <span class="text-[10px] text-slate-500 shrink-0">${escapeHTML(WORLD_CONTINENTS[WORLD_COUNTRIES[iso].c])}</span>
+                    <i class="fa-${on ? 'solid fa-circle-check text-rose-400' : 'regular fa-circle text-slate-600'} shrink-0"></i>
+                </button>`;
+            }).join('');
+        }
+
+        function toggleCountryFromPicker(iso) {
+            if (state.travelProfile[iso]) delete state.travelProfile[iso];
+            else state.travelProfile[iso] = { visits: 1, subs: [] };
+            saveToStorage();
+            renderCountryPickerList();
+            renderTravelProfile();
         }
 
         // Inicializar y renderizar el mapa interactivo

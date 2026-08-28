@@ -4,13 +4,14 @@
  *    (tus ediciones al HTML se ven enseguida); offline cae al cache.
  *  - Assets de CDN/fuentes/tiles: CACHE-FIRST -> rapido y disponible offline.
  * Subí CACHE_VERSION cuando cambien assets/CDNs para invalidar el cache viejo. */
-const CACHE_VERSION = 'eurotrip-cache-v2';
+const CACHE_VERSION = 'eurotrip-cache-v3';
 
 const PRECACHE_URLS = [
   './',
   './index.html',
   './manifest.json',
   './icon.svg',
+  './world-map-data.js',
   'https://cdn.tailwindcss.com',
   'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css',
   'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
