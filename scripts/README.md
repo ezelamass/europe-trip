@@ -1,6 +1,6 @@
 # scripts/ — regeneración del mapa mundial
 
-`world-map-data.js` (en la raíz) está **generado**, no se edita a mano. Contiene la
+`src/data/worldMap.ts` está **generado**, no se edita a mano. Contiene la
 geometría del mapa del Perfil de Viajero, la metadata de los 195 países soberanos y las
 subdivisiones (provincias/estados/regiones) de los países cargados.
 
@@ -12,6 +12,10 @@ subdivisiones (provincias/estados/regiones) de los países cargados.
 
 Para lo demás (marcar países/regiones como visitados) **no hace falta tocar nada**: eso se
 edita desde la app y vive en el `localStorage` del celu.
+
+> Desde la migración a React el archivo final es un módulo TypeScript
+> (`src/data/worldMap.ts`), no un script global. `to-module.js` hace esa conversión:
+> antepone `export` a cada `const` y agrega los tipos al final.
 
 ## Cómo
 
@@ -28,8 +32,8 @@ node build-map.js
 # 3) armar el archivo final
 node build-final.js
 
-# 4) copiarlo a la raíz
-mv world-map-data.js ../
+# 4) convertirlo a módulo ES y dejarlo en src/data/
+node to-module.js
 ```
 
 ## Detalles del formato
