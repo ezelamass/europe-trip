@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dev-dist/
+*.local
+.DS_Store
+
+# Fuentes del generador del mapa (pesan ~1.4 MB, se bajan con curl — ver scripts/README.md)
+scripts/world110m.json
+scripts/countries.json
+scripts/paths.json
+scripts/meta.json
+scripts/dots.json
+*.tsbuildinfo
+scripts/world-map-data.js
