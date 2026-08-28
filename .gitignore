@@ -11,3 +11,4 @@ scripts/paths.json
 scripts/meta.json
 scripts/dots.json
 *.tsbuildinfo
+scripts/world-map-data.js
