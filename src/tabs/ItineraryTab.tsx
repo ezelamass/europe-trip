@@ -1,11 +1,13 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
 import type { Trip, RouteStop } from '../types';
 import { useStore } from '../store/useStore';
-import { fmtMoney, getCostBadgeColor, stopDates } from '../lib/format';
+import { formatRange, getCostBadgeColor, stopRange } from '../lib/format';
+import { useMoney } from '../lib/useMoney';
 import { computeBudget, withDynamicCosts } from '../lib/budget';
 import { tripNights } from '../data/trips';
 import StatTile from '../components/StatTile';
 import Modal from '../components/Modal';
+import { Button, TipCallout, GHOST_LINK_CLS } from '../components/ui';
 // Leaflet pesa y la vista de mapa es opcional: se carga al pedirla.
 const RouteMap = lazy(() => import('../components/RouteMap'));
 
@@ -17,17 +19,19 @@ type Phase = 'pasado' | 'actual' | 'futuro';
 
 /** Las fechas son acumulativas, así que los tramos ya vividos son siempre un
  *  prefijo contiguo: alcanza con comparar el rango de cada parada contra hoy. */
-function phaseOf(startDate: string, nightsBefore: number, nights: number): Phase {
-  if (!startDate) return 'futuro';
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const from = new Date(startDate + 'T00:00:00');
-  from.setDate(from.getDate() + nightsBefore);
-  const to = new Date(from);
-  to.setDate(to.getDate() + nights);
+function phaseOf(from: Date | null, to: Date | null, today: Date): Phase {
+  if (!from || !to) return 'futuro';
   if (to <= today) return 'pasado';
   if (from <= today) return 'actual';
   return 'futuro';
+}
+
+/** Medianoche de hoy. Se calcula una vez por render del itinerario en vez de tres
+ *  `Date` por tarjeta (57 objetos para las 19 paradas de Europa 2026). */
+function startOfToday(): Date {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
 }
 
 function StopCard({
@@ -35,24 +39,27 @@ function StopCard({
   trip,
   index,
   nightsBefore,
+  today,
   onOpenLodging,
 }: {
   stop: RouteStop;
   trip: Trip;
   index: number;
   nightsBefore: number;
+  today: Date;
   onOpenLodging: (s: RouteStop) => void;
 }) {
-  const displayCurrency = useStore((s) => s.displayCurrency);
-  const usdToEurRate = useStore((s) => s.usdToEurRate);
-  const updateStop = useStore((s) => s.updateStop);
-  const moveStop = useStore((s) => s.moveStop);
-  const removeStop = useStore((s) => s.removeStop);
-  const editable = trip.hasPlannerTools;
+  const money = useMoney();
+  // Las acciones nunca cambian de identidad: suscribirse a ellas eran 57 selectores
+  // (3 × 19 paradas) que solo devolvían una constante.
+  const { updateStop, moveStop, removeStop } = useStore.getState();
+  // Un viaje terminado se lee, no se edita. Antes esto colgaba de `hasPlannerTools`,
+  // que significa otra cosa (qué herramientas de planificación tiene el viaje).
+  const editable = trip.status !== 'completado';
 
-  const phase = phaseOf(trip.startDate, nightsBefore, stop.nights);
-  const dates = stopDates(trip.startDate, nightsBefore, stop.nights);
-  const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
+  const { from, to } = stopRange(trip.startDate, nightsBefore, stop.nights);
+  const phase = phaseOf(from, to, today);
+  const dates = formatRange(from, to, stop.nights);
 
   return (
     <div
@@ -95,27 +102,21 @@ function StopCard({
 
         {editable && (
           <div className="flex items-center gap-1 shrink-0">
-            <button
+            <Button variant="ghost" size="icon"
               onClick={() => moveStop(trip.id, stop.id, -1)}
-              aria-label="Subir parada"
-              className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs transition"
-            >
+              aria-label="Subir parada">
               <i className="fa-solid fa-chevron-up" />
-            </button>
-            <button
+            </Button>
+            <Button variant="ghost" size="icon"
               onClick={() => moveStop(trip.id, stop.id, 1)}
-              aria-label="Bajar parada"
-              className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-400 text-xs transition"
-            >
+              aria-label="Bajar parada">
               <i className="fa-solid fa-chevron-down" />
-            </button>
-            <button
+            </Button>
+            <Button variant="danger" size="icon"
               onClick={() => removeStop(trip.id, stop.id)}
-              aria-label="Eliminar parada"
-              className="w-7 h-7 rounded-lg bg-rose-950/50 hover:bg-rose-900/50 text-rose-400 text-xs transition"
-            >
+              aria-label="Eliminar parada">
               <i className="fa-solid fa-trash" />
-            </button>
+            </Button>
           </div>
         )}
       </div>
@@ -151,45 +152,36 @@ function StopCard({
           <span className="text-[11px] text-slate-500 font-semibold uppercase tracking-wide">
             Noches
           </span>
-          <button
-            onClick={() => updateStop(trip.id, stop.id, { nights: Math.max(0, stop.nights - 1) })}
-            className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition"
-          >
+          <Button variant="ghost" size="icon"
+            onClick={() => updateStop(trip.id, stop.id, { nights: Math.max(0, stop.nights - 1) })}>
             <i className="fa-solid fa-minus" />
-          </button>
+          </Button>
           <span className="tabular-nums font-bold text-slate-100 w-6 text-center">{stop.nights}</span>
-          <button
-            onClick={() => updateStop(trip.id, stop.id, { nights: stop.nights + 1 })}
-            className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs transition"
-          >
+          <Button variant="ghost" size="icon"
+            onClick={() => updateStop(trip.id, stop.id, { nights: stop.nights + 1 })}>
             <i className="fa-solid fa-plus" />
-          </button>
+          </Button>
         </div>
       )}
 
       {stop.hack && (
-        <p className="mt-3 text-xs text-amber-200/90 bg-amber-950/25 border border-amber-900/40 rounded-lg px-3 py-2">
-          <i className="fa-solid fa-lightbulb mr-2 text-amber-400" />
-          {stop.hack}
-        </p>
+        <div className="mt-3"><TipCallout>{stop.hack}</TipCallout></div>
       )}
 
       <div className="mt-3 flex flex-wrap gap-2">
         {(stop.hotelName || stop.address || stop.confirmationNumber) && (
-          <button
-            onClick={() => onOpenLodging(stop)}
-            className="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-1.5 transition"
-          >
+          <Button variant="ghost" size="sm"
+            onClick={() => onOpenLodging(stop)}>
             <i className="fa-solid fa-hotel mr-1.5" />
             Alojamiento
-          </button>
+          </Button>
         )}
         {stop.photosAlbumUrl && (
           <a
             href={stop.photosAlbumUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-1.5 transition"
+            className={GHOST_LINK_CLS}
           >
             <i className="fa-regular fa-images mr-1.5" />
             Fotos
@@ -202,25 +194,25 @@ function StopCard({
 
 export default function ItineraryTab({ trip }: { trip: Trip }) {
   const stops = useStore((s) => s.tripStops[trip.id]) ?? NO_STOPS;
+  const money = useMoney();
   const displayCurrency = useStore((s) => s.displayCurrency);
-  const usdToEurRate = useStore((s) => s.usdToEurRate);
   const includeBaseFlight = useStore((s) => s.includeBaseFlight);
   const baseFlightUSD = useStore((s) => s.baseFlightUSD);
   const facts = useStore((s) => s.customFacts);
   const quests = useStore((s) => s.sideQuests);
   const reservations = useStore((s) => s.highSpeedReservations);
-  const reservationAvgCost = useStore((s) => s.reservationAvgCost);
   const momPaysHerTrip = useStore((s) => s.mamaPaysMomTrip);
-  const veranoJoven = useStore((s) => !!s.appliedBenefits.veranoJoven);
+  const benefits = useStore((s) => s.appliedBenefits);
   const setCurrency = useStore((s) => s.setCurrency);
   const toggleBaseFlight = useStore((s) => s.toggleBaseFlight);
   const toggleMomInvitation = useStore((s) => s.toggleMomInvitation);
   const resetStops = useStore((s) => s.resetStops);
 
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
+
   const [view, setView] = useState<'lista' | 'mapa'>('lista');
   const [lodging, setLodging] = useState<RouteStop | null>(null);
 
-  const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
 
   const totals = useMemo(() => {
     // Los hacks, las reservas de tren y las side quests son parte del presupuesto de
@@ -228,18 +220,17 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
     const planner = !!trip.hasPlannerTools;
     return computeBudget({
       stops,
-      facts: planner ? withDynamicCosts(facts, veranoJoven) : [],
+      facts: planner ? withDynamicCosts(facts, benefits) : [],
       quests: planner ? quests : [],
       reservations: planner ? reservations : 0,
-      reservationAvgCost,
       momPaysHerTrip,
       includeBaseFlight: planner && includeBaseFlight,
       baseFlightUSD,
       usdToEurRate,
     });
   }, [
-    stops, trip.hasPlannerTools, facts, veranoJoven, quests, reservations,
-    reservationAvgCost, momPaysHerTrip, includeBaseFlight, baseFlightUSD, usdToEurRate,
+    stops, trip.hasPlannerTools, facts, benefits, quests, reservations,
+    momPaysHerTrip, includeBaseFlight, baseFlightUSD, usdToEurRate,
   ]);
 
   // Noches acumuladas antes de cada parada, para calcular sus fechas.
@@ -252,6 +243,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
     });
   }, [stops]);
 
+  const today = useMemo(startOfToday, []);
   const hasBudget = totals.total > 0;
   const extras = (
     [
@@ -388,6 +380,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
               trip={trip}
               index={i}
               nightsBefore={nightsBefore[i]}
+              today={today}
               onOpenLodging={setLodging}
             />
           ))}

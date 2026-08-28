@@ -8,16 +8,6 @@ const dots = JSON.parse(fs.readFileSync('dots.json', 'utf8'));
 const W = 2000, H = 1000, LAT_MAX = 84, LAT_MIN = -58;
 const project = ([lon, lat]) => [((lon + 180) / 360) * W, ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * H];
 
-function bboxOfPath(d) {
-  const nums = d.match(/-?\d+(\.\d+)?/g).map(Number);
-  let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
-  for (let i = 0; i < nums.length; i += 2) {
-    const x = nums[i], y = nums[i + 1];
-    if (x < minX) minX = x; if (x > maxX) maxX = x;
-    if (y < minY) minY = y; if (y > maxY) maxY = y;
-  }
-  return [minX, minY, maxX, maxY];
-}
 
 // Los viewBox por continente se definen en lon/lat a mano, no por bounding box de los
 // países: Rusia (contada en Europa) llega al antimeridiano y los territorios de ultramar

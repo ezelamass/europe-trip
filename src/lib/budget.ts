@@ -1,32 +1,29 @@
 import type { Fact, RouteStop, SideQuest } from '../types';
 
-/** El Interrail Global Pass sale la mitad con el beneficio Verano Joven.
- *  La app vieja lo recalculaba en cada render; acá se deriva igual, porque
- *  congelarlo dejaba el hack diciendo €429 mientras el texto prometía €214,50. */
-export const INTERRAIL_FACT_ID = 'predefined-interrail';
-const INTERRAIL_FULL = 429.0;
-const INTERRAIL_HALF = 214.5;
-
-export function interrailPricing(veranoJoven: boolean) {
-  return {
-    cost: veranoJoven ? INTERRAIL_HALF : INTERRAIL_FULL,
-    saving: veranoJoven ? INTERRAIL_HALF : 0,
-  };
+/** Aplica los descuentos por beneficio activo. Un hack declara con qué beneficio
+ *  se abarata (`halfPriceWith`) y cuál es su precio de lista (`fullPrice`); acá no
+ *  hay ningún id especial. La app vieja recalculaba esto en cada render, y
+ *  congelarlo dejaba el Interrail diciendo €429 mientras su texto prometía €214,50. */
+export function withDynamicCosts(facts: Fact[], benefits: Record<string, boolean>): Fact[] {
+  return facts.map((f) => {
+    if (!f.halfPriceWith) return f;
+    const full = f.fullPrice ?? f.cost;
+    const activo = !!benefits[f.halfPriceWith];
+    return { ...f, cost: activo ? full / 2 : full, saving: activo ? full / 2 : 0 };
+  });
 }
 
-/** Aplica el precio vigente del Interrail sobre la lista de hacks. */
-export function withDynamicCosts(facts: Fact[], veranoJoven: boolean): Fact[] {
-  const { cost, saving } = interrailPricing(veranoJoven);
-  return facts.map((f) => (f.id === INTERRAIL_FACT_ID ? { ...f, cost, saving } : f));
-}
+/** Costo promedio de una reserva de asiento en alta velocidad. Antes se persistía
+ *  en el localStorage sin setter: un valor guardado viejo habría congelado el número
+ *  para siempre si acá cambiara. */
+export const RESERVATION_AVG_COST = 15;
 
 export interface BudgetInput {
   stops: RouteStop[];
   facts: Fact[];
   quests: SideQuest[];
-  /** Reservas de alta velocidad: cantidad × costo promedio. */
+  /** Reservas de alta velocidad (cantidad; el promedio es RESERVATION_AVG_COST). */
   reservations: number;
-  reservationAvgCost: number;
   /** Cuando mamá paga su tramo, el alojamiento de esas paradas no es gasto de Eze. */
   momPaysHerTrip: boolean;
   includeBaseFlight: boolean;
@@ -71,7 +68,7 @@ export function computeBudget(i: BudgetInput): BudgetTotals {
 
   const facts = i.facts.reduce((a, f) => a + (f.cost || 0), 0);
   const saved = i.facts.reduce((a, f) => a + (f.saving || 0), 0);
-  const reservations = i.reservations * i.reservationAvgCost;
+  const reservations = i.reservations * RESERVATION_AVG_COST;
   const quests = i.quests.reduce((a, q) => a + (q.includedInBudget ? q.totalCost : 0), 0);
   // El vuelo internacional se guarda en USD; todo lo demás, en EUR.
   const flight = i.includeBaseFlight ? i.baseFlightUSD * i.usdToEurRate : 0;

@@ -1,4 +1,4 @@
-import { useEffect, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 
 interface Props {
   open: boolean;
@@ -12,16 +12,22 @@ interface Props {
 /** Modal a pantalla completa en mobile, centrado en desktop.
  *  Cierra con Escape y con click en el backdrop. */
 export default function Modal({ open, onClose, title, subtitle, children, maxWidth = 'max-w-2xl' }: Props) {
+  // Los call sites pasan una arrow nueva en cada render. Si `onClose` estuviera en
+  // las deps, cada render del padre reinstalaría el listener y reescribiría
+  // `body.style.overflow` — una invalidación de estilo por click.
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && closeRef.current();
     document.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
     return () => {
       document.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [open, onClose]);
+  }, [open]);
 
   if (!open) return null;
 

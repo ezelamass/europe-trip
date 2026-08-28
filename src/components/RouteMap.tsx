@@ -1,11 +1,11 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import type { RouteStop } from '../types';
-import { CITY_COORDINATES } from '../data/europa2026';
-import { TRIP_CITY_COORDINATES } from '../data/trips';
+import { coordsForCity } from '../data/coordinates';
 import { calculateDistance, escapeHTML } from '../lib/format';
 
 // Leaflet resuelve sus iconos por URL relativa al CSS; con el bundler hay que
@@ -15,20 +15,6 @@ L.Icon.Default.mergeOptions({
   iconRetinaUrl: markerIcon2x,
   shadowUrl: markerShadow,
 });
-
-/** Normaliza "Palma de Mallorca (España) 🇪🇸" → "palma de mallorca": el diccionario
- *  de Europa 2026 tiene claves con país y a veces con emoji, y el match exacto fallaba. */
-const cityKey = (city: string) =>
-  city.split('(')[0].replace(/[^\p{L}\s.'-]/gu, '').trim().toLowerCase();
-
-const COORDS: Record<string, [number, number]> = {};
-for (const [name, xy] of Object.entries({ ...CITY_COORDINATES, ...TRIP_CITY_COORDINATES })) {
-  COORDS[cityKey(name)] = xy;
-}
-
-function coordsFor(city: string): [number, number] | null {
-  return COORDS[cityKey(city)] ?? null;
-}
 
 export default function RouteMap({ stops }: { stops: RouteStop[] }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -44,7 +30,7 @@ export default function RouteMap({ stops }: { stops: RouteStop[] }) {
 
     const points: [number, number][] = [];
     stops.forEach((s, i) => {
-      const c = coordsFor(s.city);
+      const c = coordsForCity(s.city);
       if (!c) return;
       points.push(c);
       // El nombre puede venir de un respaldo importado o del estado de la app vieja:
@@ -65,14 +51,23 @@ export default function RouteMap({ stops }: { stops: RouteStop[] }) {
     };
   }, [stops]);
 
-  const km = stops.reduce((acc, s, i) => {
-    if (i === 0) return 0;
-    const a = coordsFor(stops[i - 1].city);
-    const b = coordsFor(s.city);
-    return a && b ? acc + calculateDistance(a[0], a[1], b[0], b[1]) : acc;
-  }, 0);
-
-  const missing = stops.filter((s) => !coordsFor(s.city)).length;
+  // Una sola pasada: se arrastra la coordenada anterior en vez de volver a
+  // normalizar el nombre de la parada previa en cada iteración.
+  const { km, missing } = useMemo(() => {
+    let total = 0;
+    let sin = 0;
+    let prev: [number, number] | null = null;
+    for (const s of stops) {
+      const c = coordsForCity(s.city);
+      if (!c) {
+        sin++;
+        continue;
+      }
+      if (prev) total += calculateDistance(prev[0], prev[1], c[0], c[1]);
+      prev = c;
+    }
+    return { km: total, missing: sin };
+  }, [stops]);
 
   return (
     <div className="space-y-2">

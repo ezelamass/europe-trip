@@ -86,6 +86,12 @@ export interface CatalogCity {
 export interface Fact {
   id: string; title: string; cost: number; saving: number;
   category: string; desc: string; tip: string; isPredefined?: boolean;
+  /** Beneficio que parte el costo a la mitad (hoy solo el Interrail con Verano
+   *  Joven). Se declara acá para que un segundo hack con descuento no necesite
+   *  tocar código. */
+  halfPriceWith?: string;
+  /** Precio de lista, cuando `halfPriceWith` no está activo. */
+  fullPrice?: number;
 }
 
 export interface QuestItineraryEntry {

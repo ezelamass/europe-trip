@@ -1,6 +1,7 @@
 /* Fuentes e iconos self-hosted: la app tiene que verse igual sin red.
-   Antes venían de CDN (Google Fonts / FontAwesome) y offline se rompían. */
-@import '@fontsource/plus-jakarta-sans/300.css';
+   Antes venían de CDN (Google Fonts / FontAwesome) y offline se rompían.
+   El peso 300 no se usa en ningún componente y leaflet.css viaja con RouteMap,
+   que es lazy: acá solo va lo que hace falta en el primer render. */
 @import '@fontsource/plus-jakarta-sans/400.css';
 @import '@fontsource/plus-jakarta-sans/500.css';
 @import '@fontsource/plus-jakarta-sans/600.css';
@@ -10,7 +11,6 @@
 @import '@fortawesome/fontawesome-free/css/solid.css';
 @import '@fortawesome/fontawesome-free/css/regular.css';
 /* El pack `brands` se omite a propósito: pesaba 115 KB para un único icono. */
-@import 'leaflet/dist/leaflet.css';
 
 @tailwind base;
 @tailwind components;

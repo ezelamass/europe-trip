@@ -26,6 +26,10 @@ npm install
 npm run dev        # desarrollo
 npm run build      # -> dist/
 npm run typecheck
+
+# tests de regresión en navegador real (ver tests/README.md)
+npx http-server dist -p 8099 --silent &
+npm test
 ```
 
 ## Estructura
@@ -35,13 +39,20 @@ src/
   data/
     trips.ts        # los 7 viajes — espejo de viajes/ del segundo cerebro
     europa2026.ts   # data curada de ese viaje (beneficios, quests, valija, itinerario)
-    worldMap.ts     # GENERADO — geometría y metadata de los 195 países (ver scripts/)
+    worldMap.ts     # GENERADO — metadata de los 195 países y sus subdivisiones
+    worldGeometry.ts# GENERADO — solo los paths SVG; separado para que no entren
+                    #   al chunk inicial (ver la nota de bundle abajo)
+    coordinates.ts  # coordenadas por ciudad, única fuente para el mapa de ruta
   store/
     useStore.ts     # estado + persistencia + export/import
     legacy.ts       # migración one-shot desde el localStorage de la app vieja
   tabs/             # una tab por pantalla
   components/       # Modal, StatTile, WorldMap, RouteMap, BackupPanel
-  lib/format.ts     # moneda, fechas, banderas, distancias
+  lib/
+    format.ts       # moneda, fechas, banderas, distancias
+    budget.ts       # el cálculo del presupuesto, en un solo lugar
+    useMoney.ts     # formateador ligado a la moneda elegida
+tests/              # suites de regresión en Chromium (ver tests/README.md)
 ```
 
 ## Modelo de datos
@@ -75,13 +86,27 @@ dispositivo, así que si se limpian los datos del navegador se pierde: el respal
 La versión anterior era un solo `index.html` de 368 KB y guardaba en la clave
 `eurotrip_state_lego`. La nueva usa `eurotrip-state`, así que `src/store/legacy.ts` lee el
 estado viejo **una sola vez** (solo si todavía no hay estado nuevo) y trae el perfil de
-viajero, los ajustes y el itinerario de Europa 2026. Sin ese puente, la primera apertura
+viajero, los ajustes, la valija y los hacks propios. Sin ese puente, la primera apertura
 de esta versión habría borrado los países y regiones cargados a mano.
+
+Del itinerario viejo se rescatan **solo los álbumes de fotos**, no las paradas: la app
+anterior restauraba `routeStops` únicamente cuando la `dataVersion` guardada coincidía, y
+si no volvía al dato curado. Copiarlo entero habría pisado con datos viejos las
+correcciones publicadas después.
 
 El razonamiento completo de la migración está en
 `perfil/decision-migrar-planner-react.md` del segundo cerebro.
 
+## Bundle
+
+El mapa mundial son ~65 KB de geometría SVG y Leaflet otros ~157 KB, y ninguno de los
+dos hace falta para abrir la app. Los dos viven en chunks lazy, pero eso **solo funciona
+si ningún módulo eager los importa**: `worldMap.ts` (metadata de países) y
+`worldGeometry.ts` (los paths) están separados justamente porque `format.ts` y
+`TripsTab` necesitan el primero, y si compartieran archivo Rollup arrastraría el segundo
+al chunk inicial. Si al tocar imports el `index-*.js` crece de golpe ~65 KB, es esto.
+
 ## Mapa mundial
 
-`src/data/worldMap.ts` está generado. Para regenerarlo o agregar las subdivisiones de un
+`src/data/worldMap.ts` y `src/data/worldGeometry.ts` están generados. Para regenerarlos o agregar las subdivisiones de un
 país nuevo, ver [`scripts/README.md`](scripts/README.md).

@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
-import { COUNTRIES, DOTS, PATHS, VIEWS, type ViewCode } from '../data/worldMap';
+import { COUNTRIES } from '../data/worldMap';
+import { DOTS, PATHS, VIEWS, type ViewCode } from '../data/worldGeometry';
 import type { TravelProfile } from '../types';
 
 interface Props {
@@ -32,7 +33,6 @@ export default function WorldMap({ profile, view, onSelect }: Props) {
             d={d}
             fill={visited ? VISITED : sovereign ? SOVEREIGN : TERRITORY}
             stroke="#0f172a"
-            strokeWidth={strokeWidth}
             fillRule="evenodd"
             style={sovereign ? { cursor: 'pointer' } : undefined}
             onClick={sovereign ? () => onSelect(iso) : undefined}
@@ -41,7 +41,7 @@ export default function WorldMap({ profile, view, onSelect }: Props) {
           </path>
         );
       }),
-    [profile, strokeWidth, onSelect],
+    [profile, onSelect],
   );
 
   // Micro-estados sin geometría a esta resolución: se dibujan como punto para
@@ -76,7 +76,9 @@ export default function WorldMap({ profile, view, onSelect }: Props) {
       aria-label="Mapa de países visitados"
       className="w-full h-auto block transition-all duration-500"
     >
-      {shapes}
+      {/* El trazo se hereda: cambiar de continente reescribe un atributo en el
+          grupo en vez de invalidar el memo y los 173 paths. */}
+      <g strokeWidth={strokeWidth}>{shapes}</g>
       {dots}
     </svg>
   );

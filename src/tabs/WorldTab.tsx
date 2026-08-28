@@ -8,13 +8,17 @@ import {
   type ContinentCode,
   type ViewCode,
 } from '../data/worldMap';
-import { countryVisitsFromTrips } from '../data/trips';
+import { allTripCountries } from '../data/trips';
 import { flagEmoji, subsTotal, subsVisited } from '../lib/format';
 import StatTile from '../components/StatTile';
 import WorldMap from '../components/WorldMap';
 import Modal from '../components/Modal';
+import { Button, INPUT_CLS } from '../components/ui';
 
 const CONTINENT_ORDER: ContinentCode[] = ['EU', 'SA', 'NA', 'AS', 'AF', 'OC'];
+
+/** Los viajes son constantes de módulo: esto no cambia nunca en runtime. */
+const TRIP_COUNTRIES = allTripCountries().filter((iso) => COUNTRIES[iso]);
 
 export default function WorldTab() {
   const profile = useStore((s) => s.travelProfile);
@@ -45,10 +49,10 @@ export default function WorldTab() {
   }, [profile, visited]);
 
   /** Países que aparecen en los viajes documentados y todavía no están en el perfil. */
-  const missingFromTrips = useMemo(() => {
-    const fromTrips = countryVisitsFromTrips();
-    return Object.keys(fromTrips).filter((iso) => COUNTRIES[iso] && !profile[iso]);
-  }, [profile]);
+  const missingFromTrips = useMemo(
+    () => TRIP_COUNTRIES.filter((iso) => !profile[iso]),
+    [profile],
+  );
 
   const pct = ((visited.length / TOTAL_COUNTRIES) * 100).toFixed(1).replace('.', ',');
 
@@ -83,13 +87,11 @@ export default function WorldTab() {
             Perfil de viajero sobre los {TOTAL_COUNTRIES} países soberanos.
           </p>
         </div>
-        <button
-          onClick={() => setPicker(true)}
-          className="text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 transition active:scale-95"
-        >
+        <Button
+          onClick={() => setPicker(true)}>
           <i className="fa-solid fa-plus mr-1.5" />
           Agregar país
-        </button>
+        </Button>
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -247,21 +249,17 @@ export default function WorldTab() {
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-sm text-slate-300">Veces que fui</span>
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => adjustCountryVisits(detail, -1)}
-                      className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
-                    >
+                    <Button variant="ghost" size="icon"
+                      onClick={() => adjustCountryVisits(detail, -1)} className="!w-8 !h-8">
                       <i className="fa-solid fa-minus text-xs" />
-                    </button>
+                    </Button>
                     <span className="w-8 text-center font-bold text-lg tabular-nums text-white">
                       {profile[detail].visits}
                     </span>
-                    <button
-                      onClick={() => adjustCountryVisits(detail, 1)}
-                      className="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
-                    >
+                    <Button variant="ghost" size="icon"
+                      onClick={() => adjustCountryVisits(detail, 1)} className="!w-8 !h-8">
                       <i className="fa-solid fa-plus text-xs" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
 
@@ -312,10 +310,12 @@ export default function WorldTab() {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Buscar entre los 195 países…"
-          className="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 mb-3"
+          className={`w-full mb-3 ${INPUT_CLS}`}
         />
+        {/* El cuerpo del modal es un argumento, así que se evalúa aunque `Modal`
+            devuelva null: sin este guard se construían 195 botones en cada render. */}
         <div className="max-h-[50vh] overflow-y-auto custom-scrollbar space-y-1">
-          {pickerResults.map(([iso, meta]) => (
+          {picker && pickerResults.map(([iso, meta]) => (
             <button
               key={iso}
               onClick={() => toggleCountryVisited(iso)}

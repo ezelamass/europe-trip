@@ -1,10 +1,11 @@
-import { TRIPS, tripNights } from '../data/trips';
+import { TRIPS, tripNights, uniqueCompanions, allTripCountries } from '../data/trips';
 import { useStore } from '../store/useStore';
 import { flagEmoji } from '../lib/format';
 import { COUNTRIES } from '../data/worldMap';
 import StatTile from '../components/StatTile';
 import BackupPanel from '../components/BackupPanel';
 import type { Trip } from '../types';
+import { Button, GHOST_LINK_CLS } from '../components/ui';
 
 const STATUS_STYLES: Record<Trip['status'], string> = {
   'en-curso': 'bg-emerald-950/50 text-emerald-300 border-emerald-900/50',
@@ -97,19 +98,17 @@ function TripCard({ trip }: { trip: Trip }) {
       )}
 
       <div className="flex flex-wrap items-center gap-2 mt-auto pt-1">
-        <button
-          onClick={open}
-          className="text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 transition active:scale-95"
-        >
+        <Button
+          onClick={open}>
           <i className="fa-solid fa-route mr-1.5" />
           Ver itinerario
-        </button>
+        </Button>
         {trip.photosAlbumUrl && (
           <a
             href={trip.photosAlbumUrl}
             target="_blank"
             rel="noreferrer"
-            className="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-2 transition"
+            className={GHOST_LINK_CLS}
           >
             <i className="fa-regular fa-images mr-1.5" />
             Fotos
@@ -121,7 +120,7 @@ function TripCard({ trip }: { trip: Trip }) {
             href={l.url}
             target="_blank"
             rel="noreferrer"
-            className="text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-2 transition"
+            className={GHOST_LINK_CLS}
             title={`Alojamiento en ${l.label}`}
           >
             <i className="fa-solid fa-location-dot mr-1.5" />
@@ -135,13 +134,8 @@ function TripCard({ trip }: { trip: Trip }) {
 
 export default function TripsTab() {
   const totalNights = TRIPS.reduce((a, t) => a + tripNights(t), 0);
-  const uniqueCountries = new Set(TRIPS.flatMap((t) => t.countries)).size;
-  // "Solo", "Amigos" y "Familia" son etiquetas de grupo, no personas: contarlas
-  // inflaba el número. Los nombres ya están normalizados en trips.ts.
-  const GRUPOS = new Set(['Solo', 'Amigos', 'Familia']);
-  const people = new Set(
-    TRIPS.flatMap((t) => t.companions).filter((c) => !GRUPOS.has(c)),
-  ).size;
+  const uniqueCountries = allTripCountries().length;
+  const people = uniqueCompanions().length;
 
   return (
     <div className="space-y-6">

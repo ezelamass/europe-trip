@@ -27,21 +27,11 @@ interface LegacyState {
   esimPhoneNumber?: string;
 }
 
-export interface MigratedLegacy {
-  travelProfile?: TravelProfile;
-  /** Álbumes de fotos que el usuario pegó parada por parada. Ver nota abajo. */
+/** Lo mismo que guardaba la app vieja, menos lo que no se migra tal cual:
+ *  `dataVersion` (solo servía para decidir) y `routeStops` (ver la nota abajo). */
+export interface MigratedLegacy extends Omit<LegacyState, 'dataVersion' | 'routeStops'> {
+  /** Álbumes de fotos por id de parada, rescatados del itinerario viejo. */
   photoAlbums?: Record<string, string>;
-  luggageItems?: LuggageItem[];
-  sideQuests?: SideQuest[];
-  customFacts?: Fact[];
-  appliedBenefits?: Record<string, boolean>;
-  displayCurrency?: 'USD' | 'EUR';
-  usdToEurRate?: number;
-  baseFlightUSD?: number;
-  includeBaseFlight?: boolean;
-  highSpeedReservations?: number;
-  mamaPaysMomTrip?: boolean;
-  esimPhoneNumber?: string;
 }
 
 /**

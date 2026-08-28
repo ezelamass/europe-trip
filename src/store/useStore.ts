@@ -1,16 +1,15 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type {
-  Fact, LuggageItem, RouteStop, SideQuest, TravelProfile, CatalogCity, CountryProfile,
+  Fact, LuggageItem, RouteStop, SideQuest, TravelProfile, CountryProfile,
 } from '../types';
 import {
   DEFAULT_LUGGAGE_ITEMS,
   DEFAULT_SIDE_QUESTS,
   DEFAULT_TRAVEL_PROFILE,
   PREDEFINED_FACTS,
-  BASE_CATALOG_CITIES,
 } from '../data/europa2026';
-import { TRIPS, DEFAULT_TRIP_ID } from '../data/trips';
+import { TRIPS, DEFAULT_TRIP_ID, allTripCountries } from '../data/trips';
 import { readLegacyState } from './legacy';
 import type { ViewCode } from '../data/worldMap';
 
@@ -30,13 +29,11 @@ interface Persisted {
   luggageItems: LuggageItem[];
   sideQuests: SideQuest[];
   customFacts: Fact[];
-  catalogCities: CatalogCity[];
   displayCurrency: 'USD' | 'EUR';
   usdToEurRate: number;
   baseFlightUSD: number;
   includeBaseFlight: boolean;
   highSpeedReservations: number;
-  reservationAvgCost: number;
   mamaPaysMomTrip: boolean;
   esimPhoneNumber: string;
   appliedBenefits: Record<string, boolean>;
@@ -52,11 +49,9 @@ interface Store extends Persisted {
   setProfileContinent: (c: ViewCode) => void;
 
   // Itinerario del viaje activo
-  stopsFor: (tripId: string) => RouteStop[];
   updateStop: (tripId: string, stopId: string, patch: Partial<RouteStop>) => void;
   removeStop: (tripId: string, stopId: string) => void;
   moveStop: (tripId: string, stopId: string, dir: -1 | 1) => void;
-  addStop: (tripId: string, stop: RouteStop) => void;
   resetStops: (tripId: string) => void;
 
   // Perfil de viajero
@@ -72,20 +67,14 @@ interface Store extends Persisted {
 
   // Quests y facts
   toggleQuestBudget: (id: string) => void;
-  deleteQuest: (id: string) => void;
-  addQuest: (q: SideQuest) => void;
   addFact: (f: Fact) => void;
   deleteFact: (id: string) => void;
   clearCustomFacts: () => void;
 
   // Ajustes
   setCurrency: (c: 'USD' | 'EUR') => void;
-  setFxRate: (r: number) => void;
-  setBaseFlightUSD: (v: number) => void;
   toggleBaseFlight: () => void;
-  setReservations: (n: number) => void;
   toggleMomInvitation: () => void;
-  setEsimPhone: (p: string) => void;
   toggleBenefit: (id: string) => void;
 
   // Respaldo
@@ -96,36 +85,40 @@ interface Store extends Persisted {
 const seedStops = (): Record<string, RouteStop[]> =>
   Object.fromEntries(TRIPS.map((t) => [t.id, t.stops.map((s) => ({ ...s }))]));
 
+function applyPhotoAlbums(
+  stops: Record<string, RouteStop[]>,
+  albums: Record<string, string> | undefined,
+): Record<string, RouteStop[]> {
+  if (!albums) return stops;
+  return Object.fromEntries(
+    Object.entries(stops).map(([tripId, list]) => [
+      tripId,
+      list.map((s) => (albums[s.id] && !s.photosAlbumUrl ? { ...s, photosAlbumUrl: albums[s.id] } : s)),
+    ]),
+  );
+}
+
 /** Estado de la app vieja, si es la primera vez que se abre esta versión. */
 const legacy = readLegacyState();
 
 const initial: Persisted = {
   dataVersion: DATA_VERSION,
   activeTripId: DEFAULT_TRIP_ID,
-  tripStops: (() => {
-    const seeded = seedStops();
-    // Del itinerario viejo solo se rescatan los álbumes de fotos que cargó el usuario:
-    // el resto de las paradas viene del dato curado, que es más nuevo (ver legacy.ts).
-    if (legacy?.photoAlbums) {
-      seeded['europa-2026'] = seeded['europa-2026'].map((s) =>
-        legacy.photoAlbums![s.id] && !s.photosAlbumUrl
-          ? { ...s, photosAlbumUrl: legacy.photoAlbums![s.id] }
-          : s,
-      );
-    }
-    return seeded;
-  })(),
+  // Del itinerario viejo solo se rescatan los álbumes de fotos que cargó el usuario:
+  // el resto de las paradas viene del dato curado, que es más nuevo (ver legacy.ts).
+  // Se aplica por id de parada sobre todos los viajes, sin nombrar ninguno: atarlo a
+  // un id literal reventaba el día que ese viaje se renombre, dentro de la función
+  // cuyo objetivo es justamente no perder datos.
+  tripStops: applyPhotoAlbums(seedStops(), legacy?.photoAlbums),
   travelProfile: legacy?.travelProfile ?? DEFAULT_TRAVEL_PROFILE,
   luggageItems: legacy?.luggageItems ?? DEFAULT_LUGGAGE_ITEMS,
   sideQuests: legacy?.sideQuests ?? DEFAULT_SIDE_QUESTS,
   customFacts: legacy?.customFacts ?? PREDEFINED_FACTS,
-  catalogCities: BASE_CATALOG_CITIES,
   displayCurrency: legacy?.displayCurrency ?? 'USD',
   usdToEurRate: legacy?.usdToEurRate ?? 0.8757,
   baseFlightUSD: legacy?.baseFlightUSD ?? 1076,
   includeBaseFlight: legacy?.includeBaseFlight ?? true,
   highSpeedReservations: legacy?.highSpeedReservations ?? 3,
-  reservationAvgCost: 15,
   mamaPaysMomTrip: legacy?.mamaPaysMomTrip ?? false,
   esimPhoneNumber: legacy?.esimPhoneNumber ?? '',
   appliedBenefits: legacy?.appliedBenefits ?? {
@@ -143,8 +136,6 @@ export const useStore = create<Store>()(
       setTab: (activeTab) => set({ activeTab }),
       setActiveTrip: (activeTripId) => set({ activeTripId }),
       setProfileContinent: (profileContinent) => set({ profileContinent }),
-
-      stopsFor: (tripId) => get().tripStops[tripId] ?? [],
 
       updateStop: (tripId, stopId, patch) =>
         set((s) => ({
@@ -173,11 +164,6 @@ export const useStore = create<Store>()(
           [list[i], list[j]] = [list[j], list[i]];
           return { tripStops: { ...s.tripStops, [tripId]: list } };
         }),
-
-      addStop: (tripId, stop) =>
-        set((s) => ({
-          tripStops: { ...s.tripStops, [tripId]: [...(s.tripStops[tripId] ?? []), stop] },
-        })),
 
       resetStops: (tripId) =>
         set((s) => {
@@ -218,12 +204,10 @@ export const useStore = create<Store>()(
       syncProfileFromTrips: () => {
         const p = { ...get().travelProfile };
         let added = 0;
-        for (const trip of TRIPS) {
-          for (const iso of trip.countries) {
-            if (!p[iso]) {
-              p[iso] = { visits: 1, subs: [] };
-              added++;
-            }
+        for (const iso of allTripCountries()) {
+          if (!p[iso]) {
+            p[iso] = { visits: 1, subs: [] };
+            added++;
           }
         }
         if (added) set({ travelProfile: p });
@@ -244,8 +228,6 @@ export const useStore = create<Store>()(
             q.id === id ? { ...q, includedInBudget: !q.includedInBudget } : q,
           ),
         })),
-      deleteQuest: (id) => set((s) => ({ sideQuests: s.sideQuests.filter((q) => q.id !== id) })),
-      addQuest: (q) => set((s) => ({ sideQuests: [...s.sideQuests, q] })),
 
       addFact: (f) => set((s) => ({ customFacts: [...s.customFacts, f] })),
       deleteFact: (id) => set((s) => ({ customFacts: s.customFacts.filter((f) => f.id !== id) })),
@@ -253,13 +235,8 @@ export const useStore = create<Store>()(
         set((s) => ({ customFacts: s.customFacts.filter((f) => f.isPredefined) })),
 
       setCurrency: (displayCurrency) => set({ displayCurrency }),
-      setFxRate: (usdToEurRate) => set({ usdToEurRate }),
-      setBaseFlightUSD: (baseFlightUSD) => set({ baseFlightUSD }),
       toggleBaseFlight: () => set((s) => ({ includeBaseFlight: !s.includeBaseFlight })),
-      setReservations: (highSpeedReservations) =>
-        set({ highSpeedReservations: Math.max(0, highSpeedReservations) }),
       toggleMomInvitation: () => set((s) => ({ mamaPaysMomTrip: !s.mamaPaysMomTrip })),
-      setEsimPhone: (esimPhoneNumber) => set({ esimPhoneNumber }),
       toggleBenefit: (id) =>
         set((s) => ({
           appliedBenefits: { ...s.appliedBenefits, [id]: !s.appliedBenefits[id] },
@@ -369,13 +346,11 @@ export const useStore = create<Store>()(
         luggageItems: s.luggageItems,
         sideQuests: s.sideQuests,
         customFacts: s.customFacts,
-        catalogCities: s.catalogCities,
         displayCurrency: s.displayCurrency,
         usdToEurRate: s.usdToEurRate,
         baseFlightUSD: s.baseFlightUSD,
         includeBaseFlight: s.includeBaseFlight,
         highSpeedReservations: s.highSpeedReservations,
-        reservationAvgCost: s.reservationAvgCost,
         mamaPaysMomTrip: s.mamaPaysMomTrip,
         esimPhoneNumber: s.esimPhoneNumber,
         appliedBenefits: s.appliedBenefits,
@@ -408,7 +383,6 @@ export const useStore = create<Store>()(
             ...PREDEFINED_FACTS,
             ...(p.customFacts ?? []).filter((f) => f && !f.isPredefined),
           ],
-          catalogCities: BASE_CATALOG_CITIES,
           // Siempre del usuario, pase lo que pase con la versión.
           travelProfile: p.travelProfile ?? current.travelProfile,
         };

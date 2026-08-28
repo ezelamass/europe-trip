@@ -1,6 +1,7 @@
 # scripts/ — regeneración del mapa mundial
 
-`src/data/worldMap.ts` está **generado**, no se edita a mano. Contiene la
+`src/data/worldMap.ts` (metadata) y `src/data/worldGeometry.ts` (paths SVG) están
+**generados**, no se editan a mano. Contiene la
 geometría del mapa del Perfil de Viajero, la metadata de los 195 países soberanos y las
 subdivisiones (provincias/estados/regiones) de los países cargados.
 
@@ -13,9 +14,10 @@ subdivisiones (provincias/estados/regiones) de los países cargados.
 Para lo demás (marcar países/regiones como visitados) **no hace falta tocar nada**: eso se
 edita desde la app y vive en el `localStorage` del celu.
 
-> Desde la migración a React el archivo final es un módulo TypeScript
-> (`src/data/worldMap.ts`), no un script global. `to-module.js` hace esa conversión:
-> antepone `export` a cada `const` y agrega los tipos al final.
+> Desde la migración a React la salida son **dos** módulos TypeScript, no un script
+> global. `to-module.js` hace la conversión y el reparto: la geometría va a
+> `worldGeometry.ts` y la metadata a `worldMap.ts`. Están separados a propósito —
+> juntos, Rollup arrastra los 65 KB de paths al chunk inicial de la app.
 
 ## Cómo
 
@@ -32,7 +34,7 @@ node build-map.js
 # 3) armar el archivo final
 node build-final.js
 
-# 4) convertirlo a módulo ES y dejarlo en src/data/
+# 4) convertirlo a los dos módulos ES de src/data/
 node to-module.js
 ```
 

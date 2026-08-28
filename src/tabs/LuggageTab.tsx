@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useStore } from '../store/useStore';
+import { Button, INPUT_CLS, SELECT_CLS } from '../components/ui';
 
 const LOCATIONS = ['Mochila', 'Carry-on', 'Valija Grande'] as const;
 const CATEGORIES = ['Documentos', 'Tecnología', 'Ropa/Calzado', 'Salud/Aseo', 'Otros'] as const;
@@ -71,12 +72,12 @@ export default function LuggageTab() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Agregar ítem…"
-          className="flex-1 min-w-[140px] bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={`flex-1 min-w-[140px] ${INPUT_CLS}`}
         />
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value)}
-          className="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-sm text-slate-200"
+          className={SELECT_CLS}
         >
           {CATEGORIES.map((c) => (
             <option key={c}>{c}</option>
@@ -85,18 +86,16 @@ export default function LuggageTab() {
         <select
           value={location}
           onChange={(e) => setLoc(e.target.value)}
-          className="bg-slate-950 border border-slate-700 rounded-lg px-2 py-2 text-sm text-slate-200"
+          className={SELECT_CLS}
         >
           {LOCATIONS.map((l) => (
             <option key={l}>{l}</option>
           ))}
         </select>
-        <button
-          type="submit"
-          className="bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-lg px-4 py-2 transition active:scale-95"
-        >
+        <Button
+          type="submit" className="!text-sm !px-4">
           <i className="fa-solid fa-plus" />
-        </button>
+        </Button>
       </form>
 
       <div className="space-y-5">
@@ -124,13 +123,11 @@ export default function LuggageTab() {
                         </option>
                       ))}
                     </select>
-                    <button
+                    <Button variant="danger" size="icon"
                       onClick={() => deleteItem(i.id)}
-                      aria-label="Eliminar"
-                      className="w-7 h-7 rounded-lg bg-slate-800 hover:bg-rose-950/60 text-slate-500 hover:text-rose-400 text-xs transition"
-                    >
+                      aria-label="Eliminar">
                       <i className="fa-solid fa-trash" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               ))}

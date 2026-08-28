@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import { useStore } from '../store/useStore';
-import { fmtMoney } from '../lib/format';
+import { useMoney } from '../lib/useMoney';
 import Modal from '../components/Modal';
+import { Button, TipCallout } from '../components/ui';
 import type { SideQuest } from '../types';
 
 export default function QuestsTab() {
   const quests = useStore((s) => s.sideQuests);
   const toggleBudget = useStore((s) => s.toggleQuestBudget);
-  const displayCurrency = useStore((s) => s.displayCurrency);
-  const usdToEurRate = useStore((s) => s.usdToEurRate);
+  const money = useMoney();
   const [detail, setDetail] = useState<SideQuest | null>(null);
 
-  const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
   const included = quests.filter((q) => q.includedInBudget);
   const total = included.reduce((a, q) => a + q.totalCost, 0);
 
@@ -57,13 +56,11 @@ export default function QuestsTab() {
             </div>
 
             <div className="flex flex-wrap items-center gap-2 mt-4">
-              <button
-                onClick={() => setDetail(q)}
-                className="text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg px-3 py-2 transition active:scale-95"
-              >
+              <Button
+                onClick={() => setDetail(q)}>
                 <i className="fa-solid fa-list-check mr-1.5" />
                 Ver plan ({q.itinerary.length})
-              </button>
+              </Button>
               <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"
@@ -112,12 +109,8 @@ export default function QuestsTab() {
                 </h4>
                 <ul className="space-y-2">
                   {detail.hacks.map((h, i) => (
-                    <li
-                      key={i}
-                      className="text-xs text-amber-200/90 bg-amber-950/25 border border-amber-900/40 rounded-lg px-3 py-2"
-                    >
-                      <i className="fa-solid fa-lightbulb mr-2 text-amber-400" />
-                      {h}
+                    <li key={i}>
+                      <TipCallout>{h}</TipCallout>
                     </li>
                   ))}
                 </ul>

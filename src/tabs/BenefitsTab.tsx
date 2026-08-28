@@ -1,13 +1,11 @@
 import { EUROPEAN_BENEFITS } from '../data/europa2026';
 import { useStore } from '../store/useStore';
-import { fmtMoney } from '../lib/format';
+import { useMoney } from '../lib/useMoney';
 
 export default function BenefitsTab() {
   const applied = useStore((s) => s.appliedBenefits);
   const toggle = useStore((s) => s.toggleBenefit);
-  const displayCurrency = useStore((s) => s.displayCurrency);
-  const usdToEurRate = useStore((s) => s.usdToEurRate);
-  const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
+  const money = useMoney();
 
   const activados = EUROPEAN_BENEFITS.filter((b) => applied[b.id]);
   const activos = activados.length;

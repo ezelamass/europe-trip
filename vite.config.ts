@@ -22,7 +22,9 @@ export default defineConfig({
       },
       workbox: {
         // Todo el bundle se precachea: la app tiene que abrir sin red.
-        globPatterns: ['**/*.{js,css,html,svg,woff,woff2}'],
+        // Sin `woff`: cualquier navegador con service worker soporta woff2, así que
+        // precachear el fallback era bajar 223 KB que nunca se leen.
+        globPatterns: ['**/*.{js,css,html,svg,woff2}'],
         // Los tiles de OSM son lo único que se pide online; cache-first con tope.
         runtimeCaching: [
           {

@@ -576,6 +576,8 @@ export const BASE_CATALOG_CITIES: CatalogCity[] = [
 export const PREDEFINED_FACTS: Fact[] = [
   {
     "id": "predefined-interrail",
+    "halfPriceWith": "veranoJoven",
+    "fullPrice": 429,
     "title": "Trenes: Pase de Interrail Global Pass (Youth)",
     "cost": 429,
     "saving": 0,

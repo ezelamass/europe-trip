@@ -220,21 +220,6 @@ export const TRIPS: Trip[] = [
   },
 ];
 
-/** Coordenadas de las paradas que no están en el diccionario de Europa 2026.
- *  Sin esto, los cuatro viajes sudamericanos abrían el mapa vacío sobre los Alpes. */
-export const TRIP_CITY_COORDINATES: Record<string, [number, number]> = {
-  'Río de Janeiro (Brasil)': [-22.906847, -43.172896],
-  'Ilha Grande (Brasil)': [-23.150833, -44.203611],
-  'Búzios (Brasil)': [-22.746944, -41.881944],
-  'Mar del Plata (Argentina)': [-38.005477, -57.542611],
-  'San Carlos de Bariloche (Argentina)': [-41.133308, -71.310432],
-  'Mina Clavero (Argentina)': [-31.723056, -65.008889],
-  'Buenos Aires (Argentina)': [-34.603722, -58.381592],
-  // Faltaba en el diccionario original: la parada de Mallorca desaparecía del mapa
-  // y partía la línea de la ruta (docs/06-roadmap.md la marcaba en la fase 0).
-  'Palma de Mallorca (España)': [39.569600, 2.650160],
-};
-
 export const TRIPS_BY_ID: Record<string, Trip> = Object.fromEntries(
   TRIPS.map((t) => [t.id, t]),
 );
@@ -253,6 +238,20 @@ export function tripNights(trip: Trip, stops?: RouteStop[]): number {
   const list = stops ?? trip.stops;
   const sum = list.reduce((a, s) => a + s.nights, 0);
   return sum > 0 ? sum : trip.nights;
+}
+
+/** Etiquetas de `companions` que describen un grupo, no una persona. Se declara
+ *  junto a los datos que las usan, no en el componente que las cuenta. */
+const GRUPOS = new Set(['Solo', 'Amigos', 'Familia']);
+
+/** Personas distintas con las que viajó, sin contar etiquetas de grupo. */
+export function uniqueCompanions(): string[] {
+  return [...new Set(TRIPS.flatMap((t) => t.companions).filter((c) => !GRUPOS.has(c)))];
+}
+
+/** Países distintos de todos los viajes. */
+export function allTripCountries(): string[] {
+  return Object.keys(countryVisitsFromTrips());
 }
 
 export function countryVisitsFromTrips(): Record<string, number> {

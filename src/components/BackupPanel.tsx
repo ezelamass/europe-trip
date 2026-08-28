@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { useStore } from '../store/useStore';
+import { Button } from './ui';
 
 /** Export / import del estado. Es la única red contra la pérdida de datos:
  *  todo vive en el localStorage del celular, que se puede limpiar sin aviso. */
@@ -44,20 +45,16 @@ export default function BackupPanel() {
         bajá un respaldo de vez en cuando.
       </p>
       <div className="flex flex-wrap gap-2 mt-3">
-        <button
-          onClick={download}
-          className="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-2 transition"
-        >
+        <Button variant="ghost"
+          onClick={download}>
           <i className="fa-solid fa-download mr-1.5" />
           Exportar
-        </button>
-        <button
-          onClick={() => fileRef.current?.click()}
-          className="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg px-3 py-2 transition"
-        >
+        </Button>
+        <Button variant="ghost"
+          onClick={() => fileRef.current?.click()}>
           <i className="fa-solid fa-upload mr-1.5" />
           Importar
-        </button>
+        </Button>
         <input ref={fileRef} type="file" accept="application/json" onChange={onFile} className="hidden" />
       </div>
       {msg && (
