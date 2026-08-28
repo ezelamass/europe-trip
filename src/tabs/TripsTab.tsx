@@ -2,7 +2,6 @@ import { useMemo, useState } from 'react';
 import { TRIPS } from '../data/trips';
 import TripCard from '../components/TripCard';
 import BackupPanel from '../components/BackupPanel';
-import PhotoCredits from '../components/PhotoCredits';
 
 type Filtro = 'activos' | 'pasados';
 
@@ -51,9 +50,8 @@ export default function TripsTab({ onOpen }: { onOpen: (id: string) => void }) {
         </div>
       )}
 
-      <div className="space-y-3 pt-2">
+      <div className="pt-2">
         <BackupPanel />
-        <PhotoCredits />
       </div>
     </div>
   );

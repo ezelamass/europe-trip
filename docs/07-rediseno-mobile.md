@@ -48,8 +48,8 @@ precachean, porque la pantalla principal sin fotos queda vacía justo cuando má
 la app, que es sin señal.
 
 `scripts/fetch-covers.mjs` las baja y `src/data/covers.json` guarda autor, licencia y
-origen de cada una. Varias son CC BY / CC BY-SA: la atribución es obligatoria y se muestra
-en **Viajes → Créditos de las fotos**.
+origen de cada una — cinco son CC BY / CC BY-SA y ese archivo es su atribución. La tarjeta
+de créditos que estaba en Viajes se sacó a pedido de Eze.
 
 ## Métricas
 

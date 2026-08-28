@@ -7,8 +7,9 @@ export interface CoverCredit {
   source: string;
 }
 
-/** Crédito de cada foto. Varias son CC BY / CC BY-SA, que exigen atribución:
- *  se muestra en Ajustes → Créditos de las fotos. */
+/** Crédito de cada foto. Cinco de las siete son CC BY / CC BY-SA, que exigen
+ *  atribución: `covers.json` es la atribución del proyecto (la app ya no la muestra
+ *  en pantalla). También hace de índice de qué viajes tienen portada. */
 export const COVER_CREDITS = creditsJson as Record<string, CoverCredit>;
 
 /** Portada de un viaje. Las imágenes viven en public/covers/ y se precachean,

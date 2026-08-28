@@ -115,9 +115,11 @@ El razonamiento completo de la migración está en
 
 Siete imágenes de Wikimedia Commons en `public/covers/` (WebP 800×450, 318 KB en total),
 precacheadas para que la pantalla principal no quede vacía sin señal.
-`npm run covers` las regenera; `src/data/covers.json` guarda autor y licencia de cada una.
-Varias son CC BY / CC BY-SA, así que **la atribución es obligatoria** — se muestra en
-Viajes → Créditos de las fotos.
+`npm run covers` las regenera. Cinco de las siete son **CC BY / CC BY-SA**, que exigen
+atribución: autor, licencia y origen de cada una están en `src/data/covers.json` y ese archivo
+es la atribución del proyecto. La app no la muestra en pantalla (la tarjeta de créditos se sacó
+a pedido); si en algún momento se quiere una app sin ninguna obligación de atribuir, hay que
+reemplazar esas cinco por imágenes CC0.
 
 ## Bundle
 
