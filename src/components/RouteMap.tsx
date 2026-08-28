@@ -33,11 +33,13 @@ export default function RouteMap({ stops }: { stops: RouteStop[] }) {
       const c = coordsForCity(s.city);
       if (!c) return;
       points.push(c);
-      // El nombre puede venir de un respaldo importado o del estado de la app vieja:
-      // se escapa antes de inyectarlo, como hacía `escapeHTML` en la versión anterior.
+      // Ciudad y noches vienen del mismo objeto sin validar (un respaldo importado o
+      // el estado de la app vieja), así que se escapan las dos.
       L.marker(c)
         .addTo(map)
-        .bindPopup(`<strong>${i + 1}. ${escapeHTML(s.city)}</strong><br/>${s.nights} noches`);
+        .bindPopup(
+          `<strong>${i + 1}. ${escapeHTML(s.city)}</strong><br/>${escapeHTML(String(s.nights))} noches`,
+        );
     });
 
     if (points.length > 1) {

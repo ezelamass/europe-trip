@@ -1,4 +1,4 @@
-import { launch, BASE, SHOT_DIR, check } from './browser.mjs';
+import { launch, BASE, SHOT_DIR, check, finish } from './browser.mjs';
 
 const browser = await launch();
 const ctx = await browser.newContext({ viewport: { width: 430, height: 932 } });
@@ -95,5 +95,4 @@ await abrirViaje('europa-2026');
 check('el itinerario sigue renderizando tras el import inválido',
       (await page.locator('[data-stat="Total estimado"]').count()) > 0);
 
-console.log('\nErrores:', errors.length ? errors.slice(0, 3).join(' | ') : 'ninguno');
-await browser.close();
+await finish(browser, errors);

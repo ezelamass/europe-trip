@@ -136,7 +136,17 @@ export default function HacksTab() {
                 </Button>
               )}
             </div>
-            {f.desc && <p className="text-sm text-slate-300 mt-3">{f.desc}</p>}
+            {f.desc &&
+              // Los predefinidos traen markup a propósito (<em>, <strong>) y son
+              // contenido del repo. Lo que escribe el usuario va como texto plano.
+              (f.isPredefined ? (
+                <p
+                  className="text-sm text-slate-300 mt-3"
+                  dangerouslySetInnerHTML={{ __html: f.desc }}
+                />
+              ) : (
+                <p className="text-sm text-slate-300 mt-3">{f.desc}</p>
+              ))}
             {f.tip && (
               <div className="mt-3">
                 <TipCallout>{f.tip}</TipCallout>

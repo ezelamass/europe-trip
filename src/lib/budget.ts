@@ -1,4 +1,4 @@
-import type { Fact, RouteStop, SideQuest } from '../types';
+import type { Benefit, Fact, RouteStop, SideQuest } from '../types';
 
 /** Aplica los descuentos por beneficio activo. Un hack declara con qué beneficio
  *  se abarata (`halfPriceWith`) y cuál es su precio de lista (`fullPrice`); acá no
@@ -22,6 +22,8 @@ export interface BudgetInput {
   stops: RouteStop[];
   facts: Fact[];
   quests: SideQuest[];
+  /** Beneficios UE activos: su ahorro cuenta igual que el de los hacks. */
+  benefits: Benefit[];
   /** Reservas de alta velocidad (cantidad; el promedio es RESERVATION_AVG_COST). */
   reservations: number;
   /** Cuando mamá paga su tramo, el alojamiento de esas paradas no es gasto de Eze. */
@@ -67,7 +69,11 @@ export function computeBudget(i: BudgetInput): BudgetTotals {
   }
 
   const facts = i.facts.reduce((a, f) => a + (f.cost || 0), 0);
-  const saved = i.facts.reduce((a, f) => a + (f.saving || 0), 0);
+  // El ahorro suma hacks y beneficios activos, como hacía la app anterior:
+  // contando solo los hacks, el número mostrado se quedaba en un tercio.
+  const saved =
+    i.facts.reduce((a, f) => a + (f.saving || 0), 0) +
+    i.benefits.reduce((a, b) => a + (b.saving || 0), 0);
   const reservations = i.reservations * RESERVATION_AVG_COST;
   const quests = i.quests.reduce((a, q) => a + (q.includedInBudget ? q.totalCost : 0), 0);
   // El vuelo internacional se guarda en USD; todo lo demás, en EUR.

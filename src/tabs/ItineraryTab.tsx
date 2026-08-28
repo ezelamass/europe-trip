@@ -1,18 +1,16 @@
 import { lazy, Suspense, useMemo, useState } from 'react';
 import type { Trip, RouteStop } from '../types';
 import { useStore } from '../store/useStore';
+import { useStops } from '../store/useStops';
 import { formatRange, getCostBadgeColor, stopRange } from '../lib/format';
 import { useMoney } from '../lib/useMoney';
 import { computeBudget, withDynamicCosts } from '../lib/budget';
+import { EUROPEAN_BENEFITS } from '../data/europa2026';
 import StatTile from '../components/StatTile';
 import Modal from '../components/Modal';
 import { Button, TipCallout, GHOST_LINK_CLS } from '../components/ui';
 // Leaflet pesa y la vista de mapa es opcional: se carga al pedirla.
 const RouteMap = lazy(() => import('../components/RouteMap'));
-
-/** Identidad estable: devolver `[]` inline hace que el snapshot de zustand v5
- *  nunca sea `Object.is`-igual y React re-renderice en loop. */
-const NO_STOPS: RouteStop[] = [];
 
 type Phase = 'pasado' | 'actual' | 'futuro';
 
@@ -112,7 +110,12 @@ function StopCard({
               <i className="fa-solid fa-chevron-down" />
             </Button>
             <Button variant="danger" size="icon"
-              onClick={() => removeStop(trip.id, stop.id)}
+              // Pide confirmación: está pegado a las flechas de reordenar y no hay
+              // forma de volver a agregar una parada — la única vuelta atrás sería
+              // restaurar el itinerario entero y perder el resto de los cambios.
+              onClick={() => {
+                if (confirm(`¿Sacar "${stop.city}" del itinerario?`)) removeStop(trip.id, stop.id);
+              }}
               aria-label="Eliminar parada">
               <i className="fa-solid fa-trash" />
             </Button>
@@ -192,7 +195,7 @@ function StopCard({
 }
 
 export default function ItineraryTab({ trip }: { trip: Trip }) {
-  const stops = useStore((s) => s.tripStops[trip.id]) ?? NO_STOPS;
+  const stops = useStops(trip.id);
   const money = useMoney();
   const displayCurrency = useStore((s) => s.displayCurrency);
   const includeBaseFlight = useStore((s) => s.includeBaseFlight);
@@ -205,6 +208,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
   const setCurrency = useStore((s) => s.setCurrency);
   const toggleBaseFlight = useStore((s) => s.toggleBaseFlight);
   const toggleMomInvitation = useStore((s) => s.toggleMomInvitation);
+  const setReservations = useStore((s) => s.setReservations);
   const resetStops = useStore((s) => s.resetStops);
 
   const usdToEurRate = useStore((s) => s.usdToEurRate);
@@ -221,6 +225,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
       stops,
       facts: planner ? withDynamicCosts(facts, benefits) : [],
       quests: planner ? quests : [],
+      benefits: planner ? EUROPEAN_BENEFITS.filter((b) => benefits[b.id]) : [],
       reservations: planner ? reservations : 0,
       momPaysHerTrip,
       includeBaseFlight: planner && includeBaseFlight,
@@ -344,6 +349,26 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
             />
             Mamá paga su tramo
           </label>
+          {/* Las reservas de asiento suman al total: sin este control el número
+              quedaba clavado en 3 y el chip de "Reservas de tren" era siempre falso. */}
+          <div className="flex items-center gap-2 text-xs text-slate-300 bg-slate-900 border border-white/10 rounded-lg px-3 py-2">
+            <span>Reservas de tren</span>
+            <Button
+              variant="ghost" size="icon"
+              onClick={() => setReservations(reservations - 1)}
+              aria-label="Una reserva menos"
+            >
+              <i className="fa-solid fa-minus" />
+            </Button>
+            <span className="tabular-nums font-bold text-white w-5 text-center">{reservations}</span>
+            <Button
+              variant="ghost" size="icon"
+              onClick={() => setReservations(reservations + 1)}
+              aria-label="Una reserva más"
+            >
+              <i className="fa-solid fa-plus" />
+            </Button>
+          </div>
           <button
             onClick={() => resetStops(trip.id)}
             className="text-xs font-semibold text-slate-400 hover:text-slate-200 underline underline-offset-2"

@@ -9,6 +9,9 @@ const NEW_KEY = 'eurotrip-state';
 /** Se guarda intacta la copia vieja antes de tocar nada: si la migración sale mal,
  *  el dato original sigue estando. Es la red de seguridad que pedía docs/06-roadmap. */
 const BACKUP_KEY = 'eurotrip_state_lego_backup';
+/** Última `DATA_VERSION` que publicó la app de HTML puro. Un estado guardado con
+ *  otra versión trae contenido que esa misma app ya había decidido descartar. */
+const LEGACY_DATA_VERSION = '2026-08-28-1';
 
 interface LegacyState {
   dataVersion?: string;
@@ -24,7 +27,6 @@ interface LegacyState {
   includeBaseFlight?: boolean;
   highSpeedReservations?: number;
   mamaPaysMomTrip?: boolean;
-  esimPhoneNumber?: string;
 }
 
 /** Lo mismo que guardaba la app vieja, menos lo que no se migra tal cual:
@@ -48,9 +50,19 @@ export function readLegacyState(): MigratedLegacy | null {
     const raw = localStorage.getItem(LEGACY_KEY);
     if (!raw) return null;
 
-    if (!localStorage.getItem(BACKUP_KEY)) localStorage.setItem(BACKUP_KEY, raw);
+    // El respaldo es deseable, no imprescindible: si `setItem` tira (cuota llena,
+    // modo privado de Safari) no puede arrastrar consigo a la migración, porque
+    // entonces el escrito que existe para proteger el dato sería el que lo pierde.
+    try {
+      if (!localStorage.getItem(BACKUP_KEY)) localStorage.setItem(BACKUP_KEY, raw);
+    } catch {
+      /* sin respaldo, pero se migra igual */
+    }
 
     const old = JSON.parse(raw) as LegacyState;
+    // La app vieja solo restauraba su contenido guardado cuando la versión coincidía
+    // con la publicada; si no, ganaba lo hardcodeado. Ese mismo criterio aplica acá.
+    const mismaVersion = old.dataVersion === LEGACY_DATA_VERSION;
     const out: MigratedLegacy = {};
 
     if (old.travelProfile && typeof old.travelProfile === 'object') {
@@ -72,18 +84,25 @@ export function readLegacyState(): MigratedLegacy | null {
       if (Object.keys(albums).length) out.photoAlbums = albums;
     }
 
-    if (Array.isArray(old.luggageItems) && old.luggageItems.length) out.luggageItems = old.luggageItems;
+    // Valija y side quests solo se traen si la versión guardada coincide: si no,
+    // pisarían con contenido viejo lo curado en esta release (mismo motivo por el
+    // que el itinerario no se migra).
+    if (mismaVersion && Array.isArray(old.luggageItems) && old.luggageItems.length) {
+      out.luggageItems = old.luggageItems;
+    }
 
     // La app vieja guardaba en `customFacts` SOLO los hacks que agregó el usuario, y
     // en pantalla mostraba `[...PREDEFINED_FACTS, ...customFacts]`. Acá la lista es una
     // sola, así que hay que reponer los predefinidos o desaparecen del tab Hacks.
+    // Los hacks propios sí se conservan siempre, sin importar la versión: los
+    // escribió una persona, no son contenido de la app.
     if (Array.isArray(old.customFacts) && old.customFacts.length) {
       const propios = old.customFacts.filter((f) => f && !f.isPredefined);
-      out.customFacts = [...PREDEFINED_FACTS, ...propios];
+      if (propios.length) out.customFacts = [...PREDEFINED_FACTS, ...propios];
     }
 
-    // Ídem con las side quests: el loader viejo reinyectaba las que faltaban.
-    if (Array.isArray(old.sideQuests) && old.sideQuests.length) {
+    // Ídem con las side quests, reinyectando las que falten como hacía el loader viejo.
+    if (mismaVersion && Array.isArray(old.sideQuests) && old.sideQuests.length) {
       const guardadas = old.sideQuests.filter(Boolean);
       const ids = new Set(guardadas.map((q) => q.id));
       out.sideQuests = [...DEFAULT_SIDE_QUESTS.filter((q) => !ids.has(q.id)), ...guardadas];
@@ -97,7 +116,6 @@ export function readLegacyState(): MigratedLegacy | null {
       'includeBaseFlight',
       'highSpeedReservations',
       'mamaPaysMomTrip',
-      'esimPhoneNumber',
     ] as const) {
       if (old[k] !== undefined) (out as Record<string, unknown>)[k] = old[k];
     }

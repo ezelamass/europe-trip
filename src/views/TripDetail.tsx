@@ -1,14 +1,14 @@
 import type { Trip } from '../types';
 import { coverFor } from '../data/covers';
 import { tripNights } from '../data/trips';
-import { useStore } from '../store/useStore';
+import { useStops } from '../store/useStops';
 import ItineraryTab from '../tabs/ItineraryTab';
 import { GHOST_LINK_CLS } from '../components/ui';
 
 /** Pantalla de un viaje: se abre desde una card y vuelve con la flecha.
  *  No es un tab — es una vista apilada encima del tab actual. */
 export default function TripDetail({ trip, onBack }: { trip: Trip; onBack: () => void }) {
-  const stops = useStore((s) => s.tripStops[trip.id]) ?? trip.stops;
+  const stops = useStops(trip.id);
   const cover = coverFor(trip.id);
 
   return (

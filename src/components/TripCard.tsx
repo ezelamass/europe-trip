@@ -1,9 +1,8 @@
 import type { Trip } from '../types';
 import { coverFor } from '../data/covers';
 import { tripNights } from '../data/trips';
-import { useStore } from '../store/useStore';
-
-const MESES = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+import { MES_CORTO } from '../lib/format';
+import { useStops } from '../store/useStops';
 
 /** "Mar. 09 Dic. 2025 - Mar. 16 Dic. 2025" es el formato de la referencia; acá se
  *  usa uno más corto porque las fechas de un viaje casi siempre comparten año. */
@@ -11,7 +10,7 @@ function rangeLabel(trip: Trip): string {
   if (!trip.startDate || !trip.endDate) return trip.dateLabel;
   const a = new Date(trip.startDate + 'T00:00:00');
   const b = new Date(trip.endDate + 'T00:00:00');
-  const d = (x: Date) => `${String(x.getDate()).padStart(2, '0')} ${MESES[x.getMonth()]}`;
+  const d = (x: Date) => `${String(x.getDate()).padStart(2, '0')} ${MES_CORTO[x.getMonth()]}`;
   return a.getFullYear() === b.getFullYear()
     ? `${d(a)} – ${d(b)} ${b.getFullYear()}`
     : `${d(a)} ${a.getFullYear()} – ${d(b)} ${b.getFullYear()}`;
@@ -25,7 +24,7 @@ function companionsLabel(trip: Trip): string {
 }
 
 export default function TripCard({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void }) {
-  const stops = useStore((s) => s.tripStops[trip.id]);
+  const stops = useStops(trip.id);
   const cover = coverFor(trip.id);
   const nights = tripNights(trip, stops);
 

@@ -39,8 +39,11 @@ interface Persisted {
   includeBaseFlight: boolean;
   highSpeedReservations: number;
   mamaPaysMomTrip: boolean;
-  esimPhoneNumber: string;
   appliedBenefits: Record<string, boolean>;
+  /** Álbumes de fotos por id de parada. Los carga el usuario (o vienen de la app
+   *  vieja), así que viven fuera de `tripStops`: ahí los borraría cada bump de
+   *  DATA_VERSION, que es justo lo que reseteo del itinerario tiene que hacer. */
+  photoAlbums: Record<string, string>;
 }
 
 interface Store extends Persisted {
@@ -60,6 +63,8 @@ interface Store extends Persisted {
 
   // Perfil de viajero
   toggleCountryVisited: (iso: string) => void;
+  /** Marca visitado sin poder borrar: el selector no es un control destructivo. */
+  addCountryVisited: (iso: string) => void;
   adjustCountryVisits: (iso: string, delta: number) => void;
   toggleSubdivision: (iso: string, sub: string) => void;
   syncProfileFromTrips: () => number;
@@ -79,6 +84,7 @@ interface Store extends Persisted {
   setCurrency: (c: 'USD' | 'EUR') => void;
   toggleBaseFlight: () => void;
   toggleMomInvitation: () => void;
+  setReservations: (n: number) => void;
   toggleBenefit: (id: string) => void;
 
   // Respaldo
@@ -89,16 +95,15 @@ interface Store extends Persisted {
 const seedStops = (): Record<string, RouteStop[]> =>
   Object.fromEntries(TRIPS.map((t) => [t.id, t.stops.map((s) => ({ ...s }))]));
 
-function applyPhotoAlbums(
-  stops: Record<string, RouteStop[]>,
-  albums: Record<string, string> | undefined,
-): Record<string, RouteStop[]> {
-  if (!albums) return stops;
-  return Object.fromEntries(
-    Object.entries(stops).map(([tripId, list]) => [
-      tripId,
-      list.map((s) => (albums[s.id] && !s.photosAlbumUrl ? { ...s, photosAlbumUrl: albums[s.id] } : s)),
-    ]),
+/** Une el itinerario curado con los álbumes que cargó el usuario. Se hace en la
+ *  lectura y no al sembrar, para que un bump de DATA_VERSION reponga las paradas
+ *  sin llevarse puestos los álbumes. */
+export function withPhotoAlbums(
+  stops: RouteStop[],
+  albums: Record<string, string>,
+): RouteStop[] {
+  return stops.map((s) =>
+    albums[s.id] && !s.photosAlbumUrl ? { ...s, photosAlbumUrl: albums[s.id] } : s,
   );
 }
 
@@ -108,12 +113,8 @@ const legacy = readLegacyState();
 const initial: Persisted = {
   dataVersion: DATA_VERSION,
   activeTripId: DEFAULT_TRIP_ID,
-  // Del itinerario viejo solo se rescatan los álbumes de fotos que cargó el usuario:
-  // el resto de las paradas viene del dato curado, que es más nuevo (ver legacy.ts).
-  // Se aplica por id de parada sobre todos los viajes, sin nombrar ninguno: atarlo a
-  // un id literal reventaba el día que ese viaje se renombre, dentro de la función
-  // cuyo objetivo es justamente no perder datos.
-  tripStops: applyPhotoAlbums(seedStops(), legacy?.photoAlbums),
+  tripStops: seedStops(),
+  photoAlbums: legacy?.photoAlbums ?? {},
   travelProfile: legacy?.travelProfile ?? DEFAULT_TRAVEL_PROFILE,
   luggageItems: legacy?.luggageItems ?? DEFAULT_LUGGAGE_ITEMS,
   sideQuests: legacy?.sideQuests ?? DEFAULT_SIDE_QUESTS,
@@ -124,7 +125,6 @@ const initial: Persisted = {
   includeBaseFlight: legacy?.includeBaseFlight ?? true,
   highSpeedReservations: legacy?.highSpeedReservations ?? 3,
   mamaPaysMomTrip: legacy?.mamaPaysMomTrip ?? false,
-  esimPhoneNumber: legacy?.esimPhoneNumber ?? '',
   appliedBenefits: legacy?.appliedBenefits ?? {
     veranoJoven: true, tse: true, museos: true, abonoMadrid: true, eyca: true,
   },
@@ -186,6 +186,13 @@ export const useStore = create<Store>()(
           return { travelProfile: p };
         }),
 
+      addCountryVisited: (iso) =>
+        set((s) =>
+          s.travelProfile[iso]
+            ? s
+            : { travelProfile: { ...s.travelProfile, [iso]: { visits: 1, subs: [] } } },
+        ),
+
       adjustCountryVisits: (iso, delta) =>
         set((s) => {
           const cur = s.travelProfile[iso];
@@ -241,6 +248,7 @@ export const useStore = create<Store>()(
       setCurrency: (displayCurrency) => set({ displayCurrency }),
       toggleBaseFlight: () => set((s) => ({ includeBaseFlight: !s.includeBaseFlight })),
       toggleMomInvitation: () => set((s) => ({ mamaPaysMomTrip: !s.mamaPaysMomTrip })),
+      setReservations: (n) => set({ highSpeedReservations: Math.max(0, Math.min(99, Math.round(n))) }),
       toggleBenefit: (id) =>
         set((s) => ({
           appliedBenefits: { ...s.appliedBenefits, [id]: !s.appliedBenefits[id] },
@@ -265,7 +273,7 @@ export const useStore = create<Store>()(
             includeBaseFlight: s.includeBaseFlight,
             highSpeedReservations: s.highSpeedReservations,
             mamaPaysMomTrip: s.mamaPaysMomTrip,
-            esimPhoneNumber: s.esimPhoneNumber,
+            photoAlbums: s.photoAlbums,
           },
           null,
           2,
@@ -305,7 +313,20 @@ export const useStore = create<Store>()(
           if (!isObj(data.tripStops)) return { ok: false, error: 'Los itinerarios del respaldo están dañados.' };
           const entries = Object.entries(data.tripStops as Record<string, unknown>)
             .filter(([, v]) => Array.isArray(v))
-            .map(([k, v]) => [k, (v as RouteStop[]).filter((s) => isObj(s) && typeof s.id === 'string')] as const);
+            // `nights` tiene que ser un número: sin esto, un respaldo truncado
+            // propagaba NaN al presupuesto y a las fechas ("NaN NaN – NaN NaN").
+            .map(([k, v]) => [
+              k,
+              (v as RouteStop[])
+                .filter((s) => isObj(s) && typeof s.id === 'string')
+                .map((s) => ({
+                  ...s,
+                  nights: Number.isFinite(Number(s.nights)) ? Number(s.nights) : 0,
+                  cost: Number(s.cost) || 0,
+                  dailyBudget: Number(s.dailyBudget) || 0,
+                  accommodationCost: Number(s.accommodationCost) || 0,
+                })),
+            ] as const);
           patch.tripStops = { ...seedStops(), ...Object.fromEntries(entries) };
         }
 
@@ -313,6 +334,14 @@ export const useStore = create<Store>()(
           if (data[k] === undefined) continue;
           if (!Array.isArray(data[k])) return { ok: false, error: `El campo "${k}" del respaldo está dañado.` };
           (patch as Record<string, unknown>)[k] = (data[k] as unknown[]).filter(isObj);
+        }
+
+        if (data.photoAlbums !== undefined) {
+          if (!isObj(data.photoAlbums)) return { ok: false, error: 'Los álbumes del respaldo están dañados.' };
+          patch.photoAlbums = Object.fromEntries(
+            Object.entries(data.photoAlbums as Record<string, unknown>)
+              .filter(([, v]) => typeof v === 'string'),
+          ) as Record<string, string>;
         }
 
         if (data.appliedBenefits !== undefined) {
@@ -330,7 +359,6 @@ export const useStore = create<Store>()(
         for (const k of ['includeBaseFlight', 'mamaPaysMomTrip'] as const) {
           if (typeof data[k] === 'boolean') patch[k] = data[k] as boolean;
         }
-        if (typeof data.esimPhoneNumber === 'string') patch.esimPhoneNumber = data.esimPhoneNumber;
 
         if (!Object.keys(patch).length) {
           return { ok: false, error: 'El archivo no contiene datos que se puedan restaurar.' };
@@ -341,7 +369,9 @@ export const useStore = create<Store>()(
     }),
     {
       name: 'eurotrip-state',
-      version: 2,
+      // Sin `version`: zustand, ante un número distinto y sin `migrate`, descarta el
+      // estado guardado. La app ya versiona su contenido con DATA_VERSION + `merge`,
+      // que sí sabe qué conservar; tener dos mecanismos era un pie en la trampa.
       partialize: (s): Persisted => ({
         dataVersion: s.dataVersion,
         activeTripId: s.activeTripId,
@@ -356,8 +386,8 @@ export const useStore = create<Store>()(
         includeBaseFlight: s.includeBaseFlight,
         highSpeedReservations: s.highSpeedReservations,
         mamaPaysMomTrip: s.mamaPaysMomTrip,
-        esimPhoneNumber: s.esimPhoneNumber,
         appliedBenefits: s.appliedBenefits,
+        photoAlbums: s.photoAlbums,
       }),
       /** Al subir DATA_VERSION se restaura el contenido curado de la app —
        *  pero solo el curado. Lo que agregó el usuario (ítems de valija, hacks y
@@ -389,6 +419,7 @@ export const useStore = create<Store>()(
           ],
           // Siempre del usuario, pase lo que pase con la versión.
           travelProfile: p.travelProfile ?? current.travelProfile,
+          photoAlbums: p.photoAlbums ?? current.photoAlbums,
         };
       },
     },

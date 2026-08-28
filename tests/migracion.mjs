@@ -1,4 +1,4 @@
-import { launch, BASE, SHOT_DIR, check } from './browser.mjs';
+import { launch, BASE, SHOT_DIR, check, finish } from './browser.mjs';
 const browser = await launch();
 const ctx = await browser.newContext({ viewport: { width: 430, height: 932 } });
 const page = await ctx.newPage();
@@ -71,10 +71,27 @@ check('no pisa el itinerario curado con el guardado viejo', !/VIEJO/.test(primer
 const paradas = await page.locator('main .rounded-2xl h3').count();
 check('conserva las 19 paradas curadas', paradas === 19, `${paradas} paradas`);
 const album = await page.evaluate(() => {
-  const s = JSON.parse(localStorage.getItem('eurotrip-state')||'{}');
-  return s.state?.tripStops?.['europa-2026']?.find(x => x.id === 'stop-1')?.photosAlbumUrl;
+  const s = JSON.parse(localStorage.getItem('eurotrip-state') || '{}');
+  return s.state?.photoAlbums?.['stop-1'];
 });
-check('rescata el album de fotos de la parada vieja', album === 'https://photos.app.goo.gl/ALBUM-VIEJO', album||'(ninguno)');
+check('rescata el album de fotos de la parada vieja',
+      album === 'https://photos.app.goo.gl/ALBUM-VIEJO', album || '(ninguno)');
+
+// El álbum tiene que sobrevivir a un bump de DATA_VERSION: antes vivía dentro de
+// tripStops, que `merge` resetea al republicar contenido, y se perdía.
+await page.evaluate(() => {
+  const s = JSON.parse(localStorage.getItem('eurotrip-state') || '{}');
+  s.state.dataVersion = 'version-vieja';
+  localStorage.setItem('eurotrip-state', JSON.stringify(s));
+});
+await page.reload({ waitUntil: 'networkidle' });
+await page.waitForTimeout(1200);
+const trasBump = await page.evaluate(() => {
+  const s = JSON.parse(localStorage.getItem('eurotrip-state') || '{}');
+  return s.state?.photoAlbums?.['stop-1'];
+});
+check('el album sobrevive a un bump de DATA_VERSION',
+      trasBump === 'https://photos.app.goo.gl/ALBUM-VIEJO', trasBump || '(perdido)');
 
 // Los hacks predefinidos no pueden desaparecer al migrar los propios
 await page.locator('nav button:has-text("Inicio")').first().click();
@@ -86,5 +103,4 @@ check('repone los hacks predefinidos junto al propio del usuario',
       hacks.length === 4 && hacks.some(h=>/Interrail/.test(h)) && hacks.some(h=>/Hack propio/.test(h)),
       `${hacks.length}: ${hacks.map(h=>h.trim().slice(0,22)).join(' / ')}`);
 
-console.log('\nErrores:', errors.length ? errors.join(' | ') : 'ninguno');
-await browser.close();
+await finish(browser, errors);

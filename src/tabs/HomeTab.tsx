@@ -2,11 +2,19 @@ import { useMemo } from 'react';
 import { TRIPS, tripNights } from '../data/trips';
 import { coverFor } from '../data/covers';
 import { useStore } from '../store/useStore';
+import { useStops } from '../store/useStops';
 import { stopRange, formatRange } from '../lib/format';
 import TripsTab from './TripsTab';
 import type { RouteStop, Trip } from '../types';
 
-const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+/** Días calendario entre una fecha ISO y otra, contando por fecha y no por
+ *  milisegundos, para que un cambio de hora no corra la cuenta. */
+function daysBetween(isoFrom: string, to: Date): number {
+  const [y, m, d] = isoFrom.split('-').map(Number);
+  const from = Date.UTC(y, m - 1, d);
+  const target = Date.UTC(to.getFullYear(), to.getMonth(), to.getDate());
+  return Math.round((target - from) / 86_400_000);
+}
 
 /** Parada en curso y la siguiente. Las fechas son acumulativas, así que alcanza
  *  con recorrer las paradas sumando noches hasta pasar la de hoy. */
@@ -23,7 +31,7 @@ function locate(trip: Trip, stops: RouteStop[], today: Date) {
 }
 
 function HeroActual({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void }) {
-  const stops = useStore((s) => s.tripStops[trip.id]) ?? trip.stops;
+  const stops = useStops(trip.id);
   const setTab = useStore((s) => s.setTab);
   const today = useMemo(() => {
     const d = new Date();
@@ -34,13 +42,13 @@ function HeroActual({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void
   const total = tripNights(trip, stops);
   const { current, currentRange, next } = useMemo(() => locate(trip, stops, today), [trip, stops, today]);
 
-  // Día del viaje, para el progreso.
-  const start = trip.startDate ? new Date(trip.startDate + 'T00:00:00') : null;
-  const dia = start ? Math.floor((today.getTime() - start.getTime()) / 86_400_000) + 1 : 0;
+  // Días entre dos medianoches locales. Dividir el delta en milisegundos se corre
+  // un día cuando el viaje cruza un cambio de horario (la diferencia pasa a ser de
+  // 23 o 25 horas), que es justo lo que hacen los viajes largos por Europa.
+  const dia = trip.startDate ? daysBetween(trip.startDate, today) + 1 : 0;
   const pct = total ? Math.min(100, Math.max(0, (dia / total) * 100)) : 0;
   const cover = coverFor(trip.id);
-  const end = trip.endDate ? new Date(trip.endDate + 'T00:00:00') : null;
-  const faltan = end ? Math.max(0, Math.ceil((end.getTime() - today.getTime()) / 86_400_000)) : null;
+  const faltan = trip.endDate ? Math.max(0, -daysBetween(trip.endDate, today)) : null;
 
   return (
     <div className="space-y-5">
@@ -148,4 +156,3 @@ export default function HomeTab({ onOpen }: { onOpen: (id: string) => void }) {
   return enCurso ? <HeroActual trip={enCurso} onOpen={onOpen} /> : <TripsTab onOpen={onOpen} />;
 }
 
-export { MESES };

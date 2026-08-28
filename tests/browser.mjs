@@ -34,5 +34,26 @@ function findInstalledChromium() {
 export const BASE = process.env.BASE_URL ?? 'http://127.0.0.1:8099';
 export const SHOT_DIR = process.env.SHOT_DIR;
 
-export const check = (name, ok, extra = '') =>
+let fallos = 0;
+
+/** Imprime el resultado y, si falla, marca el proceso para salir con error.
+ *  Sin esto `npm test` daba verde con la app rota: las suites imprimían FALLA
+ *  y salían con código 0, así que servían de nada como puerta antes de mergear. */
+export function check(name, ok, extra = '') {
+  if (!ok) fallos++;
   console.log(`${ok ? 'PASS' : 'FALLA'}  ${name}${extra ? ' → ' + extra : ''}`);
+}
+
+/** Cierra la suite: reporta los errores de página capturados y sale con el
+ *  código que corresponda. Toda suite tiene que terminar llamando a esto. */
+export function finish(browser, pageErrors = []) {
+  if (pageErrors.length) {
+    fallos += pageErrors.length;
+    console.log('\nErrores de página:', pageErrors.slice(0, 5).join(' | '));
+  } else {
+    console.log('\nErrores de página: ninguno');
+  }
+  const code = fallos ? 1 : 0;
+  console.log(fallos ? `\n${fallos} check(s) fallaron.` : '\nTodo en verde.');
+  return browser.close().then(() => process.exit(code));
+}

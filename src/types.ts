@@ -74,15 +74,6 @@ export interface Benefit {
   icon: string; color: string; badgeText: string;
 }
 
-export interface CatalogCity {
-  id: string; name: string; category: string; costLvl: string;
-  minDays: number; maxDays: number;
-  /** Con quién encaja mejor ese destino ("Amigos", "Solo"…), no un flag. */
-  dynamic: string;
-  hack: string;
-  budget: number; core: string; activities?: string[];
-}
-
 export interface Fact {
   id: string; title: string; cost: number; saving: number;
   category: string; desc: string; tip: string; isPredefined?: boolean;

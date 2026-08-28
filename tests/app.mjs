@@ -1,4 +1,4 @@
-import { launch, BASE, SHOT_DIR, check } from './browser.mjs';
+import { launch, BASE, SHOT_DIR, check, finish } from './browser.mjs';
 
 const browser = await launch();
 const ctx = await browser.newContext({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 2 });
@@ -79,5 +79,4 @@ check('el mapa mundial sigue dibujándose', paths > 150, `${paths} paths`);
 const pct = await page.locator('[data-stat="Del mundo"]').textContent();
 check('porcentaje del mundo', /%/.test(pct || ''), (pct || '').trim());
 
-console.log('\nErrores de página:', errors.length ? errors.slice(0, 3).join(' | ') : 'ninguno');
-await browser.close();
+await finish(browser, errors);

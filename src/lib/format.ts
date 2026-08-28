@@ -79,6 +79,8 @@ export function calculateDistance(lat1: number, lon1: number, lat2: number, lon2
 }
 
 const MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+/** Igual, capitalizado, para las cards. Estaba escrito tres veces. */
+export const MES_CORTO = MESES.map((m) => m[0].toUpperCase() + m.slice(1));
 
 /** Ventana de una parada, acumulando noches desde el inicio del viaje. Es la única
  *  implementación de esta aritmética: formatearla y ubicarla en el tiempo son dos

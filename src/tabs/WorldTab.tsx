@@ -25,6 +25,7 @@ export default function WorldTab() {
   const view = useStore((s) => s.profileContinent);
   const setView = useStore((s) => s.setProfileContinent);
   const toggleCountryVisited = useStore((s) => s.toggleCountryVisited);
+  const addCountryVisited = useStore((s) => s.addCountryVisited);
   const adjustCountryVisits = useStore((s) => s.adjustCountryVisits);
   const toggleSubdivision = useStore((s) => s.toggleSubdivision);
   const syncProfileFromTrips = useStore((s) => s.syncProfileFromTrips);
@@ -316,9 +317,12 @@ export default function WorldTab() {
             devuelva null: sin este guard se construían 195 botones en cada render. */}
         <div className="max-h-[50vh] overflow-y-auto custom-scrollbar space-y-1">
           {picker && pickerResults.map(([iso, meta]) => (
+            // Agregar no puede borrar: un toque errado sobre un país ya cargado
+            // se llevaba sus visitas y sus subdivisiones sin aviso ni deshacer.
+            // Para quitarlo está el detalle del país, que lo dice explícito.
             <button
               key={iso}
-              onClick={() => toggleCountryVisited(iso)}
+              onClick={() => (profile[iso] ? setDetail(iso) : addCountryVisited(iso))}
               className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-lg hover:bg-slate-800 transition text-left"
             >
               <span className="flex items-center gap-2 min-w-0">

@@ -15,18 +15,28 @@ const EXTRA: Record<string, [number, number]> = {
   'Palma de Mallorca (España)': [39.5696, 2.65016],
 };
 
-/** Normaliza "Palma de Mallorca (España) 🇪🇸" → "palma de mallorca": las claves
- *  traen país y a veces emoji, así que el match exacto fallaba. */
-const cityKey = (city: string) =>
-  city.split('(')[0].replace(/[^\p{L}\s.'-]/gu, '').trim().toLowerCase();
+/** Normaliza sin tirar el paréntesis: "Palma de Mallorca (España) 🇪🇸" y
+ *  "Palma de Mallorca (España)" tienen que dar la misma clave, pero
+ *  "Parada de Tránsito (Praga)" y "(Múnich)" NO — truncar ahí las colapsaba en una
+ *  sola y el marcador caía 280 km en otro país. */
+const norm = (s: string) =>
+  s.replace(/[^\p{L}\p{N}\s.'()-]/gu, '').replace(/\s+/g, ' ').trim().toLowerCase();
 
-const BY_KEY: Record<string, [number, number]> = {};
+/** Clave sin el paréntesis, para poder resolver una parada que no lo trae. */
+const bare = (s: string) => norm(s.split('(')[0]);
+
+const FULL: Record<string, [number, number]> = {};
+const BARE: Record<string, [number, number]> = {};
 for (const [name, xy] of Object.entries({ ...CITY_COORDINATES, ...EXTRA })) {
-  BY_KEY[cityKey(name)] = xy;
+  FULL[norm(name)] = xy;
+  const b = bare(name);
+  // Solo se indexa por nombre pelado si no hay ambigüedad.
+  if (b in BARE) delete BARE[b];
+  else BARE[b] = xy;
 }
 
 /** Única fuente de coordenadas por nombre de ciudad. Vive en la capa de datos y no
  *  en el mapa: un componente de render no debería estar reconciliando diccionarios. */
 export function coordsForCity(city: string): [number, number] | null {
-  return BY_KEY[cityKey(city)] ?? null;
+  return FULL[norm(city)] ?? BARE[bare(city)] ?? null;
 }
