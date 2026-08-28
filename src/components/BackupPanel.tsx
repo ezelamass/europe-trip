@@ -15,8 +15,12 @@ export default function BackupPanel() {
     const a = document.createElement('a');
     a.href = url;
     a.download = `viajes-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    // En Safari mobile un ancla suelta no dispara la descarga, y revocar el blob en
+    // el mismo tick la cancela antes de que el navegador llegue a leerlo.
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 60_000);
     setMsg({ ok: true, text: 'Respaldo descargado.' });
   };
 

@@ -1,6 +1,6 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { useStore, type TabId } from './store/useStore';
-import { TRIPS_BY_ID } from './data/trips';
+import { TRIPS_BY_ID, DEFAULT_TRIP_ID } from './data/trips';
 import TripsTab from './tabs/TripsTab';
 import ItineraryTab from './tabs/ItineraryTab';
 import BenefitsTab from './tabs/BenefitsTab';
@@ -32,8 +32,17 @@ const TABS: TabDef[] = [
 export default function App() {
   const activeTab = useStore((s) => s.activeTab);
   const setTab = useStore((s) => s.setTab);
-  const activeTripId = useStore((s) => s.activeTripId);
-  const trip = TRIPS_BY_ID[activeTripId] ?? TRIPS_BY_ID[Object.keys(TRIPS_BY_ID)[0]];
+  const storedTripId = useStore((s) => s.activeTripId);
+  const setActiveTrip = useStore((s) => s.setActiveTrip);
+
+  // Un id guardado que ya no existe (viaje renombrado, respaldo de otra versión)
+  // dejaba el <select> apuntando a una opción inexistente: se repara el estado.
+  const activeTripId = TRIPS_BY_ID[storedTripId] ? storedTripId : DEFAULT_TRIP_ID;
+  useEffect(() => {
+    if (storedTripId !== activeTripId) setActiveTrip(activeTripId);
+  }, [storedTripId, activeTripId, setActiveTrip]);
+
+  const trip = TRIPS_BY_ID[activeTripId];
 
   const tabs = TABS.filter((t) => !t.plannerOnly || trip.hasPlannerTools);
   // Si el viaje activo no tiene herramientas, no dejamos una tab huérfana seleccionada.
@@ -60,7 +69,7 @@ export default function App() {
           {/* Selector de viaje: la app dejó de ser de un solo viaje. */}
           <select
             value={activeTripId}
-            onChange={(e) => useStore.getState().setActiveTrip(e.target.value)}
+            onChange={(e) => setActiveTrip(e.target.value)}
             aria-label="Viaje activo"
             className="shrink-0 bg-slate-900 border border-slate-700 text-slate-200 text-xs sm:text-sm rounded-lg px-2.5 py-2 max-w-[45vw] sm:max-w-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
           >

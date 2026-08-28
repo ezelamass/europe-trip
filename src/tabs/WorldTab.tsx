@@ -69,7 +69,10 @@ export default function WorldTab() {
       .sort((a, b) => a[1].n.localeCompare(b[1].n));
   }, [query]);
 
-  const detailSubs = detail ? SUBDIVISIONS[detail] : undefined;
+  // Algunos países existen en el diccionario con la lista vacía (el Vaticano no
+  // tiene subdivisiones): se tratan igual que si no estuvieran.
+  const raw = detail ? SUBDIVISIONS[detail] : undefined;
+  const detailSubs = raw?.list.length ? raw : undefined;
 
   return (
     <div className="space-y-6">

@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Fact, LuggageItem, RouteStop, SideQuest, TravelProfile, CatalogCity } from '../types';
+import type {
+  Fact, LuggageItem, RouteStop, SideQuest, TravelProfile, CatalogCity, CountryProfile,
+} from '../types';
 import {
   DEFAULT_LUGGAGE_ITEMS,
   DEFAULT_SIDE_QUESTS,
@@ -102,8 +104,15 @@ const initial: Persisted = {
   activeTripId: DEFAULT_TRIP_ID,
   tripStops: (() => {
     const seeded = seedStops();
-    // El viaje único de la app vieja es el actual `europa-2026`.
-    if (legacy?.europaStops) seeded['europa-2026'] = legacy.europaStops;
+    // Del itinerario viejo solo se rescatan los álbumes de fotos que cargó el usuario:
+    // el resto de las paradas viene del dato curado, que es más nuevo (ver legacy.ts).
+    if (legacy?.photoAlbums) {
+      seeded['europa-2026'] = seeded['europa-2026'].map((s) =>
+        legacy.photoAlbums![s.id] && !s.photosAlbumUrl
+          ? { ...s, photosAlbumUrl: legacy.photoAlbums![s.id] }
+          : s,
+      );
+    }
     return seeded;
   })(),
   travelProfile: legacy?.travelProfile ?? DEFAULT_TRAVEL_PROFILE,
@@ -282,28 +291,71 @@ export const useStore = create<Store>()(
         );
       },
 
-      /** Restaura un respaldo. Solo pisa los campos que vengan en el archivo,
-       *  así un export viejo no borra lo que todavía no existía cuando se generó. */
+      /** Restaura un respaldo. Cada campo se valida antes de escribirlo: un archivo
+       *  truncado o editado a mano no puede dejar el estado en una forma que rompa
+       *  el render, porque zustand lo persiste al instante y la pantalla en blanco
+       *  sería permanente — justo en la función que existe para evitar perder datos. */
       importState: (json) => {
+        let data: Record<string, unknown>;
         try {
-          const data = JSON.parse(json) as Record<string, unknown>;
-          if (!data || typeof data !== 'object') return { ok: false, error: 'El archivo no es un JSON válido.' };
-          if (!data.travelProfile && !data.tripStops) {
-            return { ok: false, error: 'El archivo no parece un respaldo de esta app.' };
-          }
-          const patch: Record<string, unknown> = {};
-          for (const k of [
-            'tripStops', 'travelProfile', 'luggageItems', 'sideQuests', 'customFacts',
-            'appliedBenefits', 'displayCurrency', 'usdToEurRate', 'baseFlightUSD',
-            'includeBaseFlight', 'highSpeedReservations', 'mamaPaysMomTrip', 'esimPhoneNumber',
-          ]) {
-            if (data[k] !== undefined) patch[k] = data[k];
-          }
-          set(patch as Partial<Store>);
-          return { ok: true };
-        } catch (e) {
-          return { ok: false, error: e instanceof Error ? e.message : 'Error desconocido.' };
+          data = JSON.parse(json) as Record<string, unknown>;
+        } catch {
+          return { ok: false, error: 'El archivo no es un JSON válido.' };
         }
+        if (!data || typeof data !== 'object' || Array.isArray(data)) {
+          return { ok: false, error: 'El archivo no es un respaldo de esta app.' };
+        }
+
+        const isObj = (v: unknown) => !!v && typeof v === 'object' && !Array.isArray(v);
+        const patch: Partial<Persisted> = {};
+
+        if (data.travelProfile !== undefined) {
+          if (!isObj(data.travelProfile)) return { ok: false, error: 'El perfil de viajero del respaldo está dañado.' };
+          const entries = Object.entries(data.travelProfile as Record<string, unknown>)
+            .filter(([, v]) => isObj(v) && Array.isArray((v as CountryProfile).subs))
+            .map(([k, v]) => [k, {
+              visits: Number((v as CountryProfile).visits) || 1,
+              subs: ((v as CountryProfile).subs as unknown[]).filter((x): x is string => typeof x === 'string'),
+            }] as const);
+          patch.travelProfile = Object.fromEntries(entries);
+        }
+
+        if (data.tripStops !== undefined) {
+          if (!isObj(data.tripStops)) return { ok: false, error: 'Los itinerarios del respaldo están dañados.' };
+          const entries = Object.entries(data.tripStops as Record<string, unknown>)
+            .filter(([, v]) => Array.isArray(v))
+            .map(([k, v]) => [k, (v as RouteStop[]).filter((s) => isObj(s) && typeof s.id === 'string')] as const);
+          patch.tripStops = { ...seedStops(), ...Object.fromEntries(entries) };
+        }
+
+        for (const k of ['luggageItems', 'sideQuests', 'customFacts'] as const) {
+          if (data[k] === undefined) continue;
+          if (!Array.isArray(data[k])) return { ok: false, error: `El campo "${k}" del respaldo está dañado.` };
+          (patch as Record<string, unknown>)[k] = (data[k] as unknown[]).filter(isObj);
+        }
+
+        if (data.appliedBenefits !== undefined) {
+          if (!isObj(data.appliedBenefits)) return { ok: false, error: 'Los beneficios del respaldo están dañados.' };
+          patch.appliedBenefits = data.appliedBenefits as Record<string, boolean>;
+        }
+
+        if (data.displayCurrency === 'USD' || data.displayCurrency === 'EUR') {
+          patch.displayCurrency = data.displayCurrency;
+        }
+        for (const k of ['usdToEurRate', 'baseFlightUSD', 'highSpeedReservations'] as const) {
+          const v = Number(data[k]);
+          if (Number.isFinite(v) && v >= 0) patch[k] = v;
+        }
+        for (const k of ['includeBaseFlight', 'mamaPaysMomTrip'] as const) {
+          if (typeof data[k] === 'boolean') patch[k] = data[k] as boolean;
+        }
+        if (typeof data.esimPhoneNumber === 'string') patch.esimPhoneNumber = data.esimPhoneNumber;
+
+        if (!Object.keys(patch).length) {
+          return { ok: false, error: 'El archivo no contiene datos que se puedan restaurar.' };
+        }
+        set(patch as Partial<Store>);
+        return { ok: true };
       },
     }),
     {
@@ -328,25 +380,35 @@ export const useStore = create<Store>()(
         esimPhoneNumber: s.esimPhoneNumber,
         appliedBenefits: s.appliedBenefits,
       }),
-      /** Al subir DATA_VERSION se restaura el contenido curado de la app,
-       *  pero el perfil de viajero y los ajustes del usuario se conservan. */
+      /** Al subir DATA_VERSION se restaura el contenido curado de la app —
+       *  pero solo el curado. Lo que agregó el usuario (ítems de valija, hacks y
+       *  side quests propios) se conserva: una corrección de contenido no puede
+       *  borrar datos que cargó una persona. El perfil de viajero nunca se toca. */
       merge: (persistedState, current) => {
         const p = persistedState as Partial<Persisted> | undefined;
         if (!p) return current;
-        const stale = p.dataVersion !== DATA_VERSION;
+        if (p.dataVersion === DATA_VERSION) return { ...current, ...p };
+
+        // Lo propio del usuario se distingue por no estar entre los defaults.
+        const idsDe = (xs: { id: string }[]) => new Set(xs.map((x) => x.id));
+        const luggageDefaults = idsDe(DEFAULT_LUGGAGE_ITEMS);
+        const questDefaults = idsDe(DEFAULT_SIDE_QUESTS);
+
+        const propios = <T extends { id: string }>(xs: T[] | undefined, defaults: Set<string>) =>
+          (xs ?? []).filter((x) => x && !defaults.has(x.id));
+
         return {
           ...current,
           ...p,
-          ...(stale
-            ? {
-                dataVersion: DATA_VERSION,
-                tripStops: seedStops(),
-                luggageItems: DEFAULT_LUGGAGE_ITEMS,
-                sideQuests: DEFAULT_SIDE_QUESTS,
-                customFacts: PREDEFINED_FACTS,
-                catalogCities: BASE_CATALOG_CITIES,
-              }
-            : {}),
+          dataVersion: DATA_VERSION,
+          tripStops: seedStops(),
+          luggageItems: [...DEFAULT_LUGGAGE_ITEMS, ...propios(p.luggageItems, luggageDefaults)],
+          sideQuests: [...DEFAULT_SIDE_QUESTS, ...propios(p.sideQuests, questDefaults)],
+          customFacts: [
+            ...PREDEFINED_FACTS,
+            ...(p.customFacts ?? []).filter((f) => f && !f.isPredefined),
+          ],
+          catalogCities: BASE_CATALOG_CITIES,
           // Siempre del usuario, pase lo que pase con la versión.
           travelProfile: p.travelProfile ?? current.travelProfile,
         };

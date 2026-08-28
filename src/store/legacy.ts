@@ -1,4 +1,5 @@
 import type { Fact, LuggageItem, RouteStop, SideQuest, TravelProfile } from '../types';
+import { DEFAULT_SIDE_QUESTS, PREDEFINED_FACTS } from '../data/europa2026';
 
 /** Clave que usaba la app de HTML puro. La nueva guarda en `eurotrip-state`,
  *  así que sin este puente el celular de Eze perdía su perfil de viajero
@@ -10,6 +11,7 @@ const NEW_KEY = 'eurotrip-state';
 const BACKUP_KEY = 'eurotrip_state_lego_backup';
 
 interface LegacyState {
+  dataVersion?: string;
   travelProfile?: TravelProfile;
   routeStops?: RouteStop[];
   luggageItems?: LuggageItem[];
@@ -27,7 +29,8 @@ interface LegacyState {
 
 export interface MigratedLegacy {
   travelProfile?: TravelProfile;
-  europaStops?: RouteStop[];
+  /** Álbumes de fotos que el usuario pegó parada por parada. Ver nota abajo. */
+  photoAlbums?: Record<string, string>;
   luggageItems?: LuggageItem[];
   sideQuests?: SideQuest[];
   customFacts?: Fact[];
@@ -63,13 +66,38 @@ export function readLegacyState(): MigratedLegacy | null {
     if (old.travelProfile && typeof old.travelProfile === 'object') {
       out.travelProfile = old.travelProfile;
     }
-    // El viaje único de la app vieja es el que hoy se llama `europa-2026`.
-    if (Array.isArray(old.routeStops) && old.routeStops.length) {
-      out.europaStops = old.routeStops;
+
+    // El itinerario NO se migra tal cual, a propósito. La app vieja solo restauraba
+    // `routeStops` cuando la `dataVersion` guardada coincidía con la publicada; si no,
+    // volvía al itinerario hardcodeado y rescataba únicamente los álbumes de fotos.
+    // Copiarlo entero acá pisaría con datos viejos las correcciones de alojamiento y
+    // transporte que se fueron publicando (Nápoles, Sorrento, el FlixBus…).
+    if (Array.isArray(old.routeStops)) {
+      const albums: Record<string, string> = {};
+      for (const s of old.routeStops) {
+        if (s && typeof s.id === 'string' && typeof s.photosAlbumUrl === 'string') {
+          albums[s.id] = s.photosAlbumUrl;
+        }
+      }
+      if (Object.keys(albums).length) out.photoAlbums = albums;
     }
+
     if (Array.isArray(old.luggageItems) && old.luggageItems.length) out.luggageItems = old.luggageItems;
-    if (Array.isArray(old.sideQuests) && old.sideQuests.length) out.sideQuests = old.sideQuests;
-    if (Array.isArray(old.customFacts) && old.customFacts.length) out.customFacts = old.customFacts;
+
+    // La app vieja guardaba en `customFacts` SOLO los hacks que agregó el usuario, y
+    // en pantalla mostraba `[...PREDEFINED_FACTS, ...customFacts]`. Acá la lista es una
+    // sola, así que hay que reponer los predefinidos o desaparecen del tab Hacks.
+    if (Array.isArray(old.customFacts) && old.customFacts.length) {
+      const propios = old.customFacts.filter((f) => f && !f.isPredefined);
+      out.customFacts = [...PREDEFINED_FACTS, ...propios];
+    }
+
+    // Ídem con las side quests: el loader viejo reinyectaba las que faltaban.
+    if (Array.isArray(old.sideQuests) && old.sideQuests.length) {
+      const guardadas = old.sideQuests.filter(Boolean);
+      const ids = new Set(guardadas.map((q) => q.id));
+      out.sideQuests = [...DEFAULT_SIDE_QUESTS.filter((q) => !ids.has(q.id)), ...guardadas];
+    }
 
     for (const k of [
       'appliedBenefits',

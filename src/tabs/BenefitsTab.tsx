@@ -5,7 +5,8 @@ import { fmtMoney } from '../lib/format';
 export default function BenefitsTab() {
   const applied = useStore((s) => s.appliedBenefits);
   const toggle = useStore((s) => s.toggleBenefit);
-  const { displayCurrency, usdToEurRate } = useStore();
+  const displayCurrency = useStore((s) => s.displayCurrency);
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
   const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
 
   const activados = EUROPEAN_BENEFITS.filter((b) => applied[b.id]);

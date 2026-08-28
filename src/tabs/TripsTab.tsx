@@ -1,4 +1,4 @@
-import { TRIPS } from '../data/trips';
+import { TRIPS, tripNights } from '../data/trips';
 import { useStore } from '../store/useStore';
 import { flagEmoji } from '../lib/format';
 import { COUNTRIES } from '../data/worldMap';
@@ -27,6 +27,9 @@ const CONFIDENCE_NOTE: Record<Trip['confidence'], string | null> = {
 };
 
 function TripCard({ trip }: { trip: Trip }) {
+  // Las noches salen del itinerario vigente, no del total declarado: si Eze
+  // edita las paradas, la card se mueve con el itinerario.
+  const stops = useStore((s) => s.tripStops[trip.id]);
   const setActiveTrip = useStore((s) => s.setActiveTrip);
   const setTab = useStore((s) => s.setTab);
   const isActive = useStore((s) => s.activeTripId) === trip.id;
@@ -38,6 +41,7 @@ function TripCard({ trip }: { trip: Trip }) {
 
   return (
     <div
+      data-trip={trip.id}
       className={`rounded-2xl border p-5 flex flex-col gap-3 transition ${
         isActive
           ? 'bg-indigo-950/30 border-indigo-800/60 shadow-lg shadow-indigo-950/30'
@@ -75,7 +79,7 @@ function TripCard({ trip }: { trip: Trip }) {
       <div className="grid grid-cols-2 gap-2 text-xs">
         <div className="bg-slate-950/60 rounded-lg px-3 py-2 border border-slate-800">
           <div className="text-slate-500 text-[10px] uppercase tracking-wide">Noches</div>
-          <div className="font-bold text-slate-100 tabular-nums">{trip.nights}</div>
+          <div className="font-bold text-slate-100 tabular-nums">{tripNights(trip, stops)}</div>
         </div>
         <div className="bg-slate-950/60 rounded-lg px-3 py-2 border border-slate-800">
           <div className="text-slate-500 text-[10px] uppercase tracking-wide">Compañía</div>
@@ -130,10 +134,13 @@ function TripCard({ trip }: { trip: Trip }) {
 }
 
 export default function TripsTab() {
-  const totalNights = TRIPS.reduce((a, t) => a + t.nights, 0);
+  const totalNights = TRIPS.reduce((a, t) => a + tripNights(t), 0);
   const uniqueCountries = new Set(TRIPS.flatMap((t) => t.countries)).size;
+  // "Solo", "Amigos" y "Familia" son etiquetas de grupo, no personas: contarlas
+  // inflaba el número. Los nombres ya están normalizados en trips.ts.
+  const GRUPOS = new Set(['Solo', 'Amigos', 'Familia']);
   const people = new Set(
-    TRIPS.flatMap((t) => t.companions).filter((c) => c !== 'Solo' && c !== 'Familia'),
+    TRIPS.flatMap((t) => t.companions).filter((c) => !GRUPOS.has(c)),
   ).size;
 
   return (

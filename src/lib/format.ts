@@ -96,3 +96,11 @@ export function stopDates(startDate: string, nightsBefore: number, nights: numbe
   const f = (d: Date) => `${d.getDate()} ${MESES[d.getMonth()]}`;
   return nights > 0 ? `${f(from)} – ${f(to)}` : f(from);
 }
+
+/** Escapa texto antes de inyectarlo como HTML (los popups de Leaflet reciben string).
+ *  Los nombres de parada pueden venir de un respaldo importado o del estado viejo. */
+export function escapeHTML(s: string): string {
+  return String(s).replace(/[&<>"']/g, (c) =>
+    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!,
+  );
+}

@@ -7,7 +7,8 @@ import type { SideQuest } from '../types';
 export default function QuestsTab() {
   const quests = useStore((s) => s.sideQuests);
   const toggleBudget = useStore((s) => s.toggleQuestBudget);
-  const { displayCurrency, usdToEurRate } = useStore();
+  const displayCurrency = useStore((s) => s.displayCurrency);
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
   const [detail, setDetail] = useState<SideQuest | null>(null);
 
   const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);

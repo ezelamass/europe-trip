@@ -38,7 +38,7 @@ export const TRIPS: Trip[] = [
     endDate: '2026-09-08',
     dateLabel: '24 jun – 8 sep 2026',
     nights: 76,
-    companions: ['Solo', 'Gerónimo', 'Amigos', 'Dani', 'Mamá', 'Laura'],
+    companions: ['Gerónimo', 'Dani', 'Mamá (Paula)', 'Laura (tía)'],
     summary:
       '76 días, 8 países, 19 etapas. El viaje más largo y más solo hasta la fecha: ' +
       'arranca solo, pasa por Ibiza y Mallorca con amigos, Europa Central con mamá, ' +
@@ -58,7 +58,7 @@ export const TRIPS: Trip[] = [
     endDate: '2026-04-20',
     dateLabel: '9–20 abr 2026',
     nights: 11,
-    companions: ['Gero', 'Agus Oro'],
+    companions: ['Gerónimo', 'Agus Oro'],
     summary:
       'Once noches en Brasil: la mayor parte en Río de Janeiro y los últimos días ' +
       'en Ilha Grande. Vuelos directos Flybondi desde Aeroparque.',
@@ -91,7 +91,7 @@ export const TRIPS: Trip[] = [
     endDate: '2026-02-02',
     dateLabel: '22 ene – 2 feb 2026',
     nights: 11,
-    companions: ['Manuel', 'Gero'],
+    companions: ['Manuel', 'Gerónimo'],
     summary: 'Once noches en la costa atlántica, en auto desde Buenos Aires.',
     photosAlbumUrl: 'https://photos.app.goo.gl/9nX4RWq1BgzupVpV8',
     status: 'completado',
@@ -113,7 +113,7 @@ export const TRIPS: Trip[] = [
     endDate: '2025-12-16',
     dateLabel: '9–16 dic 2025',
     nights: 7,
-    companions: ['Mati Baigorria', 'Gero', 'Agus Oro', 'Juan Cruz', 'Pedro Trombotto', 'Pedro Nestares'],
+    companions: ['Mati Baigorria', 'Gerónimo', 'Agus Oro', 'Juan Cruz Fernández', 'Pedro Trombotto', 'Pedro Nestares'],
     summary:
       'Siete noches en la Patagonia con el grupo de amigos emprendedores. ' +
       'Siete personas: el viaje más numeroso de los documentados.',
@@ -220,6 +220,21 @@ export const TRIPS: Trip[] = [
   },
 ];
 
+/** Coordenadas de las paradas que no están en el diccionario de Europa 2026.
+ *  Sin esto, los cuatro viajes sudamericanos abrían el mapa vacío sobre los Alpes. */
+export const TRIP_CITY_COORDINATES: Record<string, [number, number]> = {
+  'Río de Janeiro (Brasil)': [-22.906847, -43.172896],
+  'Ilha Grande (Brasil)': [-23.150833, -44.203611],
+  'Búzios (Brasil)': [-22.746944, -41.881944],
+  'Mar del Plata (Argentina)': [-38.005477, -57.542611],
+  'San Carlos de Bariloche (Argentina)': [-41.133308, -71.310432],
+  'Mina Clavero (Argentina)': [-31.723056, -65.008889],
+  'Buenos Aires (Argentina)': [-34.603722, -58.381592],
+  // Faltaba en el diccionario original: la parada de Mallorca desaparecía del mapa
+  // y partía la línea de la ruta (docs/06-roadmap.md la marcaba en la fase 0).
+  'Palma de Mallorca (España)': [39.569600, 2.650160],
+};
+
 export const TRIPS_BY_ID: Record<string, Trip> = Object.fromEntries(
   TRIPS.map((t) => [t.id, t]),
 );
@@ -230,6 +245,16 @@ export const DEFAULT_TRIP_ID =
 
 /** Cuántas veces aparece cada país en los viajes documentados.
  *  Alimenta la sugerencia de sincronización del perfil de viajero. */
+/** Noches reales de un viaje. Se derivan de las paradas y solo se cae al total
+ *  declarado cuando no hay reparto por parada (Europa 2015: sabemos que fueron
+ *  ~2 semanas, pero no cuántas en cada ciudad). Así la card y el itinerario nunca
+ *  muestran cifras distintas, ni siquiera después de editar las noches. */
+export function tripNights(trip: Trip, stops?: RouteStop[]): number {
+  const list = stops ?? trip.stops;
+  const sum = list.reduce((a, s) => a + s.nights, 0);
+  return sum > 0 ? sum : trip.nights;
+}
+
 export function countryVisitsFromTrips(): Record<string, number> {
   const out: Record<string, number> = {};
   for (const trip of TRIPS) {

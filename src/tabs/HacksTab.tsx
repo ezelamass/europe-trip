@@ -1,15 +1,21 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useStore } from '../store/useStore';
 import { fmtMoney, getCategoryIcon } from '../lib/format';
+import { withDynamicCosts } from '../lib/budget';
 
 const CATEGORIES = ['Transporte', 'Tecnología', 'Salud', 'Hospedaje', 'Finanzas', 'Tip'];
 
 export default function HacksTab() {
-  const facts = useStore((s) => s.customFacts);
+  const rawFacts = useStore((s) => s.customFacts);
+  const veranoJoven = useStore((s) => !!s.appliedBenefits.veranoJoven);
+  // El pase de Interrail sale la mitad con Verano Joven: si se congela, la tarjeta
+  // dice €429 al lado de un texto que promete €214,50.
+  const facts = useMemo(() => withDynamicCosts(rawFacts, veranoJoven), [rawFacts, veranoJoven]);
   const addFact = useStore((s) => s.addFact);
   const deleteFact = useStore((s) => s.deleteFact);
   const clearCustom = useStore((s) => s.clearCustomFacts);
-  const { displayCurrency, usdToEurRate } = useStore();
+  const displayCurrency = useStore((s) => s.displayCurrency);
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
 
   const [open, setOpen] = useState(false);
   const [form, setForm] = useState({ title: '', cost: '', saving: '', category: 'Tip', desc: '', tip: '' });

@@ -2,10 +2,16 @@ import { lazy, Suspense, useMemo, useState } from 'react';
 import type { Trip, RouteStop } from '../types';
 import { useStore } from '../store/useStore';
 import { fmtMoney, getCostBadgeColor, stopDates } from '../lib/format';
+import { computeBudget, withDynamicCosts } from '../lib/budget';
+import { tripNights } from '../data/trips';
 import StatTile from '../components/StatTile';
 import Modal from '../components/Modal';
 // Leaflet pesa y la vista de mapa es opcional: se carga al pedirla.
 const RouteMap = lazy(() => import('../components/RouteMap'));
+
+/** Identidad estable: devolver `[]` inline hace que el snapshot de zustand v5
+ *  nunca sea `Object.is`-igual y React re-renderice en loop. */
+const NO_STOPS: RouteStop[] = [];
 
 type Phase = 'pasado' | 'actual' | 'futuro';
 
@@ -37,7 +43,8 @@ function StopCard({
   nightsBefore: number;
   onOpenLodging: (s: RouteStop) => void;
 }) {
-  const { displayCurrency, usdToEurRate } = useStore();
+  const displayCurrency = useStore((s) => s.displayCurrency);
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
   const updateStop = useStore((s) => s.updateStop);
   const moveStop = useStore((s) => s.moveStop);
   const removeStop = useStore((s) => s.removeStop);
@@ -194,10 +201,20 @@ function StopCard({
 }
 
 export default function ItineraryTab({ trip }: { trip: Trip }) {
-  const stops = useStore((s) => s.tripStops[trip.id] ?? []);
-  const { displayCurrency, usdToEurRate, includeBaseFlight, baseFlightUSD } = useStore();
+  const stops = useStore((s) => s.tripStops[trip.id]) ?? NO_STOPS;
+  const displayCurrency = useStore((s) => s.displayCurrency);
+  const usdToEurRate = useStore((s) => s.usdToEurRate);
+  const includeBaseFlight = useStore((s) => s.includeBaseFlight);
+  const baseFlightUSD = useStore((s) => s.baseFlightUSD);
+  const facts = useStore((s) => s.customFacts);
+  const quests = useStore((s) => s.sideQuests);
+  const reservations = useStore((s) => s.highSpeedReservations);
+  const reservationAvgCost = useStore((s) => s.reservationAvgCost);
+  const momPaysHerTrip = useStore((s) => s.mamaPaysMomTrip);
+  const veranoJoven = useStore((s) => !!s.appliedBenefits.veranoJoven);
   const setCurrency = useStore((s) => s.setCurrency);
   const toggleBaseFlight = useStore((s) => s.toggleBaseFlight);
+  const toggleMomInvitation = useStore((s) => s.toggleMomInvitation);
   const resetStops = useStore((s) => s.resetStops);
 
   const [view, setView] = useState<'lista' | 'mapa'>('lista');
@@ -206,17 +223,24 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
   const money = (v: number) => fmtMoney(v, displayCurrency, usdToEurRate);
 
   const totals = useMemo(() => {
-    const nights = stops.reduce((a, s) => a + s.nights, 0);
-    const lodgingTotal = stops.reduce((a, s) => a + (s.accommodationCost ?? 0), 0);
-    const transport = stops.reduce((a, s) => a + (s.cost ?? 0), 0);
-    const daily = stops.reduce((a, s) => a + s.nights * (s.dailyBudget ?? 0), 0);
-    // El vuelo internacional es un dato de Europa 2026, no de todos los viajes:
-    // sin este chequeo, los viajes históricos mostraban un presupuesto que no existe.
-    // Se guarda en USD; el resto de los montos, en EUR.
-    const flightEur =
-      trip.hasPlannerTools && includeBaseFlight ? baseFlightUSD * usdToEurRate : 0;
-    return { nights, lodgingTotal, transport, daily, total: lodgingTotal + transport + daily + flightEur };
-  }, [stops, trip.hasPlannerTools, includeBaseFlight, baseFlightUSD, usdToEurRate]);
+    // Los hacks, las reservas de tren y las side quests son parte del presupuesto de
+    // Europa 2026 (así lo calculaba la app anterior), pero no de un viaje histórico.
+    const planner = !!trip.hasPlannerTools;
+    return computeBudget({
+      stops,
+      facts: planner ? withDynamicCosts(facts, veranoJoven) : [],
+      quests: planner ? quests : [],
+      reservations: planner ? reservations : 0,
+      reservationAvgCost,
+      momPaysHerTrip,
+      includeBaseFlight: planner && includeBaseFlight,
+      baseFlightUSD,
+      usdToEurRate,
+    });
+  }, [
+    stops, trip.hasPlannerTools, facts, veranoJoven, quests, reservations,
+    reservationAvgCost, momPaysHerTrip, includeBaseFlight, baseFlightUSD, usdToEurRate,
+  ]);
 
   // Noches acumuladas antes de cada parada, para calcular sus fechas.
   const nightsBefore = useMemo(() => {
@@ -229,6 +253,14 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
   }, [stops]);
 
   const hasBudget = totals.total > 0;
+  const extras = (
+    [
+      ['Hacks', totals.facts],
+      ['Reservas de tren', totals.reservations],
+      ['Side quests', totals.quests],
+      ['Vuelo internacional', totals.flight],
+    ] as const
+  ).filter(([, v]) => v > 0);
 
   return (
     <div className="space-y-6">
@@ -238,7 +270,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
             {trip.emoji} {trip.title}
           </h2>
           <p className="text-sm text-slate-400 mt-1">
-            {trip.dateLabel} · {totals.nights} noches · {stops.length} paradas
+            {trip.dateLabel} · {tripNights(trip, stops)} noches · {stops.length} paradas
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -267,12 +299,34 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
       </div>
 
       {hasBudget ? (
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-          <StatTile label="Total estimado" value={money(totals.total)} icon="fa-wallet" tone="indigo" />
-          <StatTile label="Alojamiento" value={money(totals.lodgingTotal)} icon="fa-hotel" />
-          <StatTile label="Transporte" value={money(totals.transport)} icon="fa-train" />
-          <StatTile label="Gasto diario" value={money(totals.daily)} icon="fa-utensils" />
-        </div>
+        <>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <StatTile label="Total estimado" value={money(totals.total)} icon="fa-wallet" tone="indigo" />
+            <StatTile label="Alojamiento" value={money(totals.lodging)} icon="fa-hotel" />
+            <StatTile label="Transporte" value={money(totals.transport)} icon="fa-train" />
+            <StatTile label="Gasto diario" value={money(totals.daily)} icon="fa-utensils" />
+          </div>
+
+          {/* Lo que el total incluye además del itinerario, para que no haya dos
+              números en pantalla que no cierren entre sí. */}
+          {extras.length > 0 && (
+            <div className="flex flex-wrap gap-2 text-[11px]">
+              {extras.map(([label, value]) => (
+                <span
+                  key={label}
+                  className="px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300"
+                >
+                  {label} {money(value)}
+                </span>
+              ))}
+              {totals.saved > 0 && (
+                <span className="px-2.5 py-1.5 rounded-lg bg-emerald-950/50 border border-emerald-900/50 text-emerald-300 font-semibold">
+                  Ahorro {money(totals.saved)}
+                </span>
+              )}
+            </div>
+          )}
+        </>
       ) : (
         <div className="text-sm text-slate-400 bg-slate-900 border border-slate-800 rounded-xl px-4 py-3">
           <i className="fa-solid fa-circle-info mr-2 text-slate-500" />
@@ -291,6 +345,15 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
               className="accent-indigo-500"
             />
             Incluir vuelo internacional (${baseFlightUSD} USD)
+          </label>
+          <label className="flex items-center gap-2 text-xs text-slate-300 bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={momPaysHerTrip}
+              onChange={toggleMomInvitation}
+              className="accent-indigo-500"
+            />
+            Mamá paga su tramo
           </label>
           <button
             onClick={() => resetStops(trip.id)}

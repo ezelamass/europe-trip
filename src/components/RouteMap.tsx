@@ -5,7 +5,8 @@ import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
 import type { RouteStop } from '../types';
 import { CITY_COORDINATES } from '../data/europa2026';
-import { calculateDistance } from '../lib/format';
+import { TRIP_CITY_COORDINATES } from '../data/trips';
+import { calculateDistance, escapeHTML } from '../lib/format';
 
 // Leaflet resuelve sus iconos por URL relativa al CSS; con el bundler hay que
 // pasárselos explícitamente o los marcadores salen rotos.
@@ -15,23 +16,26 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
+/** Normaliza "Palma de Mallorca (España) 🇪🇸" → "palma de mallorca": el diccionario
+ *  de Europa 2026 tiene claves con país y a veces con emoji, y el match exacto fallaba. */
+const cityKey = (city: string) =>
+  city.split('(')[0].replace(/[^\p{L}\s.'-]/gu, '').trim().toLowerCase();
+
+const COORDS: Record<string, [number, number]> = {};
+for (const [name, xy] of Object.entries({ ...CITY_COORDINATES, ...TRIP_CITY_COORDINATES })) {
+  COORDS[cityKey(name)] = xy;
+}
+
 function coordsFor(city: string): [number, number] | null {
-  if (CITY_COORDINATES[city]) return CITY_COORDINATES[city];
-  // Las paradas históricas no están en el diccionario de Europa 2026: se busca
-  // por el nombre antes del paréntesis para no depender del formato exacto.
-  const base = city.split('(')[0].trim();
-  const hit = Object.keys(CITY_COORDINATES).find((k) => k.split('(')[0].trim() === base);
-  return hit ? CITY_COORDINATES[hit] : null;
+  return COORDS[cityKey(city)] ?? null;
 }
 
 export default function RouteMap({ stops }: { stops: RouteStop[] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const mapRef = useRef<L.Map | null>(null);
 
   useEffect(() => {
     if (!ref.current) return;
     const map = L.map(ref.current, { scrollWheelZoom: false });
-    mapRef.current = map;
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '© OpenStreetMap',
@@ -43,9 +47,11 @@ export default function RouteMap({ stops }: { stops: RouteStop[] }) {
       const c = coordsFor(s.city);
       if (!c) return;
       points.push(c);
+      // El nombre puede venir de un respaldo importado o del estado de la app vieja:
+      // se escapa antes de inyectarlo, como hacía `escapeHTML` en la versión anterior.
       L.marker(c)
         .addTo(map)
-        .bindPopup(`<strong>${i + 1}. ${s.city}</strong><br/>${s.nights} noches`);
+        .bindPopup(`<strong>${i + 1}. ${escapeHTML(s.city)}</strong><br/>${s.nights} noches`);
     });
 
     if (points.length > 1) {
@@ -56,7 +62,6 @@ export default function RouteMap({ stops }: { stops: RouteStop[] }) {
 
     return () => {
       map.remove();
-      mapRef.current = null;
     };
   }, [stops]);
 
