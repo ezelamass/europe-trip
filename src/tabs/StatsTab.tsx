@@ -49,16 +49,15 @@ function Section({ title, hint, children }: { title: string; hint?: string; chil
 
 export default function StatsTab() {
   const tripStops = useStore((s) => s.tripStops);
-  const s = useMemo(() => computeStats(tripStops), [tripStops]);
+  const profile = useStore((st) => st.travelProfile);
+  const s = useMemo(() => computeStats(tripStops, profile), [tripStops, profile]);
 
   return (
     <div className="space-y-5">
       <div>
         <h1 className="text-3xl font-extrabold text-white tracking-tight">Métricas</h1>
         <p className="text-sm text-slate-400 mt-1">
-          Todo lo que sale de los {s.trips} viajes documentados, desde {s.firstYear}. En{' '}
-          <strong className="text-slate-300">Mi Mundo</strong> están los países que cargaste a
-          mano, que pueden ser más.
+          {s.countries} países y {s.nights} noches de viaje, desde {s.firstYear}.
         </p>
       </div>
 
@@ -66,8 +65,16 @@ export default function StatsTab() {
         <StatTile label="Noches de viaje" value={s.nights} icon="fa-moon" tone="accent" />
         <StatTile label="Viajes" value={s.trips} icon="fa-suitcase-rolling" />
         <StatTile label="Países" value={s.countries} icon="fa-flag" tone="emerald" />
-        <StatTile label="Continentes pisados" value={`${s.continents}/6`} icon="fa-earth-americas" />
+        <StatTile label="Continentes" value={`${s.continents}/6`} icon="fa-earth-americas" />
       </div>
+
+      {s.countriesWithoutTrip > 0 && (
+        <p className="text-xs text-slate-500">
+          <i className="fa-solid fa-circle-info mr-1.5" />
+          {s.countriesWithoutTrip} de esos países todavía no tienen un viaje documentado, así que
+          no cuentan en las noches ni en los kilómetros de acá abajo.
+        </p>
+      )}
 
       <Section
         title="Kilómetros entre paradas"

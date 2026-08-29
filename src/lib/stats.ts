@@ -3,7 +3,7 @@ import { COUNTRIES } from '../data/worldMap';
 import { coordsForCity } from '../data/coordinates';
 import { countryOfStop } from '../data/countryOfStop';
 import { calculateDistance } from './format';
-import type { Trip } from '../types';
+import type { TravelProfile, Trip } from '../types';
 
 export interface YearNights { year: string; nights: number }
 export interface Ranked { name: string; count: number }
@@ -32,8 +32,13 @@ export function tripKm(t: Trip, stops = t.stops): number {
 export interface TravelStats {
   trips: number;
   nights: number;
+  /** Países del perfil de viajero, igual que Mi Mundo. Contar solo los de los
+   *  viajes documentados daba de menos: hay países donde estuvo y que todavía no
+   *  tienen su viaje cargado en `viajes/`. */
   countries: number;
   continents: number;
+  /** De esos países, cuántos no aparecen en ningún viaje documentado. */
+  countriesWithoutTrip: number;
   km: number;
   nightsByYear: YearNights[];
   companions: Ranked[];
@@ -43,7 +48,10 @@ export interface TravelStats {
   firstYear: string;
 }
 
-export function computeStats(stopsByTrip: Record<string, typeof TRIPS[number]['stops']>): TravelStats {
+export function computeStats(
+  stopsByTrip: Record<string, typeof TRIPS[number]['stops']>,
+  profile: TravelProfile,
+): TravelStats {
   const nightsOf = (t: Trip) => tripNights(t, stopsByTrip[t.id]);
 
   const byYear = new Map<string, number>();
@@ -71,14 +79,20 @@ export function computeStats(stopsByTrip: Record<string, typeof TRIPS[number]['s
     }
   }
 
+  // El "a cuántos países fui" sale del perfil, no de los viajes: es la misma
+  // pregunta que responde Mi Mundo y tiene que dar el mismo número.
+  const visitados = Object.keys(profile).filter((iso) => COUNTRIES[iso]);
+  const enViajes = new Set(allTripCountries());
+
   const sorted = [...TRIPS].sort((a, b) => nightsOf(a) - nightsOf(b));
   const grupos = new Set(['Solo', 'Amigos', 'Familia']);
 
   return {
     trips: TRIPS.length,
     nights: TRIPS.reduce((a, t) => a + nightsOf(t), 0),
-    countries: allTripCountries().length,
-    continents: new Set(allTripCountries().map((iso) => COUNTRIES[iso]?.c).filter(Boolean)).size,
+    countries: visitados.length,
+    continents: new Set(visitados.map((iso) => COUNTRIES[iso].c)).size,
+    countriesWithoutTrip: visitados.filter((iso) => !enViajes.has(iso)).length,
     km: Math.round(km),
     nightsByYear: [...byYear.entries()]
       .map(([year, nights]) => ({ year, nights }))

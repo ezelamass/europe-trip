@@ -130,4 +130,31 @@ check('al detener vuelve a la ruta completa', trasDetener === todas, `${trasDete
 check('la tarjeta desaparece al detener',
       (await page.locator('text=/Parada \\d+ de \\d+/').count()) === 0);
 
+// --- Métricas y Mi Mundo tienen que dar el mismo número de países ---
+// Métricas contaba solo los países de los viajes documentados (11) mientras
+// Mi Mundo contaba el perfil (15), y en pantalla se leía como un bug.
+await page.evaluate(() => localStorage.clear());
+await page.reload({ waitUntil: 'networkidle' });
+await page.waitForTimeout(1000);
+
+await nav('Mi Mundo').click();
+await page.waitForTimeout(1800);
+const paisesMundo = (await page.locator('[data-stat="Países"]').textContent()) || '';
+const contMundo = (await page.locator('[data-stat="Continentes"]').textContent()) || '';
+
+await nav('Métricas').click();
+await page.waitForTimeout(900);
+const paisesMetricas = (await page.locator('[data-stat="Países"]').textContent()) || '';
+const contMetricas = (await page.locator('[data-stat="Continentes"]').textContent()) || '';
+
+const num = (s) => s.match(/(\d+)/)?.[1];
+check('Métricas y Mi Mundo cuentan los mismos países',
+      num(paisesMundo) === num(paisesMetricas),
+      `Mi Mundo ${num(paisesMundo)} · Métricas ${num(paisesMetricas)}`);
+check('y los mismos continentes',
+      num(contMundo.replace('Continentes', '')) === num(contMetricas.replace('Continentes', '')),
+      `${contMundo.trim()} · ${contMetricas.trim()}`);
+check('avisa cuántos países todavía no tienen viaje documentado',
+      (await page.locator('text=/no tienen un viaje documentado/').count()) > 0);
+
 await finish(browser, errors);
