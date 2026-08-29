@@ -10,6 +10,8 @@ const EXTRA: Record<string, [number, number]> = {
   'San Carlos de Bariloche (Argentina)': [-41.133308, -71.310432],
   'Mina Clavero (Argentina)': [-31.723056, -65.008889],
   'Buenos Aires (Argentina)': [-34.603722, -58.381592],
+  'Punta del Este (Uruguay)': [-34.9527, -54.9385],
+  'Colonia del Sacramento (Uruguay)': [-34.4726, -57.844],
   // Faltaba en el diccionario original: la parada de Mallorca desaparecía del mapa
   // y partía la línea de la ruta (docs/06-roadmap.md la marcaba en la fase 0).
   'Palma de Mallorca (España)': [39.5696, 2.65016],

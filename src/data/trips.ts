@@ -193,6 +193,36 @@ export const TRIPS: Trip[] = [
     confidence: 'media',
   },
   {
+    id: 'uruguay-2024',
+    title: 'Uruguay — Punta del Este',
+    emoji: '🇺🇾',
+    countries: ['UY'],
+    startDate: '2024-01-22',
+    endDate: '2024-01-29',
+    dateLabel: '22–29 ene 2024',
+    nights: 7,
+    companions: ['Equipo de Growth X'],
+    summary:
+      'Siete noches en Punta del Este con el equipo de Growth X, la academia donde ' +
+      'trabajaba como closer ese verano. El único viaje de trabajo: el evento se llamó ' +
+      '"La GrowthXperience".',
+    lodgingLinks: [
+      { label: 'Rincón del Este', url: 'https://maps.app.goo.gl/SQ46sxs6nYnHo3ec7' },
+    ],
+    status: 'completado',
+    vaultNote: 'uruguay-punta-del-este-2024',
+    stops: [
+      stop('uy24-pde', 'Punta del Este (Uruguay)', 7, {
+        transport: 'Ferry Colonia Express (Buenos Aires 08:30 → Colonia) + bus a Punta del Este',
+        category: 'Premium & Networking',
+        hotelName: 'Rincón del Este',
+        confirmationNumber: '1596396',
+        hack: 'Los ARS 90.253 de ferry y bus incluyen tasas (AGP, DNM, Ley 18057, migraciones). El alojamiento no tiene costo registrado: al ser viaje de empresa, parte pudo no salir de su bolsillo.',
+      }),
+    ],
+    confidence: 'alta',
+  },
+  {
     id: 'europa-2015',
     title: 'Europa 2015 — el primero',
     emoji: '🗼',
