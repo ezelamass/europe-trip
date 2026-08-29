@@ -34,10 +34,10 @@ check('Activos muestra el viaje en curso', activos === 1, `${activos} card(s)`);
 await page.locator('button:has-text("Pasados")').click();
 await page.waitForTimeout(1000);
 const pasados = await page.locator('[data-trip]').count();
-check('Pasados muestra los 7 viajes terminados', pasados === 7, `${pasados} cards`);
+check('Pasados muestra los 8 viajes terminados', pasados === 8, `${pasados} cards`);
 
 const conFoto = await page.locator('[data-trip] img').count();
-check('cada card pasada tiene su foto de portada', conFoto === 7, `${conFoto}/7 con imagen`);
+check('cada card pasada tiene su foto de portada', conFoto === 8, `${conFoto}/8 con imagen`);
 
 // Las portadas son `loading="lazy"`: hay que llegar hasta abajo para que las
 // últimas se pidan. Medir sin scrollear daba una falla falsa.
@@ -45,7 +45,7 @@ await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
 await page.waitForTimeout(1500);
 const cargadas = await page.locator('[data-trip] img').evaluateAll(
   imgs => imgs.filter(i => i.complete && i.naturalWidth > 0).length);
-check('las portadas cargan de verdad', cargadas === 7, `${cargadas}/7 decodificadas`);
+check('las portadas cargan de verdad', cargadas === 8, `${cargadas}/8 decodificadas`);
 await page.evaluate(() => window.scrollTo(0, 0));
 await page.waitForTimeout(400);
 
@@ -68,7 +68,7 @@ check('vuelve a la lista', (await page.locator('[data-trip]').count()) > 0);
 await nav('Métricas').click();
 await page.waitForTimeout(900);
 const noches = await page.locator('[data-stat="Noches de viaje"]').textContent();
-check('total de noches sobre los 8 viajes', /140/.test(noches || ''), (noches || '').trim());
+check('total de noches sobre los 9 viajes', /141/.test(noches || ''), (noches || '').trim());
 // 44 = 37 noches reales en España dentro de Europa 2026 (contadas parada por
 // parada) + 7 estimadas de Europa 2015, que no tiene reparto por ciudad y cae al
 // promedio entre sus dos países. Con el reparto parejo anterior daban 17.

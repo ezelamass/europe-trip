@@ -52,7 +52,7 @@ export default function TripCard({ trip, onOpen }: { trip: Trip; onOpen: (id: st
             </span>
           )}
           <span className="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1">
-            {nights} noches
+            {nights} {nights === 1 ? 'noche' : 'noches'}
           </span>
         </div>
 

@@ -18,6 +18,7 @@ const COVERS = {
   'brasil-2025': 'Buzios Playa La Tartaruga Rio de Janeiro Brasil - panoramio.jpg',
   'cordoba-2025': 'Nido-de-Aguila Mina Clavero.jpg',
   'uruguay-2024': '" LA MANO".jpg',
+  'chile-2025': 'Santiago desde teleférico Pedro de Valdivia.jpg',
   'europa-2015': 'Eiffel Tower and Pont Alexandre III at night.jpg',
 };
 

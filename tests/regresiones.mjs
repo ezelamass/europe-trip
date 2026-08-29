@@ -157,4 +157,13 @@ check('y los mismos continentes',
 check('avisa cuántos países todavía no tienen viaje documentado',
       (await page.locator('text=/no tienen un viaje documentado/').count()) > 0);
 
+// --- Pluralización en la card de un viaje de una sola noche ---
+await nav('Viajes').click();
+await page.waitForTimeout(600);
+await page.locator('button:has-text("Pasados")').click();
+await page.waitForTimeout(900);
+const chile = (await page.locator('[data-trip="chile-2025"]').textContent()) || '';
+check('una card de 1 noche no dice "1 noches"', !/1 noches/.test(chile),
+      chile.replace(/\s+/g, ' ').match(/1 noche\w*/)?.[0] || '(sin badge)');
+
 await finish(browser, errors);

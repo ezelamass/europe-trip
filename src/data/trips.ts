@@ -38,7 +38,7 @@ export const TRIPS: Trip[] = [
     endDate: '2026-09-08',
     dateLabel: '24 jun – 8 sep 2026',
     nights: 76,
-    companions: ['Gerónimo', 'Dani', 'Mamá (Paula)', 'Laura (tía)'],
+    companions: ['Gerónimo', 'Dani', 'Mamá (Paula)', 'Laura (madrina)'],
     summary:
       '76 días, 8 países, 19 etapas. El viaje más largo y más solo hasta la fecha: ' +
       'arranca solo, pasa por Ibiza y Mallorca con amigos, Europa Central con mamá, ' +
@@ -135,6 +135,33 @@ export const TRIPS: Trip[] = [
     confidence: 'alta',
   },
   {
+    id: 'chile-2025',
+    title: 'Chile — Santiago',
+    emoji: '🇨🇱',
+    countries: ['CL'],
+    startDate: '2025-04-30',
+    endDate: '2025-05-01',
+    dateLabel: '30 abr – 1 may 2025',
+    nights: 1,
+    companions: ['Mamá (Paula)', 'Tía'],
+    summary:
+      'Santiago de Chile con mamá y la tía. Las fechas están a confirmar: "30 al 1 de ' +
+      'mayo" da una sola noche, que es muy poco para un viaje a Chile.',
+    lodgingLinks: [
+      { label: 'Hotel Plaza el Bosque Ebro', url: 'https://maps.app.goo.gl/hGub9sWzW6PUEsAN6' },
+    ],
+    status: 'completado',
+    vaultNote: 'chile-santiago-2025',
+    stops: [
+      stop('cl25-scl', 'Santiago (Chile)', 1, {
+        category: 'Hub / Familiar',
+        hotelName: 'Hotel Plaza el Bosque Ebro',
+        address: 'Ebro 2828, Las Condes',
+      }),
+    ],
+    confidence: 'media',
+  },
+  {
     id: 'brasil-2025',
     title: 'Brasil — Río y Búzios',
     emoji: '🇧🇷',
@@ -143,7 +170,7 @@ export const TRIPS: Trip[] = [
     endDate: '2025-02-25',
     dateLabel: '18–25 feb 2025',
     nights: 7,
-    companions: ['Mamá (Paula)', 'Laura (tía)'],
+    companions: ['Mamá (Paula)', 'Tía'],
     summary:
       'Siete noches con mamá y la tía: dos días en Río y el resto en Búzios. ' +
       'Sale de Aeroparque y vuelve a Ezeiza.',

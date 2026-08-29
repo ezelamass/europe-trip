@@ -11,6 +11,7 @@ const EXTRA: Record<string, [number, number]> = {
   'Mina Clavero (Argentina)': [-31.723056, -65.008889],
   'Buenos Aires (Argentina)': [-34.603722, -58.381592],
   'Punta del Este (Uruguay)': [-34.9527, -54.9385],
+  'Santiago (Chile)': [-33.4489, -70.6693],
   'Colonia del Sacramento (Uruguay)': [-34.4726, -57.844],
   // Faltaba en el diccionario original: la parada de Mallorca desaparecía del mapa
   // y partía la línea de la ruta (docs/06-roadmap.md la marcaba en la fase 0).
