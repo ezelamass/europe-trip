@@ -31,21 +31,44 @@ function stop(
 export const TRIPS: Trip[] = [
   {
     id: 'brasil-2027',
-    title: 'Brasil 2027',
+    title: 'Brasil — Florianópolis',
     emoji: '🔜',
     countries: ['BR'],
     startDate: '2027-01-03',
     endDate: '2027-01-14',
     dateLabel: '3–14 ene 2027',
     nights: 11,
-    companions: ['Micaa', 'Amigos de la secundaria'],
+    companions: ['Mica', 'Amigos de la secundaria'],
     summary:
-      'Once noches en Brasil con Mica y el grupo de la secundaria. Falta definir el ' +
-      'destino puntual: todavía no hay nada reservado.',
+      'Once noches en Florianópolis: la primera semana con todo el grupo de la ' +
+      'secundaria en una casa grande, y los últimos cuatro días solo con Mica. ' +
+      'Vuelos y alojamiento ya comprados.',
+    lodgingLinks: [
+      { label: 'Casa grande (3–10)', url: 'https://goo.gl/maps/rYoVjkYNze9cTh1G6' },
+      { label: 'Casa chica (10–14)', url: 'https://goo.gl/maps/LaoyKKG1yosVe9468' },
+    ],
     status: 'planificado',
     vaultNote: 'brasil-2027',
-    stops: [],
-    confidence: 'media',
+    stops: [
+      stop('br27-grupo', 'Florianópolis (Brasil)', 7, {
+        transport: 'JetSMART JA3822 (EZE 05:29 → FLN 07:30) — comprado',
+        category: 'Aventura y Naturaleza',
+        hotelName: 'Casa grande — con el grupo',
+        address: 'Rodovia João Gualberto Soares 9762',
+        confirmationNumber: '832210819',
+        isConfirmed: true,
+        hack: 'La ida sale 05:29: hay que estar en Ezeiza de madrugada. Tarifa Basic Saver, 10 kg de mano y sin bodega.',
+      }),
+      stop('br27-dos', 'Florianópolis (Brasil)', 4, {
+        transport: 'Cambio de casa dentro de Florianópolis',
+        category: 'Premium & Networking',
+        hotelName: 'Casa chica — solo Eze y Mica',
+        address: 'Rua Pau de Canela',
+        isConfirmed: true,
+        hack: 'La vuelta (JA3821, 14 ene 19:45) aterriza en Aeroparque, no en Ezeiza.',
+      }),
+    ],
+    confidence: 'alta',
   },
   {
     id: 'europa-2026',
@@ -161,7 +184,7 @@ export const TRIPS: Trip[] = [
     endDate: '2025-05-01',
     dateLabel: '30 abr – 1 may 2025',
     nights: 1,
-    companions: ['Mamá (Paula)', 'Tía'],
+    companions: ['Mamá (Paula)', 'Adriana (tía)'],
     summary:
       'Santiago de Chile con mamá y la tía. Las fechas están a confirmar: "30 al 1 de ' +
       'mayo" da una sola noche, que es muy poco para un viaje a Chile.',
@@ -188,7 +211,7 @@ export const TRIPS: Trip[] = [
     endDate: '2025-02-25',
     dateLabel: '18–25 feb 2025',
     nights: 7,
-    companions: ['Mamá (Paula)', 'Tía'],
+    companions: ['Mamá (Paula)', 'Adriana (tía)'],
     summary:
       'Siete noches con mamá y la tía: dos días en Río y el resto en Búzios. ' +
       'Sale de Aeroparque y vuelve a Ezeiza.',

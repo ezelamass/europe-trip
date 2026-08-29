@@ -44,6 +44,16 @@ const cardFutura = (await page.locator('[data-trip="brasil-2027"]').textContent(
 check('la card futura dice cuánto falta, no cuántas noches',
       /faltan \d+ días/.test(cardFutura), cardFutura.match(/faltan \d+ días/)?.[0] || '(no)');
 check('y está marcada como planificada', /Planificado/i.test(cardFutura));
+check('la card futura nombra el destino confirmado', /Florian/i.test(cardFutura), cardFutura.slice(0, 60));
+
+// El viaje se parte en dos alojamientos (7 noches con el grupo + 4 solo con Mica):
+// si alguno se pierde, las noches dejan de dar 11 y el detalle miente.
+await page.locator('[data-trip="brasil-2027"]').click();
+await page.waitForTimeout(900);
+const detalle = (await page.locator('main').textContent()) || '';
+check('el detalle muestra las dos casas', /Casa grande/.test(detalle) && /Casa chica/.test(detalle));
+await page.locator('[aria-label="Volver"]').click();
+await page.waitForTimeout(700);
 
 await page.locator('button:has-text("Pasados")').click();
 await page.waitForTimeout(1000);

@@ -12,7 +12,7 @@ mapa y perfil de viajero.
 | Qué | Con qué | Por qué |
 |---|---|---|
 | Build | **Vite** | Estático puro. La app no necesita servidor. |
-| UI | **React 18 + TypeScript** | 7 viajes comparten la misma UI: los componentes se amortizan solos. |
+| UI | **React 18 + TypeScript** | 10 viajes comparten la misma UI: los componentes se amortizan solos. |
 | Estado | **Zustand** + `persist` | Reemplaza el `renderAll()` manual de la versión anterior. |
 | Estilos | **Tailwind** (compilado) | Antes venía del CDN; compilarlo lo hace confiable offline. |
 | Offline | **vite-plugin-pwa** (Workbox) | Precachea el bundle; los tiles del mapa van cache-first. |
@@ -52,7 +52,7 @@ El diseño y de dónde sale cada decisión están en
 ```
 src/
   data/
-    trips.ts        # los 7 viajes — espejo de viajes/ del segundo cerebro
+    trips.ts        # los 10 viajes — espejo de viajes/ del segundo cerebro
     europa2026.ts   # data curada de ese viaje (beneficios, quests, valija, itinerario)
     worldMap.ts     # GENERADO — metadata de los 195 países y sus subdivisiones
     worldGeometry.ts# GENERADO — solo los paths SVG; separado para que no entren
@@ -126,9 +126,9 @@ coordenadas en `src/data/coordinates.ts`.
 
 ## Fotos de portada
 
-Siete imágenes de Wikimedia Commons en `public/covers/` (WebP 800×450, 318 KB en total),
+Diez imágenes de Wikimedia Commons en `public/covers/` (WebP 800×450, 468 KB en total),
 precacheadas para que la pantalla principal no quede vacía sin señal.
-`npm run covers` las regenera. Cinco de las siete son **CC BY / CC BY-SA**, que exigen
+`npm run covers` las regenera. Ocho de las diez son **CC BY / CC BY-SA**, que exigen
 atribución: autor, licencia y origen de cada una están en `src/data/covers.json` y ese archivo
 es la atribución del proyecto. La app no la muestra en pantalla (la tarjeta de créditos se sacó
 a pedido); si en algún momento se quiere una app sin ninguna obligación de atribuir, hay que

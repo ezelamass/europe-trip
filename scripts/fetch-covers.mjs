@@ -19,8 +19,7 @@ const COVERS = {
   'cordoba-2025': 'Nido-de-Aguila Mina Clavero.jpg',
   'uruguay-2024': '" LA MANO".jpg',
   'chile-2025': 'Santiago desde teleférico Pedro de Valdivia.jpg',
-  // Placeholder: el destino puntual del viaje de 2027 todavía no está definido.
-  'brasil-2027': 'Jericoacoara (2007) 04.jpg',
+  'brasil-2027': 'Panorama Praia Brava 12 2014 Florianopolis 986.JPG',
   'europa-2015': 'Eiffel Tower and Pont Alexandre III at night.jpg',
 };
 
