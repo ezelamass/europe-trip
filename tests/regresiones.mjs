@@ -95,4 +95,39 @@ const cuerpo = await page.locator('main').textContent();
 check('un respaldo sin `nights` no renderiza NaN', !/NaN/.test(cuerpo || ''),
       /NaN/.test(cuerpo || '') ? 'aparece NaN' : 'sin NaN');
 
+// --- Recorrido animado: una parada cada 3 s ---
+// El check anterior dejó el itinerario con una sola parada (importó un respaldo
+// roto a propósito), así que se arranca de limpio.
+await page.evaluate(() => localStorage.clear());
+await page.reload({ waitUntil: 'networkidle' });
+await page.waitForTimeout(1000);
+await abrirViaje('europa-2026');
+await page.locator('button:has-text("Mapa")').click();
+await page.waitForTimeout(2500);
+const todas = await page.locator('.leaflet-marker-icon').count();
+
+await page.locator('button:has-text("Ver recorrido")').click();
+await page.waitForTimeout(1200);
+const paso1 = await page.locator('.leaflet-marker-icon').count();
+check('el recorrido arranca en la primera parada', paso1 === 1, `${paso1} de ${todas}`);
+check('la tarjeta dice en qué parada va',
+      /Parada 1 de/.test((await page.locator('text=/Parada \\d+ de \\d+/').first().textContent()) || ''));
+
+// La tarjeta no puede quedar detrás de la barra inferior.
+const card = await page.locator('text=/Parada \\d+ de \\d+/').first().boundingBox();
+const barra = await page.locator('nav').last().boundingBox();
+check('la tarjeta del recorrido no queda tapada por la barra',
+      !!card && !!barra && card.y + card.height < barra.y);
+
+await page.waitForTimeout(3000);
+const paso2 = await page.locator('.leaflet-marker-icon').count();
+check('avanza una parada cada 3 s', paso2 === paso1 + 1, `${paso1} → ${paso2}`);
+
+await page.locator('button:has-text("Detener")').click();
+await page.waitForTimeout(1200);
+const trasDetener = await page.locator('.leaflet-marker-icon').count();
+check('al detener vuelve a la ruta completa', trasDetener === todas, `${trasDetener} de ${todas}`);
+check('la tarjeta desaparece al detener',
+      (await page.locator('text=/Parada \\d+ de \\d+/').count()) === 0);
+
 await finish(browser, errors);

@@ -32,3 +32,11 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
+@layer utilities {
+  /* Barra que acompaña los 3 s que dura cada parada del recorrido animado. */
+  @keyframes avance {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+}

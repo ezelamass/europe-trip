@@ -389,7 +389,7 @@ export default function ItineraryTab({ trip }: { trip: Trip }) {
             </div>
           }
         >
-          <RouteMap stops={stops} />
+          <RouteMap stops={stops} startDate={trip.startDate} />
         </Suspense>
       ) : stops.length === 0 ? (
         <p className="text-sm text-slate-400">Este viaje todavía no tiene paradas cargadas.</p>

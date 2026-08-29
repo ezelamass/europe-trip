@@ -111,6 +111,14 @@ correcciones publicadas después.
 El razonamiento completo de la migración está en
 `perfil/decision-migrar-planner-react.md` del segundo cerebro.
 
+## Recorrido animado
+
+En la vista de mapa de un viaje, **Ver recorrido** revela las paradas de a una cada 3 s
+(`MS_POR_PARADA` en `src/components/RouteMap.tsx`), encuadrando cada tramo entre la parada
+anterior y la nueva, con una tarjeta encima del mapa que dice dónde va. Al terminar —o al
+tocar Detener— vuelve a la ruta completa. Solo entran al recorrido las paradas que tienen
+coordenadas en `src/data/coordinates.ts`.
+
 ## Fotos de portada
 
 Siete imágenes de Wikimedia Commons en `public/covers/` (WebP 800×450, 318 KB en total),
