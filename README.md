@@ -34,8 +34,13 @@ npm test
 
 ## Navegación
 
-Cuatro destinos en la barra inferior: **Inicio** (el viaje en curso, o los pasados si no
-hay ninguno), **Viajes** (`Activos | Pasados`), **Mi Mundo** (mapa) y **Métricas**.
+Cuatro destinos en la barra inferior: **Inicio**, **Viajes** (`Activos | Futuros | Pasados`),
+**Mi Mundo** (mapa) y **Métricas**.
+
+**Inicio** muestra el viaje en curso; si no hay ninguno, el próximo planificado con su cuenta
+regresiva; y recién si tampoco hay eso, el archivo. Un viaje **planificado** no suma a las
+métricas —noches, kilómetros, compañeros— porque todavía no pasó: eso lo decide
+`happenedTrips()` en `src/data/trips.ts`.
 Las herramientas de un viaje —beneficios, hacks, valija, side quests— se abren desde
 Inicio, no desde la barra. El detalle de un viaje es una vista apilada, no un tab.
 

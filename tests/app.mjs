@@ -31,6 +31,20 @@ await page.waitForTimeout(800);
 const activos = await page.locator('[data-trip]').count();
 check('Activos muestra el viaje en curso', activos === 1, `${activos} card(s)`);
 
+const pestanas = await page.locator('main .rounded-full button').allTextContents();
+check('hay una pestaña de Futuros', pestanas.some((x) => /Futuros/.test(x)),
+      pestanas.map((x) => x.trim()).join(' / '));
+
+await page.locator('button:has-text("Futuros")').click();
+await page.waitForTimeout(900);
+const futuros = await page.locator('[data-trip]').count();
+check('Futuros muestra el viaje planificado', futuros === 1, `${futuros} card(s)`);
+
+const cardFutura = (await page.locator('[data-trip="brasil-2027"]').textContent()) || '';
+check('la card futura dice cuánto falta, no cuántas noches',
+      /faltan \d+ días/.test(cardFutura), cardFutura.match(/faltan \d+ días/)?.[0] || '(no)');
+check('y está marcada como planificada', /Planificado/i.test(cardFutura));
+
 await page.locator('button:has-text("Pasados")').click();
 await page.waitForTimeout(1000);
 const pasados = await page.locator('[data-trip]').count();

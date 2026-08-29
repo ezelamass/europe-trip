@@ -30,6 +30,24 @@ function stop(
 
 export const TRIPS: Trip[] = [
   {
+    id: 'brasil-2027',
+    title: 'Brasil 2027',
+    emoji: '🔜',
+    countries: ['BR'],
+    startDate: '2027-01-03',
+    endDate: '2027-01-14',
+    dateLabel: '3–14 ene 2027',
+    nights: 11,
+    companions: ['Micaa', 'Amigos de la secundaria'],
+    summary:
+      'Once noches en Brasil con Mica y el grupo de la secundaria. Falta definir el ' +
+      'destino puntual: todavía no hay nada reservado.',
+    status: 'planificado',
+    vaultNote: 'brasil-2027',
+    stops: [],
+    confidence: 'media',
+  },
+  {
     id: 'europa-2026',
     title: 'Europa 2026',
     emoji: '🌍',
@@ -287,6 +305,16 @@ export const DEFAULT_TRIP_ID =
 
 /** Cuántas veces aparece cada país en los viajes documentados.
  *  Alimenta la sugerencia de sincronización del perfil de viajero. */
+/** Los viajes que ya ocurrieron (o están ocurriendo). Un viaje planificado no
+ *  puede sumar noches, kilómetros ni compañeros: todavía no pasó. */
+export const happenedTrips = (): Trip[] => TRIPS.filter((t) => t.status !== 'planificado');
+
+/** El próximo viaje planificado, si hay alguno. */
+export function nextPlannedTrip(): Trip | undefined {
+  return TRIPS.filter((t) => t.status === 'planificado')
+    .sort((a, b) => a.startDate.localeCompare(b.startDate))[0];
+}
+
 /** Noches reales de un viaje. Se derivan de las paradas y solo se cae al total
  *  declarado cuando no hay reparto por parada (Europa 2015: sabemos que fueron
  *  ~2 semanas, pero no cuántas en cada ciudad). Así la card y el itinerario nunca
@@ -303,7 +331,7 @@ const GRUPOS = new Set(['Solo', 'Amigos', 'Familia']);
 
 /** Personas distintas con las que viajó, sin contar etiquetas de grupo. */
 export function uniqueCompanions(): string[] {
-  return [...new Set(TRIPS.flatMap((t) => t.companions).filter((c) => !GRUPOS.has(c)))];
+  return [...new Set(happenedTrips().flatMap((t) => t.companions).filter((c) => !GRUPOS.has(c)))];
 }
 
 /** Países distintos de todos los viajes. */
@@ -313,7 +341,7 @@ export function allTripCountries(): string[] {
 
 export function countryVisitsFromTrips(): Record<string, number> {
   const out: Record<string, number> = {};
-  for (const trip of TRIPS) {
+  for (const trip of happenedTrips()) {
     for (const iso of trip.countries) out[iso] = (out[iso] ?? 0) + 1;
   }
   return out;

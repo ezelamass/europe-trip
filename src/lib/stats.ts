@@ -1,4 +1,4 @@
-import { TRIPS, tripNights, uniqueCompanions, allTripCountries } from '../data/trips';
+import { TRIPS, happenedTrips, tripNights, uniqueCompanions, allTripCountries } from '../data/trips';
 import { COUNTRIES } from '../data/worldMap';
 import { coordsForCity } from '../data/coordinates';
 import { countryOfStop } from '../data/countryOfStop';
@@ -59,7 +59,9 @@ export function computeStats(
   const byCountry = new Map<string, number>();
   let km = 0;
 
-  for (const t of TRIPS) {
+  const pasados = happenedTrips();
+
+  for (const t of pasados) {
     const n = nightsOf(t);
     byYear.set(yearOf(t), (byYear.get(yearOf(t)) ?? 0) + n);
     km += tripKm(t, stopsByTrip[t.id] ?? t.stops);
@@ -84,12 +86,12 @@ export function computeStats(
   const visitados = Object.keys(profile).filter((iso) => COUNTRIES[iso]);
   const enViajes = new Set(allTripCountries());
 
-  const sorted = [...TRIPS].sort((a, b) => nightsOf(a) - nightsOf(b));
+  const sorted = [...pasados].sort((a, b) => nightsOf(a) - nightsOf(b));
   const grupos = new Set(['Solo', 'Amigos', 'Familia']);
 
   return {
-    trips: TRIPS.length,
-    nights: TRIPS.reduce((a, t) => a + nightsOf(t), 0),
+    trips: pasados.length,
+    nights: pasados.reduce((a, t) => a + nightsOf(t), 0),
     countries: visitados.length,
     continents: new Set(visitados.map((iso) => COUNTRIES[iso].c)).size,
     countriesWithoutTrip: visitados.filter((iso) => !enViajes.has(iso)).length,

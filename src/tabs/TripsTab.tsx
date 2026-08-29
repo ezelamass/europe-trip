@@ -3,15 +3,25 @@ import { TRIPS } from '../data/trips';
 import TripCard from '../components/TripCard';
 import BackupPanel from '../components/BackupPanel';
 
-type Filtro = 'activos' | 'pasados';
+type Filtro = 'activos' | 'futuros' | 'pasados';
 
 export default function TripsTab({ onOpen }: { onOpen: (id: string) => void }) {
-  const activos = useMemo(() => TRIPS.filter((t) => t.status !== 'completado'), []);
+  const activos = useMemo(() => TRIPS.filter((t) => t.status === 'en-curso'), []);
+  const futuros = useMemo(
+    () =>
+      TRIPS.filter((t) => t.status === 'planificado').sort((a, b) =>
+        a.startDate.localeCompare(b.startDate),
+      ),
+    [],
+  );
   const pasados = useMemo(() => TRIPS.filter((t) => t.status === 'completado'), []);
-  // Si no hay ningún viaje en curso, no tiene sentido abrir en una lista vacía.
-  const [filtro, setFiltro] = useState<Filtro>(activos.length ? 'activos' : 'pasados');
 
-  const lista = filtro === 'activos' ? activos : pasados;
+  // Abre en la primera pestaña que tenga algo: no tiene sentido arrancar vacío.
+  const [filtro, setFiltro] = useState<Filtro>(
+    activos.length ? 'activos' : futuros.length ? 'futuros' : 'pasados',
+  );
+
+  const lista = filtro === 'activos' ? activos : filtro === 'futuros' ? futuros : pasados;
 
   return (
     <div className="space-y-5">
@@ -21,12 +31,13 @@ export default function TripsTab({ onOpen }: { onOpen: (id: string) => void }) {
       <div className="flex rounded-full bg-slate-900 border border-white/10 p-1">
         {([
           ['activos', 'Activos', activos.length],
+          ['futuros', 'Futuros', futuros.length],
           ['pasados', 'Pasados', pasados.length],
         ] as const).map(([id, label, n]) => (
           <button
             key={id}
             onClick={() => setFiltro(id)}
-            className={`flex-1 rounded-full py-2.5 text-sm font-bold transition ${
+            className={`flex-1 rounded-full py-2.5 text-[13px] font-bold transition ${
               filtro === id ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-400'
             }`}
           >
@@ -40,7 +51,11 @@ export default function TripsTab({ onOpen }: { onOpen: (id: string) => void }) {
 
       {lista.length === 0 ? (
         <p className="text-sm text-slate-400 py-8 text-center">
-          {filtro === 'activos' ? 'No hay ningún viaje en curso.' : 'Todavía no hay viajes pasados.'}
+          {filtro === 'activos'
+            ? 'No hay ningún viaje en curso.'
+            : filtro === 'futuros'
+              ? 'Todavía no hay ningún viaje planificado.'
+              : 'Todavía no hay viajes pasados.'}
         </p>
       ) : (
         <div className="space-y-4">

@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { TRIPS, tripNights } from '../data/trips';
+import { TRIPS, tripNights, nextPlannedTrip } from '../data/trips';
 import { coverFor } from '../data/covers';
 import { useStore } from '../store/useStore';
 import { useStops } from '../store/useStops';
@@ -150,9 +150,57 @@ function HeroActual({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void
   );
 }
 
+/** Portada de un viaje que todavía no arrancó: la foto y la cuenta regresiva. */
+function HeroProximo({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void }) {
+  const cover = coverFor(trip.id);
+  const faltan = daysBetween(trip.startDate, new Date());
+
+  return (
+    <div className="space-y-5">
+      <div className="relative -mx-4 -mt-6">
+        <div className="relative h-[42vh] min-h-[260px] max-h-[380px] bg-slate-800">
+          {cover && <img src={cover} alt={trip.title} className="absolute inset-0 h-full w-full object-cover" />}
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-slate-950/10" />
+          <div className="absolute inset-x-0 bottom-0 p-5">
+            <span className="inline-block rounded-full bg-white/95 text-slate-950 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1">
+              Próximo viaje
+            </span>
+            <h1 className="mt-2 text-3xl font-extrabold text-white tracking-tight leading-tight">
+              {trip.title}
+            </h1>
+            <p className="text-sm text-slate-300 mt-1">{trip.dateLabel}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl bg-slate-900 border border-white/10 p-5 text-center">
+        <p className="text-5xl font-extrabold text-accent-300 tabular-nums">{Math.max(0, -faltan)}</p>
+        <p className="text-sm text-slate-400 mt-1">días para salir</p>
+      </div>
+
+      <p className="text-sm text-slate-300 leading-relaxed">{trip.summary}</p>
+
+      <button
+        onClick={() => onOpen(trip.id)}
+        className="w-full rounded-2xl bg-slate-900 border border-white/10 p-4 text-left active:scale-[0.98] transition"
+      >
+        <i className="fa-solid fa-route text-accent-300 text-lg" />
+        <p className="text-sm font-bold text-white mt-2">Ver el viaje</p>
+        <p className="text-[11px] text-slate-400">Con {trip.companions.join(' y ')}</p>
+      </button>
+    </div>
+  );
+}
+
 export default function HomeTab({ onOpen }: { onOpen: (id: string) => void }) {
   const enCurso = TRIPS.find((t) => t.status === 'en-curso');
-  // Sin viaje en curso, la pantalla principal son los viajes pasados.
-  return enCurso ? <HeroActual trip={enCurso} onOpen={onOpen} /> : <TripsTab onOpen={onOpen} />;
+  if (enCurso) return <HeroActual trip={enCurso} onOpen={onOpen} />;
+
+  // Sin viaje en curso, lo que importa es el que viene. Recién si tampoco hay
+  // ninguno planificado, la pantalla principal pasa a ser el archivo.
+  const proximo = nextPlannedTrip();
+  if (proximo) return <HeroProximo trip={proximo} onOpen={onOpen} />;
+
+  return <TripsTab onOpen={onOpen} />;
 }
 

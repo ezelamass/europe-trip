@@ -23,10 +23,22 @@ function companionsLabel(trip: Trip): string {
   return `${c[0]}, ${c[1]} y ${c.length - 2} más`;
 }
 
+/** Días que faltan para que arranque un viaje planificado. Se cuenta por fecha y
+ *  no por milisegundos, para que un cambio de horario no corra el número. */
+function daysUntil(iso: string): number {
+  const [y, m, d] = iso.split('-').map(Number);
+  const hoy = new Date();
+  return Math.round(
+    (Date.UTC(y, m - 1, d) - Date.UTC(hoy.getFullYear(), hoy.getMonth(), hoy.getDate())) / 86_400_000,
+  );
+}
+
 export default function TripCard({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void }) {
   const stops = useStops(trip.id);
   const cover = coverFor(trip.id);
   const nights = tripNights(trip, stops);
+  const futuro = trip.status === 'planificado';
+  const faltan = futuro && trip.startDate ? daysUntil(trip.startDate) : null;
 
   return (
     <article
@@ -51,8 +63,16 @@ export default function TripCard({ trip, onOpen }: { trip: Trip; onOpen: (id: st
               En curso
             </span>
           )}
+          {futuro && (
+            <span className="absolute top-3 left-3 rounded-full bg-white/95 text-slate-950 text-[10px] font-extrabold uppercase tracking-wide px-2.5 py-1">
+              Planificado
+            </span>
+          )}
           <span className="absolute bottom-3 right-3 rounded-full bg-black/60 backdrop-blur text-white text-[11px] font-semibold px-2.5 py-1">
-            {nights} {nights === 1 ? 'noche' : 'noches'}
+            {/* En un viaje que todavía no pasó, lo que importa es cuánto falta. */}
+            {faltan !== null && faltan > 0
+              ? `faltan ${faltan} días`
+              : `${nights} ${nights === 1 ? 'noche' : 'noches'}`}
           </span>
         </div>
 
