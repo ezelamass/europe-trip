@@ -754,6 +754,37 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       "El último tramo a Hallstatt es en ferry — asegurate de bajar en la estación correcta (Hallstatt, del lado del lago opuesto al pueblo) y no en Obertraun."
     ],
     "isDefault": true
+  },
+  {
+    "id": "quest-capri",
+    "title": "Capri 🛥️ — Day-trip en ferry desde Sorrento",
+    "dateLabel": "31 ago",
+    "totalCost": 26.2,
+    "includedInBudget": true,
+    "days": 1,
+    "details": {
+      "ferry": 26.2
+    },
+    "itinerary": [
+      {
+        "day": "08:05",
+        "title": "Ferry Sorrento → Capri",
+        "desc": "Alilauro, comprado — reserva 1201TXROF, €26,20 pagados online. Sale de Sorrento 08:05 y llega a Capri 8:30 AM.",
+        "place": "Puerto de Sorrento, Italia"
+      },
+      {
+        "day": "09:00",
+        "title": "Capri: Island Boat Trip with Grottos",
+        "desc": "Recorrido en barco de 1 hora alrededor de la isla, sin visita a la Gruta Azul (esa es aparte). Con HP Travel — punto de encuentro en su oficina de Marina Grande (Via Don Giobbe Ruocco 51), llegar 15 min antes. Ticket GIA-T144328639, reserva GetYourGuide GET-102378796.",
+        "place": "Marina Grande, Capri, Italia",
+        "lat": 40.5527,
+        "lng": 14.2417
+      }
+    ],
+    "hacks": [
+      "El pasaje de vuelta a Sorrento todavía no está comprado — conseguir en el puerto de Capri o reservarlo con anticipación si el 31 de agosto hay mucha demanda.",
+      "El punto de encuentro del boat trip que figura para nov-mar (Via Cristoforo Colombo 69, muelle 23) no aplica en agosto: en temporada es directo en la oficina de HP Travel en Marina Grande."
+    ]
   }
 ];
 
@@ -1452,7 +1483,7 @@ export const EUROPA_2026_STOPS: RouteStop[] = [
     "confirmationNumber": "26673-579651838",
     "accommodationCost": 54.5,
     "lodgingCostNote": "$62.23 USD total ($9.31 pagado online, ~€45.64 a pagar en el hostel al llegar) · 8 Bed Mixed Dorm Ensuite",
-    "hack": "Solo. 30 ago: llega 13:25 en FlixBus, recorre Sorrento a la tarde/noche. 31 ago: day-trip a Capri, ferry directo Sorrento (Marina Piccola)↔Capri ~20 min — la ruta más frecuente de toda la zona (30-40/día en temporada), duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
+    "hack": "Solo. 30 ago: llega 13:25 en FlixBus, recorre Sorrento a la tarde/noche. 31 ago: day-trip a Capri — ferry Alilauro comprado (08:05→08:30) y excursión en barco reservada, ver side quest. Duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
   },
   {
     "id": "stop-napoles-final",
