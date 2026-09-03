@@ -788,146 +788,88 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
   },
   {
     "id": "quest-londres-day1",
-    "title": "Londres 🪄 — Día 1: Harry Potter en Westminster y West End",
-    "dateLabel": "Día 1 (3 sep)",
-    "totalCost": 30,
+    "title": "Londres 🚶 — Día 1: lo que hiciste de verdad",
+    "dateLabel": "Día 1 (3 sep) — cumplido ✅",
+    "totalCost": 15,
     "includedInBudget": false,
     "days": 1,
     "details": {
-      "transporte": 10,
-      "comida": 20
+      "transporte": 5,
+      "comida": 10
     },
     "itinerary": [
       {
-        "day": "15:00",
-        "title": "Westminster Underground Station",
-        "desc": "Salís a la calle acá — la misma estación donde Harry y el Sr. Weasley bajan al Ministerio de Magia en La Orden del Fénix. Arrancás recién a esta hora porque el vuelo llega al mediodía.",
-        "place": "Westminster Underground Station, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Underground+Station,+London"
+        "day": "~15:00",
+        "title": "Salida del hostel",
+        "desc": "Bajaste desde Palmers Lodge, en Swiss Cottage / Finchley Road, hacia el centro.",
+        "place": "Palmers Lodge Swiss Cottage, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Palmers+Lodge+Swiss+Cottage,+London"
       },
       {
-        "day": "15:10",
+        "day": "~15:20",
+        "title": "Baker Street (solo por afuera)",
+        "desc": "Pasaste por 221B pero no entraste — tranquilo, el Sherlock Holmes Museum sigue entero para el día 5, que además te queda de paso saliendo del hostel.",
+        "place": "Baker Street, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Baker+Street,+London"
+      },
+      {
+        "day": "~15:40",
+        "title": "Oxford Street → giro a la derecha",
+        "desc": "Caminaste por Oxford Street y doblaste a la derecha, bajando hacia Westminster.",
+        "place": "Oxford Street, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Oxford+Street,+London"
+      },
+      {
+        "day": "~16:15",
         "title": "Big Ben",
-        "desc": "La torre del reloj, a metros de la estación.",
+        "desc": "Lo viste de cerca.",
         "place": "Big Ben, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Big+Ben,+London"
       },
       {
-        "day": "15:20",
-        "title": "Westminster Bridge",
-        "desc": "Cruzá el puente para la vista del Parlamento.",
-        "place": "Westminster Bridge, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Bridge,+London"
+        "day": "~16:45",
+        "title": "Caminata por la orilla del río",
+        "desc": "Bordeaste el Támesis hacia el este, rumbo al Puente de Londres.",
+        "place": "South Bank, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=South+Bank,+London"
       },
       {
-        "day": "15:30",
-        "title": "Lambeth Bridge",
-        "desc": "Río arriba desde Westminster Bridge: el puente donde el Knight Bus triple piso se cuela entre dos colectivos rojos en El Prisionero de Azkaban.",
-        "place": "Lambeth Bridge, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lambeth+Bridge,+London"
+        "day": "~18:00",
+        "title": "A tres cuadras del Puente de Londres",
+        "desc": "Te quedaste corto, no llegaste a cruzarlo — no se pierde nada, lo cruzás el día 3, después de Borough Market.",
+        "place": "London Bridge, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=London+Bridge,+London"
       },
       {
-        "day": "15:45",
-        "title": "Westminster Abbey",
-        "desc": "Pasá por fuera de la abadía (exterior, sin pagar entrada).",
-        "place": "Westminster Abbey, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Abbey,+London"
+        "day": "~18:15",
+        "title": "Subida a la City",
+        "desc": "Subiste hacia la zona financiera.",
+        "place": "City of London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=City+of+London"
       },
       {
-        "day": "16:00",
-        "title": "Scotland Place & Great Scotland Yard",
-        "desc": "Bajá por Whitehall hasta acá — la entrada telefónica callejera al Ministerio de Magia en El Misterio del Príncipe.",
-        "place": "Great Scotland Yard, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Great+Scotland+Yard,+London"
-      },
-      {
-        "day": "16:20",
-        "title": "St. James's Park",
-        "desc": "Cruzá el parque camino al palacio.",
-        "place": "St James's Park, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Park,+London"
-      },
-      {
-        "day": "16:40",
-        "title": "Buckingham Palace",
-        "desc": "El palacio real, por fuera.",
-        "place": "Buckingham Palace, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Buckingham+Palace,+London"
-      },
-      {
-        "day": "16:55",
-        "title": "St. James's Palace",
-        "desc": "De paso subiendo por The Mall hacia Trafalgar Square.",
-        "place": "St James's Palace, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Palace,+London"
-      },
-      {
-        "day": "17:10",
-        "title": "Trafalgar Square",
-        "desc": "Final de The Mall, plaza central de Londres.",
-        "place": "Trafalgar Square, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
-      },
-      {
-        "day": "17:30",
-        "title": "Diagon Alley: Australia House",
-        "desc": "El exterior sobre el Strand — su interior de mármol sirvió de Gringotts Wizarding Bank en las películas.",
-        "place": "Australia House, Strand, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Australia+House,+Strand,+London"
-      },
-      {
-        "day": "17:50",
-        "title": "Cecil Court",
-        "desc": "Callecita peatonal frente a Charing Cross Road, llena de librerías anticuarias y esotéricas — la inspiración de J.K. Rowling para el Callejón Diagon.",
-        "place": "Cecil Court, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cecil+Court,+London"
-      },
-      {
-        "day": "18:05",
-        "title": "Goodwin's Court (Knockturn Alley)",
-        "desc": "Callejón de 1627 con ventanas salientes oscuras y faroles a gas — la inspiración visual del Callejón Knockturn. Está a metros de Cecil Court.",
-        "place": "Goodwin's Court, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Goodwin's+Court,+London"
-      },
-      {
-        "day": "18:20",
-        "title": "Piccadilly Circus",
-        "desc": "Donde Harry, Ron y Hermione se aparecen y casi los atropella un colectivo en Las Reliquias de la Muerte Parte 1.",
-        "place": "Piccadilly Circus, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piccadilly+Circus,+London"
-      },
-      {
-        "day": "19:00",
-        "title": "Chinatown London",
-        "desc": "Cena de mostrador para cerrar el primer día.",
-        "place": "Chinatown, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chinatown,+London"
-      },
-      {
-        "day": "20:15",
-        "title": "Neal's Yard & Covent Garden",
-        "desc": "Sobremesa caminando: el patio escondido y colorido de Neal's Yard, y la plaza de Covent Garden al lado.",
-        "place": "Neal's Yard, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Neal's+Yard,+London"
+        "day": "~19:00",
+        "title": "Vuelta al hostel",
+        "desc": "De regreso a Palmers Lodge."
       }
     ],
     "hacks": [
-      "Llegás con el vuelo del mediodía desde Nápoles vía Eindhoven — el día arranca recién a las 15:00, sin apuro.",
-      "Cecil Court y Goodwin's Court quedan a metros uno del otro, cerca de Leicester Square — se combinan caminando en 5 minutos.",
-      "Todo el recorrido del día 1 es gratis: solo se paga transporte y cena."
+      "Lo que quedó afuera hoy (St. James's Park, Buckingham Palace, Trafalgar Square, el Callejón Diagon, Piccadilly Circus y Chinatown) no se pierde: lo pasamos a la noche del día 2, que además terminaba temprano a las 18:00. Westminster Underground Station, Westminster Bridge, Lambeth Bridge, Westminster Abbey (por fuera) y Great Scotland Yard sí quedan afuera del todo — eran solo de paso caminando por la zona, no hace falta volver a buscarlos.",
+      "El Sherlock Holmes Museum sigue completo para el día 5 — hoy solo viste la puerta de afuera.",
+      "Si en la caminata de hoy ya llegaste a pasar cerca del Millennium Bridge o Tate Modern, avisame y le recortamos el arranque al día 3 — si no, lo dejamos como está."
     ],
     "isDefault": true
   },
   {
     "id": "quest-londres-day2",
-    "title": "Londres 🏛️ — Día 2: Museos de South Kensington y los orígenes de la Bolsa",
+    "title": "Londres 🏛️🪄 — Día 2: Museos, la Bolsa y Harry Potter en el West End",
     "dateLabel": "Día 2 (4 sep)",
-    "totalCost": 35,
+    "totalCost": 59,
     "includedInBudget": false,
     "days": 1,
     "details": {
-      "transporte": 10,
-      "comida": 25
+      "transporte": 14,
+      "comida": 45
     },
     "itinerary": [
       {
@@ -985,12 +927,89 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "desc": "Terraza gratis, walk-in, sin reserva. Subís por 120 Fenchurch Street pasando un control de seguridad tipo aeropuerto.",
         "place": "The Garden at 120, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Garden+at+120,+London"
+      },
+      {
+        "day": "18:15",
+        "title": "Tubo: Bank → Green Park",
+        "desc": "Un solo cambio de línea (Central → Jubilee/Piccadilly), ~20-25 min."
+      },
+      {
+        "day": "18:45",
+        "title": "St. James's Park",
+        "desc": "Cruzás el parque camino al palacio.",
+        "place": "St James's Park, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Park,+London"
+      },
+      {
+        "day": "19:00",
+        "title": "Buckingham Palace",
+        "desc": "El palacio real, por fuera.",
+        "place": "Buckingham Palace, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Buckingham+Palace,+London"
+      },
+      {
+        "day": "19:15",
+        "title": "St. James's Palace",
+        "desc": "De paso subiendo por The Mall hacia Trafalgar Square.",
+        "place": "St James's Palace, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Palace,+London"
+      },
+      {
+        "day": "19:30",
+        "title": "Trafalgar Square",
+        "desc": "Final de The Mall, plaza central de Londres.",
+        "place": "Trafalgar Square, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
+      },
+      {
+        "day": "19:50",
+        "title": "Diagon Alley: Australia House",
+        "desc": "El exterior sobre el Strand — su interior de mármol sirvió de Gringotts Wizarding Bank en las películas.",
+        "place": "Australia House, Strand, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Australia+House,+Strand,+London"
+      },
+      {
+        "day": "20:05",
+        "title": "Cecil Court",
+        "desc": "Callecita peatonal frente a Charing Cross Road, llena de librerías anticuarias y esotéricas — la inspiración de J.K. Rowling para el Callejón Diagon.",
+        "place": "Cecil Court, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cecil+Court,+London"
+      },
+      {
+        "day": "20:15",
+        "title": "Goodwin's Court (Knockturn Alley)",
+        "desc": "Callejón de 1627 con ventanas salientes oscuras y faroles a gas — la inspiración visual del Callejón Knockturn. Está a metros de Cecil Court.",
+        "place": "Goodwin's Court, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Goodwin's+Court,+London"
+      },
+      {
+        "day": "20:30",
+        "title": "Piccadilly Circus",
+        "desc": "Donde Harry, Ron y Hermione se aparecen y casi los atropella un colectivo en Las Reliquias de la Muerte Parte 1.",
+        "place": "Piccadilly Circus, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piccadilly+Circus,+London"
+      },
+      {
+        "day": "20:45",
+        "title": "Chinatown London (cena)",
+        "desc": "Cena de mostrador.",
+        "place": "Chinatown, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chinatown,+London"
+      },
+      {
+        "day": "22:00",
+        "title": "Neal's Yard & Covent Garden",
+        "desc": "Sobremesa caminando: el patio escondido y colorido de Neal's Yard, y la plaza de Covent Garden al lado.",
+        "place": "Neal's Yard, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Neal's+Yard,+London"
       }
     ],
     "hacks": [
       "La Natural History Museum pide reserva de horario aunque sea gratis — la tuya ya está confirmada para el viernes 4 sep a las 11:30.",
       "El Bank of England Museum cierra a las 17:00 y solo abre de lunes a viernes — cerrado estrictamente los fines de semana.",
-      "The Garden at 120 es de acceso libre pero pasás por un control tipo aeropuerto antes del ascensor — llegá temprano cerca del atardecer, se llena rápido."
+      "The Garden at 120 es de acceso libre pero pasás por un control tipo aeropuerto antes del ascensor — llegá temprano cerca del atardecer, se llena rápido.",
+      "Desde Garden at 120 hasta Neal's Yard es el recorrido que iba para el día 1 y no llegaste a hacer — lo trasladamos acá porque el día 2 cortaba a las 18:00 y vos te dormís a las 23:00. Bank → Green Park es un solo cambio, no hace falta volver al hostel entre el día y la noche.",
+      "Cecil Court y Goodwin's Court quedan a metros uno del otro, cerca de Leicester Square — se combinan caminando en 5 minutos."
     ],
     "isDefault": true
   },
@@ -1058,7 +1077,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       {
         "day": "19:00",
         "title": "Brick Lane",
-        "desc": "Arte callejero, ropa vintage, curry con specials baratos entre semana o bagels de salt beef 24hs.",
+        "desc": "Arte callejero, ropa vintage, curry con specials baratos entre semana o bagels de salt beef 24hs. Quedate dando vueltas hasta eso de las 22:00-22:30, no hay apuro para volver.",
         "place": "Brick Lane, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brick+Lane,+London"
       }
@@ -1067,7 +1086,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       "Chez Michele está escondida bajo los arcos del tren en Stoney Street, pegada a Borough Market — fácil pasarla de largo si no la buscás con atención.",
       "Tate Modern y su terraza mirador son 100% gratis, sin reserva.",
       "Torre de Londres, Tower Bridge (la exhibición interior) y St. Paul's cobran entrada cara (£27-35) — este día los recorrés solo por fuera, a propósito, para no gastar de más.",
-      "Brick Lane tiene curry houses con specials baratos entre semana y los bagels de salt beef abren toda la noche."
+      "Brick Lane tiene curry houses con specials baratos entre semana y los bagels de salt beef abren toda la noche — como te dormís a las 23:00, no hace falta cortar la noche apenas cenás."
     ],
     "isDefault": true
   },
@@ -1143,13 +1162,15 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       {
         "day": "19:00",
         "title": "Granary Square & Coal Drops Yard",
-        "desc": "Cena sobre el Regent's Canal, en cualquiera de los dos.",
+        "desc": "Cena sobre el Regent's Canal, en cualquiera de los dos. Las fuentes de Granary Square se iluminan de noche — quedate hasta eso de las 22:00-22:30, no hay apuro para volver.",
         "place": "Granary Square, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Granary+Square,+London"
       }
     ],
     "hacks": [
       "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango. Con carnet de estudiante la entrada baja a £12,90.",
+      "Freud no se puede mover al día 5 (lunes): el museo cierra lunes y martes. Por eso se queda acá, que además es el único día que ya combina con el turno reservado del British Museum a las 14:30.",
+      "Este día podés levantarte más tranquilo: el museo recién abre a las 10:30 y queda a 3 cuadras del hostel — salir a las 8 no suma nada, dormí un poco más.",
       "El British Museum ya está reservado y pagado (gratis): orden #11038942, domingo 6 sep, turno 14:30 — sin esa reserva la cola de acceso sin turno puede superar la hora.",
       "El Andén 9¾ real (King's Cross) y la fachada de la película (St. Pancras) son estaciones contiguas, a metros una de otra."
     ],
@@ -1157,7 +1178,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
   },
   {
     "id": "quest-londres-day5",
-    "title": "Londres 🔍 — Día 5: Baker Street y despedida en Notting Hill",
+    "title": "Londres 🔍 — Día 5: Notting Hill a la mañana, Baker Street antes de volver",
     "dateLabel": "Día 5 (7 sep) — hasta las 18:00",
     "totalCost": 48,
     "includedInBudget": false,
@@ -1170,56 +1191,54 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
     "itinerary": [
       {
         "day": "09:30",
-        "title": "Sherlock Holmes Museum (221B Baker St)",
-        "desc": "15 cuadras al sur del hostel, abre a las 09:30. Entrada £19 adulto / £17 estudiante (comprar en sherlock-holmes.co.uk), o gratis sacando fotos en la puerta victoriana con el policía y recorriendo el gift shop del piso de abajo.",
-        "place": "Sherlock Holmes Museum, 221B Baker Street, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sherlock+Holmes+Museum,+221B+Baker+Street,+London"
-      },
-      {
-        "day": "10:45",
-        "title": "London Zoo Reptile House",
-        "desc": "Cruzando Regent's Park: bonus HP, donde Harry deja a Dudley encerrado detrás del vidrio en La Piedra Filosofal.",
-        "place": "ZSL London Zoo, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ZSL+London+Zoo,+London"
-      },
-      {
-        "day": "11:30",
-        "title": "Paternoster Square (LSE)",
-        "desc": "La sede moderna de la London Stock Exchange, pegada a St. Paul's (solo exterior — la catedral por dentro no entra en el presupuesto).",
-        "place": "Paternoster Square, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Paternoster+Square,+London"
-      },
-      {
-        "day": "12:15",
-        "title": "One New Change Roof Terrace",
-        "desc": "Ascensor de vidrio gratis, sin reserva, directo a la terraza — vista de cerca a la cúpula de St. Paul's.",
-        "place": "One New Change, London",
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=One+New+Change,+London"
-      },
-      {
-        "day": "13:30",
         "title": "Portobello Road Market",
-        "desc": "Casas pastel y galerías de antigüedades, sin la marea de gente del fin de semana.",
+        "desc": "Empezás por lo que queda más lejos del hostel — el mercado además está en su mejor momento a la mañana, sin la marea de gente del fin de semana.",
         "place": "Portobello Road, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Portobello+Road,+London"
       },
       {
-        "day": "14:30",
+        "day": "11:00",
         "title": "Kyoto Garden (Holland Park)",
-        "desc": "Jardín japonés tranquilo para cerrar el recorrido.",
+        "desc": "Jardín japonés tranquilo, a metros de Portobello Road.",
         "place": "Kyoto Garden, Holland Park, London",
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kyoto+Garden,+Holland+Park,+London"
       },
       {
+        "day": "12:15",
+        "title": "Almuerzo cerca de Holland Park",
+        "desc": "Algo liviano antes de volver hacia el norte."
+      },
+      {
+        "day": "13:15",
+        "title": "Vuelta hacia Baker Street",
+        "desc": "Central line hasta Bond Street + Jubilee hasta Baker Street, ~25-30 min."
+      },
+      {
+        "day": "13:45",
+        "title": "Sherlock Holmes Museum (221B Baker St)",
+        "desc": "Ya estás cerca del hostel. Entrada £19 adulto / £17 estudiante (comprar en sherlock-holmes.co.uk), o gratis sacando fotos en la puerta victoriana con el policía y recorriendo el gift shop del piso de abajo.",
+        "place": "Sherlock Holmes Museum, 221B Baker Street, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sherlock+Holmes+Museum,+221B+Baker+Street,+London"
+      },
+      {
+        "day": "15:15",
+        "title": "London Zoo Reptile House",
+        "desc": "Cruzando Regent's Park, a 10 min de Baker Street: bonus HP, donde Harry deja a Dudley encerrado detrás del vidrio en La Piedra Filosofal.",
+        "place": "ZSL London Zoo, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ZSL+London+Zoo,+London"
+      },
+      {
         "day": "16:30",
         "title": "Vuelta al hostel y salida al aeropuerto",
-        "desc": "Buscás las valijas en Palmers Lodge y salís hacia Stansted — el vuelo Ryanair FR499 a Madrid sale 20:45."
+        "desc": "Del Zoo al hostel son 10-15 min caminando. Buscás las valijas en Palmers Lodge y salís hacia Stansted — el vuelo Ryanair FR499 a Madrid sale 20:45."
       }
     ],
     "hacks": [
+      "Reordenamos el día: Notting Hill y Holland Park quedan lejos del hostel, así que van primero. Baker Street, el museo y el Zoo quedan pegados al hostel, así que van al final — llegás a buscar las valijas sin cruzar medio Londres con el reloj corriendo.",
+      "Sacamos Paternoster Square y One New Change (quedaban del lado opuesto, en la City) — ya viste ese tipo de mirador gratuito en Garden at 120 el día 2, no hacía falta repetirlo justo el día de salida.",
       "Para no gastar en el Sherlock Holmes Museum: fotos en la puerta victoriana con el policía y una vuelta por el gift shop del piso de abajo, que es gratis. Con carnet de estudiante la entrada baja a £17.",
       "El vuelo sale 20:45 desde Stansted — calculá bien el traslado desde el hostel en Finchley Road más el tiempo de aeropuerto antes de salir a las 18:00.",
-      "El resto del día (Zoo, LSE, One New Change, Notting Hill, Holland Park) es gratis salvo el museo — y St. Paul's / Torre de Londres / Westminster Abbey se cubren siempre por fuera, nunca pagando la entrada interior (£27-35)."
+      "El resto del día (Zoo, Notting Hill, Holland Park) es gratis salvo el museo."
     ],
     "isDefault": true
   }
