@@ -96,6 +96,17 @@ export default function QuestsTab() {
                     <div className="min-w-0">
                       <p className="text-sm font-semibold text-slate-100">{it.title}</p>
                       <p className="text-xs text-slate-400 mt-0.5">{it.desc}</p>
+                      {it.mapsUrl && (
+                        <a
+                          href={it.mapsUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-[11px] font-semibold text-accent-300 mt-1"
+                        >
+                          <i className="fa-solid fa-location-dot" />
+                          Ver en Maps
+                        </a>
+                      )}
                     </div>
                   </li>
                 ))}

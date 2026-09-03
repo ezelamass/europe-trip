@@ -93,6 +93,8 @@ export interface QuestItineraryEntry {
   place?: string;
   lat?: number;
   lng?: number;
+  /** Link de Google Maps al lugar, cuando la entrada tiene un punto puntual. */
+  mapsUrl?: string;
 }
 
 export interface SideQuest {

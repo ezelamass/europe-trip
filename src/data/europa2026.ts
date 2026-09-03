@@ -785,6 +785,443 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       "El pasaje de vuelta a Sorrento todavía no está comprado — conseguir en el puerto de Capri o reservarlo con anticipación si el 31 de agosto hay mucha demanda.",
       "El punto de encuentro del boat trip que figura para nov-mar (Via Cristoforo Colombo 69, muelle 23) no aplica en agosto: en temporada es directo en la oficina de HP Travel en Marina Grande."
     ]
+  },
+  {
+    "id": "quest-londres-day1",
+    "title": "Londres 🪄 — Día 1: Harry Potter en Westminster y West End",
+    "dateLabel": "Día 1 (3 sep)",
+    "totalCost": 30,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "transporte": 10,
+      "comida": 20
+    },
+    "itinerary": [
+      {
+        "day": "15:00",
+        "title": "Westminster Underground Station",
+        "desc": "Salís a la calle acá — la misma estación donde Harry y el Sr. Weasley bajan al Ministerio de Magia en La Orden del Fénix. Arrancás recién a esta hora porque el vuelo llega al mediodía.",
+        "place": "Westminster Underground Station, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Underground+Station,+London"
+      },
+      {
+        "day": "15:10",
+        "title": "Big Ben",
+        "desc": "La torre del reloj, a metros de la estación.",
+        "place": "Big Ben, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Big+Ben,+London"
+      },
+      {
+        "day": "15:20",
+        "title": "Westminster Bridge",
+        "desc": "Cruzá el puente para la vista del Parlamento.",
+        "place": "Westminster Bridge, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Bridge,+London"
+      },
+      {
+        "day": "15:30",
+        "title": "Lambeth Bridge",
+        "desc": "Río arriba desde Westminster Bridge: el puente donde el Knight Bus triple piso se cuela entre dos colectivos rojos en El Prisionero de Azkaban.",
+        "place": "Lambeth Bridge, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Lambeth+Bridge,+London"
+      },
+      {
+        "day": "15:45",
+        "title": "Westminster Abbey",
+        "desc": "Pasá por fuera de la abadía (exterior, sin pagar entrada).",
+        "place": "Westminster Abbey, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Westminster+Abbey,+London"
+      },
+      {
+        "day": "16:00",
+        "title": "Scotland Place & Great Scotland Yard",
+        "desc": "Bajá por Whitehall hasta acá — la entrada telefónica callejera al Ministerio de Magia en El Misterio del Príncipe.",
+        "place": "Great Scotland Yard, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Great+Scotland+Yard,+London"
+      },
+      {
+        "day": "16:20",
+        "title": "St. James's Park",
+        "desc": "Cruzá el parque camino al palacio.",
+        "place": "St James's Park, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Park,+London"
+      },
+      {
+        "day": "16:40",
+        "title": "Buckingham Palace",
+        "desc": "El palacio real, por fuera.",
+        "place": "Buckingham Palace, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Buckingham+Palace,+London"
+      },
+      {
+        "day": "16:55",
+        "title": "St. James's Palace",
+        "desc": "De paso subiendo por The Mall hacia Trafalgar Square.",
+        "place": "St James's Palace, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Palace,+London"
+      },
+      {
+        "day": "17:10",
+        "title": "Trafalgar Square",
+        "desc": "Final de The Mall, plaza central de Londres.",
+        "place": "Trafalgar Square, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
+      },
+      {
+        "day": "17:30",
+        "title": "Diagon Alley: Australia House",
+        "desc": "El exterior sobre el Strand — su interior de mármol sirvió de Gringotts Wizarding Bank en las películas.",
+        "place": "Australia House, Strand, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Australia+House,+Strand,+London"
+      },
+      {
+        "day": "17:50",
+        "title": "Cecil Court",
+        "desc": "Callecita peatonal frente a Charing Cross Road, llena de librerías anticuarias y esotéricas — la inspiración de J.K. Rowling para el Callejón Diagon.",
+        "place": "Cecil Court, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cecil+Court,+London"
+      },
+      {
+        "day": "18:05",
+        "title": "Goodwin's Court (Knockturn Alley)",
+        "desc": "Callejón de 1627 con ventanas salientes oscuras y faroles a gas — la inspiración visual del Callejón Knockturn. Está a metros de Cecil Court.",
+        "place": "Goodwin's Court, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Goodwin's+Court,+London"
+      },
+      {
+        "day": "18:20",
+        "title": "Piccadilly Circus",
+        "desc": "Donde Harry, Ron y Hermione se aparecen y casi los atropella un colectivo en Las Reliquias de la Muerte Parte 1.",
+        "place": "Piccadilly Circus, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piccadilly+Circus,+London"
+      },
+      {
+        "day": "19:00",
+        "title": "Chinatown London",
+        "desc": "Cena de mostrador para cerrar el primer día.",
+        "place": "Chinatown, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chinatown,+London"
+      },
+      {
+        "day": "20:15",
+        "title": "Neal's Yard & Covent Garden",
+        "desc": "Sobremesa caminando: el patio escondido y colorido de Neal's Yard, y la plaza de Covent Garden al lado.",
+        "place": "Neal's Yard, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Neal's+Yard,+London"
+      }
+    ],
+    "hacks": [
+      "Llegás con el vuelo del mediodía desde Nápoles vía Eindhoven — el día arranca recién a las 15:00, sin apuro.",
+      "Cecil Court y Goodwin's Court quedan a metros uno del otro, cerca de Leicester Square — se combinan caminando en 5 minutos.",
+      "Todo el recorrido del día 1 es gratis: solo se paga transporte y cena."
+    ],
+    "isDefault": true
+  },
+  {
+    "id": "quest-londres-day2",
+    "title": "Londres 🏛️ — Día 2: Museos de South Kensington y los orígenes de la Bolsa",
+    "dateLabel": "Día 2 (4 sep)",
+    "totalCost": 35,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "transporte": 10,
+      "comida": 25
+    },
+    "itinerary": [
+      {
+        "day": "09:30",
+        "title": "Victoria and Albert Museum",
+        "desc": "Gratis, sin reserva — entrá directo por Exhibition Road o Cromwell Road. Cast Courts y las galerías del Imperio Británico.",
+        "place": "Victoria and Albert Museum, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Victoria+and+Albert+Museum,+London"
+      },
+      {
+        "day": "11:30",
+        "title": "Natural History Museum (reserva confirmada 11:30)",
+        "desc": "Entrada gratis con ticket horario — ya confirmado para viernes 4 sep 11:30. Ballena azul de Hintze Hall y galerías de dinosaurios; tené el código de barras a mano en el celular.",
+        "place": "Natural History Museum, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Natural+History+Museum,+London"
+      },
+      {
+        "day": "14:00",
+        "title": "Picnic en Hyde Park",
+        "desc": "Meal deal de supermercado (~£5) y a comer al aire libre.",
+        "place": "Hyde Park, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hyde+Park,+London"
+      },
+      {
+        "day": "15:15",
+        "title": "Bank of England Museum",
+        "desc": "Gratis, walk-in sin reserva. Abierto lunes a viernes 10:00-17:00, cerrado estrictamente los fines de semana. Tocás un lingote de oro real de 13 kg y ves la Stock Office del siglo XVIII.",
+        "place": "Bank of England Museum, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bank+of+England+Museum,+London"
+      },
+      {
+        "day": "16:00",
+        "title": "Change Alley",
+        "desc": "El pasaje angosto junto a Cornhill donde los corredores del siglo XVII operaban acciones de la East India y la South Sea Company en el Jonathan's Coffee-House, tras ser expulsados de la Royal Exchange.",
+        "place": "Change Alley, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Change+Alley,+London"
+      },
+      {
+        "day": "16:15",
+        "title": "The Royal Exchange",
+        "desc": "El pórtico clásico de Sir Thomas Gresham, al lado de Change Alley.",
+        "place": "Royal Exchange, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Royal+Exchange,+London"
+      },
+      {
+        "day": "16:45",
+        "title": "Leadenhall Market & Bull's Head Passage",
+        "desc": "Bajá por Bull's Head Passage para ver el local azul de óptica que fue la entrada original al Caldero Chorreante en La Piedra Filosofal.",
+        "place": "Leadenhall Market, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Leadenhall+Market,+London"
+      },
+      {
+        "day": "17:45",
+        "title": "The Garden at 120 — panorámica al atardecer",
+        "desc": "Terraza gratis, walk-in, sin reserva. Subís por 120 Fenchurch Street pasando un control de seguridad tipo aeropuerto.",
+        "place": "The Garden at 120, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Garden+at+120,+London"
+      }
+    ],
+    "hacks": [
+      "La Natural History Museum pide reserva de horario aunque sea gratis — la tuya ya está confirmada para el viernes 4 sep a las 11:30.",
+      "El Bank of England Museum cierra a las 17:00 y solo abre de lunes a viernes — cerrado estrictamente los fines de semana.",
+      "The Garden at 120 es de acceso libre pero pasás por un control tipo aeropuerto antes del ascensor — llegá temprano cerca del atardecer, se llena rápido."
+    ],
+    "isDefault": true
+  },
+  {
+    "id": "quest-londres-day3",
+    "title": "Londres 🌉 — Día 3: El río, Borough Market y el East End",
+    "dateLabel": "Día 3 (5 sep)",
+    "totalCost": 40,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "transporte": 10,
+      "comida": 30
+    },
+    "itinerary": [
+      {
+        "day": "09:30",
+        "title": "Millennium Bridge",
+        "desc": "El puente que los Mortífagos retuercen y derrumban en la escena inicial de El Misterio del Príncipe. Desde acá se enmarca la cúpula de St. Paul's, también en esa escena (solo por fuera, sin pagar entrada).",
+        "place": "Millennium Bridge, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Millennium+Bridge,+London"
+      },
+      {
+        "day": "10:00",
+        "title": "Tate Modern",
+        "desc": "Gratis, sin reserva: Turbine Hall y terraza mirador con acceso libre.",
+        "place": "Tate Modern, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tate+Modern,+London"
+      },
+      {
+        "day": "11:30",
+        "title": "Borough Market & Chez Michele (Stoney St)",
+        "desc": "Buscá la florería Chez Michele bajo los arcos del ferrocarril en Stoney Street — ahí el Knight Bus deja a Harry en el segundo Caldero Chorreante en El Prisionero de Azkaban. Almorzá picando los puestos de comida.",
+        "place": "Borough Market, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Borough+Market,+London"
+      },
+      {
+        "day": "13:30",
+        "title": "St Dunstan in the East",
+        "desc": "Cruzando el London Bridge: iglesia medieval en ruinas convertida en jardín, bombardeada durante el Blitz.",
+        "place": "St Dunstan in the East Church Garden, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Dunstan+in+the+East+Church+Garden,+London"
+      },
+      {
+        "day": "14:15",
+        "title": "Tower of London",
+        "desc": "Caminata por el perímetro y las murallas exteriores — la entrada interior sale £27-35 y no está en el presupuesto, no hace falta pagarla para disfrutar el lugar.",
+        "place": "Tower of London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+of+London"
+      },
+      {
+        "day": "14:45",
+        "title": "Tower Bridge",
+        "desc": "Cruzalo caminando hacia St. Katharine Docks.",
+        "place": "Tower Bridge, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+Bridge,+London"
+      },
+      {
+        "day": "15:15",
+        "title": "St Katharine Docks",
+        "desc": "Marina tranquila para cerrar la caminata de la tarde.",
+        "place": "St Katharine Docks, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Katharine+Docks,+London"
+      },
+      {
+        "day": "19:00",
+        "title": "Brick Lane",
+        "desc": "Arte callejero, ropa vintage, curry con specials baratos entre semana o bagels de salt beef 24hs.",
+        "place": "Brick Lane, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brick+Lane,+London"
+      }
+    ],
+    "hacks": [
+      "Chez Michele está escondida bajo los arcos del tren en Stoney Street, pegada a Borough Market — fácil pasarla de largo si no la buscás con atención.",
+      "Tate Modern y su terraza mirador son 100% gratis, sin reserva.",
+      "Torre de Londres, Tower Bridge (la exhibición interior) y St. Paul's cobran entrada cara (£27-35) — este día los recorrés solo por fuera, a propósito, para no gastar de más.",
+      "Brick Lane tiene curry houses con specials baratos entre semana y los bagels de salt beef abren toda la noche."
+    ],
+    "isDefault": true
+  },
+  {
+    "id": "quest-londres-day4",
+    "title": "Londres 📖 — Día 4: Freud, el canal y el Andén 9¾",
+    "dateLabel": "Día 4 (6 sep)",
+    "totalCost": 53,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "tickets": 18,
+      "transporte": 10,
+      "comida": 25
+    },
+    "itinerary": [
+      {
+        "day": "10:30",
+        "title": "Freud Museum London",
+        "desc": "A 3 cuadras del hostel: 20 Maresfield Gardens, la última casa de Sigmund Freud, con su estudio, su colección de antigüedades y el diván original de psicoanálisis. Entrada £14,90 adulto / £12,90 estudiante — reservá el turno horario en freud.org.uk para las 10:30 y entrás directo sin esperar. Abre miércoles a domingo 10:30-17:00.",
+        "place": "Freud Museum, 20 Maresfield Gardens, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Freud+Museum,+20+Maresfield+Gardens,+London"
+      },
+      {
+        "day": "12:15",
+        "title": "Little Venice (Paddington Basin)",
+        "desc": "Camino de sirga entre narrowboats de colores, pegado al Paddington Basin, hasta Camden Lock Market.",
+        "place": "Little Venice, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Little+Venice,+London"
+      },
+      {
+        "day": "13:00",
+        "title": "Camden Lock Market",
+        "desc": "Puestos y locales del mercado antes de subir a Primrose Hill.",
+        "place": "Camden Lock Market, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Camden+Lock+Market,+London"
+      },
+      {
+        "day": "13:45",
+        "title": "Primrose Hill Viewpoint",
+        "desc": "Subida corta a la colina para una vista panorámica del skyline de Londres.",
+        "place": "Primrose Hill, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Primrose+Hill,+London"
+      },
+      {
+        "day": "14:30",
+        "title": "The British Museum — ya reservado ✅",
+        "desc": "Entrada general gratis, YA COMPRADA: orden #11038942, domingo 6 sep 2026, turno 14:30. Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio. Sin reserva previa las colas superan la hora de espera.",
+        "place": "British Museum, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=British+Museum,+London"
+      },
+      {
+        "day": "16:45",
+        "title": "King's Cross Station (Platform 9 ¾)",
+        "desc": "El carrito incrustado en la pared, al lado de la tienda de Harry Potter — la cola para la foto es gratis.",
+        "place": "King's Cross Station, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=King's+Cross+Station,+London"
+      },
+      {
+        "day": "17:30",
+        "title": "St Pancras Renaissance Hotel",
+        "desc": "La fachada neogótica que sirvió de exterior de King's Cross cuando Harry y Ron vuelan el Ford Anglia en La Cámara Secreta. Está pegada a King's Cross.",
+        "place": "St Pancras Renaissance Hotel, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Pancras+Renaissance+Hotel,+London"
+      },
+      {
+        "day": "18:00",
+        "title": "Claremont Square (12 Grimmauld Place)",
+        "desc": "10 min caminando hacia el este, en Islington: la hilera de casas que sirvió de sede de la Orden del Fénix.",
+        "place": "Claremont Square, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Claremont+Square,+London"
+      },
+      {
+        "day": "19:00",
+        "title": "Granary Square & Coal Drops Yard",
+        "desc": "Cena sobre el Regent's Canal, en cualquiera de los dos.",
+        "place": "Granary Square, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Granary+Square,+London"
+      }
+    ],
+    "hacks": [
+      "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango. Con carnet de estudiante la entrada baja a £12,90.",
+      "El British Museum ya está reservado y pagado (gratis): orden #11038942, domingo 6 sep, turno 14:30 — sin esa reserva la cola de acceso sin turno puede superar la hora.",
+      "El Andén 9¾ real (King's Cross) y la fachada de la película (St. Pancras) son estaciones contiguas, a metros una de otra."
+    ],
+    "isDefault": true
+  },
+  {
+    "id": "quest-londres-day5",
+    "title": "Londres 🔍 — Día 5: Baker Street y despedida en Notting Hill",
+    "dateLabel": "Día 5 (7 sep) — hasta las 18:00",
+    "totalCost": 48,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "tickets": 23,
+      "transporte": 10,
+      "comida": 15
+    },
+    "itinerary": [
+      {
+        "day": "09:30",
+        "title": "Sherlock Holmes Museum (221B Baker St)",
+        "desc": "15 cuadras al sur del hostel, abre a las 09:30. Entrada £19 adulto / £17 estudiante (comprar en sherlock-holmes.co.uk), o gratis sacando fotos en la puerta victoriana con el policía y recorriendo el gift shop del piso de abajo.",
+        "place": "Sherlock Holmes Museum, 221B Baker Street, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sherlock+Holmes+Museum,+221B+Baker+Street,+London"
+      },
+      {
+        "day": "10:45",
+        "title": "London Zoo Reptile House",
+        "desc": "Cruzando Regent's Park: bonus HP, donde Harry deja a Dudley encerrado detrás del vidrio en La Piedra Filosofal.",
+        "place": "ZSL London Zoo, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ZSL+London+Zoo,+London"
+      },
+      {
+        "day": "11:30",
+        "title": "Paternoster Square (LSE)",
+        "desc": "La sede moderna de la London Stock Exchange, pegada a St. Paul's (solo exterior — la catedral por dentro no entra en el presupuesto).",
+        "place": "Paternoster Square, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Paternoster+Square,+London"
+      },
+      {
+        "day": "12:15",
+        "title": "One New Change Roof Terrace",
+        "desc": "Ascensor de vidrio gratis, sin reserva, directo a la terraza — vista de cerca a la cúpula de St. Paul's.",
+        "place": "One New Change, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=One+New+Change,+London"
+      },
+      {
+        "day": "13:30",
+        "title": "Portobello Road Market",
+        "desc": "Casas pastel y galerías de antigüedades, sin la marea de gente del fin de semana.",
+        "place": "Portobello Road, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Portobello+Road,+London"
+      },
+      {
+        "day": "14:30",
+        "title": "Kyoto Garden (Holland Park)",
+        "desc": "Jardín japonés tranquilo para cerrar el recorrido.",
+        "place": "Kyoto Garden, Holland Park, London",
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kyoto+Garden,+Holland+Park,+London"
+      },
+      {
+        "day": "16:30",
+        "title": "Vuelta al hostel y salida al aeropuerto",
+        "desc": "Buscás las valijas en Palmers Lodge y salís hacia Stansted — el vuelo Ryanair FR499 a Madrid sale 20:45."
+      }
+    ],
+    "hacks": [
+      "Para no gastar en el Sherlock Holmes Museum: fotos en la puerta victoriana con el policía y una vuelta por el gift shop del piso de abajo, que es gratis. Con carnet de estudiante la entrada baja a £17.",
+      "El vuelo sale 20:45 desde Stansted — calculá bien el traslado desde el hostel en Finchley Road más el tiempo de aeropuerto antes de salir a las 18:00.",
+      "El resto del día (Zoo, LSE, One New Change, Notting Hill, Holland Park) es gratis salvo el museo — y St. Paul's / Torre de Londres / Westminster Abbey se cubren siempre por fuera, nunca pagando la entrada interior (£27-35)."
+    ],
+    "isDefault": true
   }
 ];
 
@@ -1520,7 +1957,14 @@ export const EUROPA_2026_STOPS: RouteStop[] = [
     "lodgingConfirmation": "14348-579652597",
     "accommodationCost": 152.53,
     "lodgingCostNote": "$174.15 USD total ($39.18 pagado, resto a pagar en el hostel) · Standard 8 Bed Mixed Dorm · 03-07 sep, 4 noches",
-    "hack": "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). Vuelo de ida madrugador (sale 07:25 de Nápoles) — implica salir del alojamiento en Nápoles ~05:00-05:15 en taxi pre-reservado. 3 sep (llegada mediodía) + 4, 5, 6, 7 sep completos. UK ETA aprobada (ref 2020-0000-6070-3591, válida hasta 26 ago 2028, costó €24,30)."
+    "hack": "Solo (amigos se van a Barcelona, ya conocida). Última ciudad del viaje: prioridad sobre Norte de Italia porque no vuelve a Europa en 1-2 años y ya conoció Roma/Bari/Nápoles (más Italia = rendimiento decreciente); Londres es un mundo distinto (anglosajón). Vuelo de ida madrugador (sale 07:25 de Nápoles) — implica salir del alojamiento en Nápoles ~05:00-05:15 en taxi pre-reservado. 3 sep (llegada mediodía) + 4, 5, 6, 7 sep completos. UK ETA aprobada (ref 2020-0000-6070-3591, válida hasta 26 ago 2028, costó €24,30).",
+    "itineraryQuestIds": [
+      "quest-londres-day1",
+      "quest-londres-day2",
+      "quest-londres-day3",
+      "quest-londres-day4",
+      "quest-londres-day5"
+    ]
   },
   {
     "id": "stop-madrid-cierre",
