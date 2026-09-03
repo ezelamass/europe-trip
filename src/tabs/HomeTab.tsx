@@ -30,7 +30,15 @@ function locate(trip: Trip, stops: RouteStop[], today: Date) {
   return { current: null, currentRange: '', next: stops[0] ?? null, before: 0 };
 }
 
-function HeroActual({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void }) {
+function HeroActual({
+  trip,
+  onOpen,
+  onOpenStop,
+}: {
+  trip: Trip;
+  onOpen: (id: string) => void;
+  onOpenStop: (stop: RouteStop) => void;
+}) {
   const stops = useStops(trip.id);
   const setTab = useStore((s) => s.setTab);
   const today = useMemo(() => {
@@ -90,19 +98,34 @@ function HeroActual({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => void
       {/* Dónde estás ahora */}
       {current && (
         <div className="rounded-2xl bg-slate-900 border border-white/10 overflow-hidden">
-          <div className="p-4">
-            <p className="text-[10px] font-bold uppercase tracking-wider text-accent-300">Estás en</p>
-            <h2 className="text-xl font-bold text-white mt-1">{current.city}</h2>
-            <p className="text-xs text-slate-400 mt-0.5">
-              {currentRange} · {current.nights} noches
-            </p>
-            {current.hotelName && (
-              <p className="text-sm text-slate-300 mt-3">
-                <i className="fa-solid fa-hotel mr-2 text-slate-500" />
-                {current.hotelName}
-              </p>
-            )}
-          </div>
+          {(() => {
+            const hasItinerary = !!current.itineraryQuestIds?.length;
+            const Wrapper = hasItinerary ? 'button' : 'div';
+            return (
+              <Wrapper
+                onClick={hasItinerary ? () => onOpenStop(current) : undefined}
+                className={`w-full text-left p-4 ${hasItinerary ? 'active:scale-[0.98] transition' : ''}`}
+              >
+                <p className="text-[10px] font-bold uppercase tracking-wider text-accent-300">Estás en</p>
+                <h2 className="text-xl font-bold text-white mt-1">{current.city}</h2>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  {currentRange} · {current.nights} noches
+                </p>
+                {current.hotelName && (
+                  <p className="text-sm text-slate-300 mt-3">
+                    <i className="fa-solid fa-hotel mr-2 text-slate-500" />
+                    {current.hotelName}
+                  </p>
+                )}
+                {hasItinerary && (
+                  <p className="text-xs font-semibold text-accent-300 mt-3">
+                    Ver itinerario día por día
+                    <i className="fa-solid fa-chevron-right ml-1.5" />
+                  </p>
+                )}
+              </Wrapper>
+            );
+          })()}
           {next && (
             <div className="border-t border-white/10 px-4 py-3 flex items-center gap-3">
               <i className="fa-solid fa-arrow-right-long text-slate-600" />
@@ -192,9 +215,15 @@ function HeroProximo({ trip, onOpen }: { trip: Trip; onOpen: (id: string) => voi
   );
 }
 
-export default function HomeTab({ onOpen }: { onOpen: (id: string) => void }) {
+export default function HomeTab({
+  onOpen,
+  onOpenStop,
+}: {
+  onOpen: (id: string) => void;
+  onOpenStop: (stop: RouteStop) => void;
+}) {
   const enCurso = TRIPS.find((t) => t.status === 'en-curso');
-  if (enCurso) return <HeroActual trip={enCurso} onOpen={onOpen} />;
+  if (enCurso) return <HeroActual trip={enCurso} onOpen={onOpen} onOpenStop={onOpenStop} />;
 
   // Sin viaje en curso, lo que importa es el que viene. Recién si tampoco hay
   // ninguno planificado, la pantalla principal pasa a ser el archivo.

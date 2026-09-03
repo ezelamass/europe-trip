@@ -16,7 +16,7 @@ import type { ViewCode } from '../data/worldMap';
 /** Subir esto fuerza a que la data hardcodeada (itinerarios, valija, quests)
  *  pise lo guardado en el celular. El perfil de viajero NUNCA se pisa:
  *  son datos que cargó el usuario, no contenido de la app. */
-export const DATA_VERSION = '2026-08-30-capri';
+export const DATA_VERSION = '2026-09-03-londres-itinerario';
 
 /** `home`, `trips`, `world` y `stats` están en la barra inferior; el resto son
  *  herramientas de un viaje, a las que se entra desde Inicio. */

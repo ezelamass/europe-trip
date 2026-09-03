@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { useStore, type TabId } from './store/useStore';
 import { TRIPS_BY_ID } from './data/trips';
+import type { RouteStop } from './types';
 import HomeTab from './tabs/HomeTab';
 import TripsTab from './tabs/TripsTab';
 import StatsTab from './tabs/StatsTab';
@@ -9,6 +10,7 @@ import HacksTab from './tabs/HacksTab';
 import QuestsTab from './tabs/QuestsTab';
 import LuggageTab from './tabs/LuggageTab';
 import TripDetail from './views/TripDetail';
+import StopItinerary from './views/StopItinerary';
 import BottomNav, { type NavItem } from './components/BottomNav';
 
 // El mapa mundial son ~65 KB de geometría: se carga recién al abrir la tab.
@@ -36,6 +38,7 @@ export default function App() {
   const activeTab = useStore((s) => s.activeTab);
   const setTab = useStore((s) => s.setTab);
   const [openTripId, setOpenTripId] = useState<string | null>(null);
+  const [openStop, setOpenStop] = useState<RouteStop | null>(null);
 
   const detailTrip = openTripId ? TRIPS_BY_ID[openTripId] : null;
   const subtitle = SUBTAB_TITLES[activeTab];
@@ -43,14 +46,16 @@ export default function App() {
   // Al cambiar de pantalla se vuelve arriba: si no, se entra a un viaje a media altura.
   useEffect(() => {
     window.scrollTo({ top: 0 });
-  }, [activeTab, openTripId]);
+  }, [activeTab, openTripId, openStop]);
 
   const navActive: TabId = subtitle ? 'home' : activeTab;
 
   return (
     <div className="min-h-screen bg-slate-950">
       <main className="mx-auto w-full max-w-2xl px-4 pt-6 pb-36">
-        {detailTrip ? (
+        {openStop ? (
+          <StopItinerary stop={openStop} onBack={() => setOpenStop(null)} />
+        ) : detailTrip ? (
           <TripDetail trip={detailTrip} onBack={() => setOpenTripId(null)} />
         ) : subtitle ? (
           <div className="space-y-5">
@@ -68,7 +73,7 @@ export default function App() {
           </div>
         ) : (
           <>
-            {activeTab === 'home' && <HomeTab onOpen={setOpenTripId} />}
+            {activeTab === 'home' && <HomeTab onOpen={setOpenTripId} onOpenStop={setOpenStop} />}
             {activeTab === 'trips' && <TripsTab onOpen={setOpenTripId} />}
             {activeTab === 'stats' && <StatsTab />}
             {activeTab === 'world' && (
@@ -92,6 +97,7 @@ export default function App() {
         active={navActive}
         onSelect={(id) => {
           setOpenTripId(null);
+          setOpenStop(null);
           setTab(id);
         }}
       />
