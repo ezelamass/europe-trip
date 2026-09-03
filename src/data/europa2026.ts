@@ -803,6 +803,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Salida del hostel",
         "desc": "Bajaste desde Palmers Lodge, en Swiss Cottage / Finchley Road, hacia el centro.",
         "place": "Palmers Lodge Swiss Cottage, London",
+        "lat": 51.5443,
+        "lng": -0.1746,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Palmers+Lodge+Swiss+Cottage,+London"
       },
       {
@@ -810,6 +812,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Baker Street (solo por afuera)",
         "desc": "Pasaste por 221B pero no entraste — tranquilo, el Sherlock Holmes Museum sigue entero para el día 5, que además te queda de paso saliendo del hostel.",
         "place": "Baker Street, London",
+        "lat": 51.5226,
+        "lng": -0.1571,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Baker+Street,+London"
       },
       {
@@ -817,6 +821,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Oxford Street → giro a la derecha",
         "desc": "Caminaste por Oxford Street y doblaste a la derecha, bajando hacia Westminster.",
         "place": "Oxford Street, London",
+        "lat": 51.5152,
+        "lng": -0.1447,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Oxford+Street,+London"
       },
       {
@@ -824,6 +830,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Big Ben",
         "desc": "Lo viste de cerca.",
         "place": "Big Ben, London",
+        "lat": 51.5007,
+        "lng": -0.1246,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Big+Ben,+London"
       },
       {
@@ -831,6 +839,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Caminata por la orilla del río",
         "desc": "Bordeaste el Támesis hacia el este, rumbo al Puente de Londres.",
         "place": "South Bank, London",
+        "lat": 51.5097,
+        "lng": -0.1033,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=South+Bank,+London"
       },
       {
@@ -838,6 +848,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "A tres cuadras del Puente de Londres",
         "desc": "Te quedaste corto, no llegaste a cruzarlo — no se pierde nada, lo cruzás el día 3, después de Borough Market.",
         "place": "London Bridge, London",
+        "lat": 51.5079,
+        "lng": -0.0877,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=London+Bridge,+London"
       },
       {
@@ -845,12 +857,17 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Subida a la City",
         "desc": "Subiste hacia la zona financiera.",
         "place": "City of London",
+        "lat": 51.5155,
+        "lng": -0.0922,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=City+of+London"
       },
       {
         "day": "~19:00",
         "title": "Vuelta al hostel",
-        "desc": "De regreso a Palmers Lodge."
+        "desc": "De regreso a Palmers Lodge.",
+        "place": "Palmers Lodge Swiss Cottage, London",
+        "lat": 51.5443,
+        "lng": -0.1746
       }
     ],
     "hacks": [
@@ -877,6 +894,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Victoria and Albert Museum",
         "desc": "Gratis, sin reserva — entrá directo por Exhibition Road o Cromwell Road. Cast Courts y las galerías del Imperio Británico.",
         "place": "Victoria and Albert Museum, London",
+        "lat": 51.4966,
+        "lng": -0.1722,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Victoria+and+Albert+Museum,+London"
       },
       {
@@ -884,6 +903,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Natural History Museum (reserva confirmada 11:30)",
         "desc": "Entrada gratis con ticket horario — ya confirmado para viernes 4 sep 11:30. Ballena azul de Hintze Hall y galerías de dinosaurios; tené el código de barras a mano en el celular.",
         "place": "Natural History Museum, London",
+        "lat": 51.4967,
+        "lng": -0.1764,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Natural+History+Museum,+London"
       },
       {
@@ -891,6 +912,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Picnic en Hyde Park",
         "desc": "Meal deal de supermercado (~£5) y a comer al aire libre.",
         "place": "Hyde Park, London",
+        "lat": 51.5073,
+        "lng": -0.1657,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Hyde+Park,+London"
       },
       {
@@ -898,6 +921,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Bank of England Museum",
         "desc": "Gratis, walk-in sin reserva. Abierto lunes a viernes 10:00-17:00, cerrado estrictamente los fines de semana. Tocás un lingote de oro real de 13 kg y ves la Stock Office del siglo XVIII.",
         "place": "Bank of England Museum, London",
+        "lat": 51.5142,
+        "lng": -0.0885,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Bank+of+England+Museum,+London"
       },
       {
@@ -905,6 +930,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Change Alley",
         "desc": "El pasaje angosto junto a Cornhill donde los corredores del siglo XVII operaban acciones de la East India y la South Sea Company en el Jonathan's Coffee-House, tras ser expulsados de la Royal Exchange.",
         "place": "Change Alley, London",
+        "lat": 51.5131,
+        "lng": -0.0883,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Change+Alley,+London"
       },
       {
@@ -912,6 +939,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "The Royal Exchange",
         "desc": "El pórtico clásico de Sir Thomas Gresham, al lado de Change Alley.",
         "place": "Royal Exchange, London",
+        "lat": 51.5133,
+        "lng": -0.0879,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Royal+Exchange,+London"
       },
       {
@@ -919,6 +948,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Leadenhall Market & Bull's Head Passage",
         "desc": "Bajá por Bull's Head Passage para ver el local azul de óptica que fue la entrada original al Caldero Chorreante en La Piedra Filosofal.",
         "place": "Leadenhall Market, London",
+        "lat": 51.5127,
+        "lng": -0.0834,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Leadenhall+Market,+London"
       },
       {
@@ -926,6 +957,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "The Garden at 120 — panorámica al atardecer",
         "desc": "Terraza gratis, walk-in, sin reserva. Subís por 120 Fenchurch Street pasando un control de seguridad tipo aeropuerto.",
         "place": "The Garden at 120, London",
+        "lat": 51.5133,
+        "lng": -0.0865,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=The+Garden+at+120,+London"
       },
       {
@@ -938,6 +971,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "St. James's Park",
         "desc": "Cruzás el parque camino al palacio.",
         "place": "St James's Park, London",
+        "lat": 51.5017,
+        "lng": -0.1348,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Park,+London"
       },
       {
@@ -945,6 +980,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Buckingham Palace",
         "desc": "El palacio real, por fuera.",
         "place": "Buckingham Palace, London",
+        "lat": 51.5014,
+        "lng": -0.1419,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Buckingham+Palace,+London"
       },
       {
@@ -952,6 +989,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "St. James's Palace",
         "desc": "De paso subiendo por The Mall hacia Trafalgar Square.",
         "place": "St James's Palace, London",
+        "lat": 51.5045,
+        "lng": -0.1372,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+James's+Palace,+London"
       },
       {
@@ -959,6 +998,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Trafalgar Square",
         "desc": "Final de The Mall, plaza central de Londres.",
         "place": "Trafalgar Square, London",
+        "lat": 51.508,
+        "lng": -0.1281,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
       },
       {
@@ -966,6 +1007,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Diagon Alley: Australia House",
         "desc": "El exterior sobre el Strand — su interior de mármol sirvió de Gringotts Wizarding Bank en las películas.",
         "place": "Australia House, Strand, London",
+        "lat": 51.5121,
+        "lng": -0.116,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Australia+House,+Strand,+London"
       },
       {
@@ -973,6 +1016,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Cecil Court",
         "desc": "Callecita peatonal frente a Charing Cross Road, llena de librerías anticuarias y esotéricas — la inspiración de J.K. Rowling para el Callejón Diagon.",
         "place": "Cecil Court, London",
+        "lat": 51.5106,
+        "lng": -0.1281,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Cecil+Court,+London"
       },
       {
@@ -980,6 +1025,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Goodwin's Court (Knockturn Alley)",
         "desc": "Callejón de 1627 con ventanas salientes oscuras y faroles a gas — la inspiración visual del Callejón Knockturn. Está a metros de Cecil Court.",
         "place": "Goodwin's Court, London",
+        "lat": 51.5109,
+        "lng": -0.1279,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Goodwin's+Court,+London"
       },
       {
@@ -987,6 +1034,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Piccadilly Circus",
         "desc": "Donde Harry, Ron y Hermione se aparecen y casi los atropella un colectivo en Las Reliquias de la Muerte Parte 1.",
         "place": "Piccadilly Circus, London",
+        "lat": 51.5101,
+        "lng": -0.1342,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Piccadilly+Circus,+London"
       },
       {
@@ -994,6 +1043,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Chinatown London (cena)",
         "desc": "Cena de mostrador.",
         "place": "Chinatown, London",
+        "lat": 51.5114,
+        "lng": -0.1319,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Chinatown,+London"
       },
       {
@@ -1001,6 +1052,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Neal's Yard & Covent Garden",
         "desc": "Sobremesa caminando: el patio escondido y colorido de Neal's Yard, y la plaza de Covent Garden al lado.",
         "place": "Neal's Yard, London",
+        "lat": 51.5142,
+        "lng": -0.1265,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Neal's+Yard,+London"
       }
     ],
@@ -1030,6 +1083,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Millennium Bridge",
         "desc": "El puente que los Mortífagos retuercen y derrumban en la escena inicial de El Misterio del Príncipe. Desde acá se enmarca la cúpula de St. Paul's, también en esa escena (solo por fuera, sin pagar entrada).",
         "place": "Millennium Bridge, London",
+        "lat": 51.5095,
+        "lng": -0.0985,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Millennium+Bridge,+London"
       },
       {
@@ -1037,6 +1092,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Tate Modern",
         "desc": "Gratis, sin reserva: Turbine Hall y terraza mirador con acceso libre.",
         "place": "Tate Modern, London",
+        "lat": 51.5076,
+        "lng": -0.0994,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tate+Modern,+London"
       },
       {
@@ -1044,6 +1101,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Borough Market & Chez Michele (Stoney St)",
         "desc": "Buscá la florería Chez Michele bajo los arcos del ferrocarril en Stoney Street — ahí el Knight Bus deja a Harry en el segundo Caldero Chorreante en El Prisionero de Azkaban. Almorzá picando los puestos de comida.",
         "place": "Borough Market, London",
+        "lat": 51.5055,
+        "lng": -0.091,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Borough+Market,+London"
       },
       {
@@ -1051,6 +1110,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "St Dunstan in the East",
         "desc": "Cruzando el London Bridge: iglesia medieval en ruinas convertida en jardín, bombardeada durante el Blitz.",
         "place": "St Dunstan in the East Church Garden, London",
+        "lat": 51.5099,
+        "lng": -0.0836,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Dunstan+in+the+East+Church+Garden,+London"
       },
       {
@@ -1058,6 +1119,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Tower of London",
         "desc": "Caminata por el perímetro y las murallas exteriores — la entrada interior sale £27-35 y no está en el presupuesto, no hace falta pagarla para disfrutar el lugar.",
         "place": "Tower of London",
+        "lat": 51.5081,
+        "lng": -0.0759,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+of+London"
       },
       {
@@ -1065,6 +1128,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Tower Bridge",
         "desc": "Cruzalo caminando hacia St. Katharine Docks.",
         "place": "Tower Bridge, London",
+        "lat": 51.5055,
+        "lng": -0.0754,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+Bridge,+London"
       },
       {
@@ -1072,6 +1137,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "St Katharine Docks",
         "desc": "Marina tranquila para cerrar la caminata de la tarde.",
         "place": "St Katharine Docks, London",
+        "lat": 51.5075,
+        "lng": -0.0736,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Katharine+Docks,+London"
       },
       {
@@ -1079,6 +1146,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Brick Lane",
         "desc": "Arte callejero, ropa vintage, curry con specials baratos entre semana o bagels de salt beef 24hs. Quedate dando vueltas hasta eso de las 22:00-22:30, no hay apuro para volver.",
         "place": "Brick Lane, London",
+        "lat": 51.5225,
+        "lng": -0.0716,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brick+Lane,+London"
       }
     ],
@@ -1108,6 +1177,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Freud Museum London",
         "desc": "A 3 cuadras del hostel: 20 Maresfield Gardens, la última casa de Sigmund Freud, con su estudio, su colección de antigüedades y el diván original de psicoanálisis. Entrada £14,90 adulto / £12,90 estudiante — reservá el turno horario en freud.org.uk para las 10:30 y entrás directo sin esperar. Abre miércoles a domingo 10:30-17:00.",
         "place": "Freud Museum, 20 Maresfield Gardens, London",
+        "lat": 51.5473,
+        "lng": -0.1759,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Freud+Museum,+20+Maresfield+Gardens,+London"
       },
       {
@@ -1115,6 +1186,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Little Venice (Paddington Basin)",
         "desc": "Camino de sirga entre narrowboats de colores, pegado al Paddington Basin, hasta Camden Lock Market.",
         "place": "Little Venice, London",
+        "lat": 51.5217,
+        "lng": -0.1826,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Little+Venice,+London"
       },
       {
@@ -1122,6 +1195,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Camden Lock Market",
         "desc": "Puestos y locales del mercado antes de subir a Primrose Hill.",
         "place": "Camden Lock Market, London",
+        "lat": 51.5416,
+        "lng": -0.1466,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Camden+Lock+Market,+London"
       },
       {
@@ -1129,6 +1204,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Primrose Hill Viewpoint",
         "desc": "Subida corta a la colina para una vista panorámica del skyline de Londres.",
         "place": "Primrose Hill, London",
+        "lat": 51.5388,
+        "lng": -0.1608,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Primrose+Hill,+London"
       },
       {
@@ -1136,6 +1213,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "The British Museum — ya reservado ✅",
         "desc": "Entrada general gratis, YA COMPRADA: orden #11038942, domingo 6 sep 2026, turno 14:30. Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio. Sin reserva previa las colas superan la hora de espera.",
         "place": "British Museum, London",
+        "lat": 51.5194,
+        "lng": -0.127,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=British+Museum,+London"
       },
       {
@@ -1143,6 +1222,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "King's Cross Station (Platform 9 ¾)",
         "desc": "El carrito incrustado en la pared, al lado de la tienda de Harry Potter — la cola para la foto es gratis.",
         "place": "King's Cross Station, London",
+        "lat": 51.532,
+        "lng": -0.1233,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=King's+Cross+Station,+London"
       },
       {
@@ -1150,6 +1231,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "St Pancras Renaissance Hotel",
         "desc": "La fachada neogótica que sirvió de exterior de King's Cross cuando Harry y Ron vuelan el Ford Anglia en La Cámara Secreta. Está pegada a King's Cross.",
         "place": "St Pancras Renaissance Hotel, London",
+        "lat": 51.5308,
+        "lng": -0.1257,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Pancras+Renaissance+Hotel,+London"
       },
       {
@@ -1157,6 +1240,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Claremont Square (12 Grimmauld Place)",
         "desc": "10 min caminando hacia el este, en Islington: la hilera de casas que sirvió de sede de la Orden del Fénix.",
         "place": "Claremont Square, London",
+        "lat": 51.5323,
+        "lng": -0.1112,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Claremont+Square,+London"
       },
       {
@@ -1164,6 +1249,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Granary Square & Coal Drops Yard",
         "desc": "Cena sobre el Regent's Canal, en cualquiera de los dos. Las fuentes de Granary Square se iluminan de noche — quedate hasta eso de las 22:00-22:30, no hay apuro para volver.",
         "place": "Granary Square, London",
+        "lat": 51.5347,
+        "lng": -0.1257,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Granary+Square,+London"
       }
     ],
@@ -1194,6 +1281,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Portobello Road Market",
         "desc": "Empezás por lo que queda más lejos del hostel — el mercado además está en su mejor momento a la mañana, sin la marea de gente del fin de semana.",
         "place": "Portobello Road, London",
+        "lat": 51.517,
+        "lng": -0.2049,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Portobello+Road,+London"
       },
       {
@@ -1201,6 +1290,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Kyoto Garden (Holland Park)",
         "desc": "Jardín japonés tranquilo, a metros de Portobello Road.",
         "place": "Kyoto Garden, Holland Park, London",
+        "lat": 51.5037,
+        "lng": -0.2058,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Kyoto+Garden,+Holland+Park,+London"
       },
       {
@@ -1218,6 +1309,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "Sherlock Holmes Museum (221B Baker St)",
         "desc": "Ya estás cerca del hostel. Entrada £19 adulto / £17 estudiante (comprar en sherlock-holmes.co.uk), o gratis sacando fotos en la puerta victoriana con el policía y recorriendo el gift shop del piso de abajo.",
         "place": "Sherlock Holmes Museum, 221B Baker Street, London",
+        "lat": 51.5237,
+        "lng": -0.1585,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Sherlock+Holmes+Museum,+221B+Baker+Street,+London"
       },
       {
@@ -1225,12 +1318,17 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "title": "London Zoo Reptile House",
         "desc": "Cruzando Regent's Park, a 10 min de Baker Street: bonus HP, donde Harry deja a Dudley encerrado detrás del vidrio en La Piedra Filosofal.",
         "place": "ZSL London Zoo, London",
+        "lat": 51.5353,
+        "lng": -0.1534,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ZSL+London+Zoo,+London"
       },
       {
         "day": "16:30",
         "title": "Vuelta al hostel y salida al aeropuerto",
-        "desc": "Del Zoo al hostel son 10-15 min caminando. Buscás las valijas en Palmers Lodge y salís hacia Stansted — el vuelo Ryanair FR499 a Madrid sale 20:45."
+        "desc": "Del Zoo al hostel son 10-15 min caminando. Buscás las valijas en Palmers Lodge y salís hacia Stansted — el vuelo Ryanair FR499 a Madrid sale 20:45.",
+        "place": "Palmers Lodge Swiss Cottage, London",
+        "lat": 51.5443,
+        "lng": -0.1746
       }
     ],
     "hacks": [
