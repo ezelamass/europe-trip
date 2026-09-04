@@ -1,12 +1,15 @@
 import type { SideQuest } from '../types';
 import { TipCallout } from './ui';
+import RouteMiniMap from './RouteMiniMap';
 
-/** El plan (horarios + links a Maps) y los hacks de una side quest. Vive acá
- *  porque tanto el modal de QuestsTab como la vista de itinerario por parada
- *  necesitan renderizar exactamente lo mismo. */
+/** El plan (mapa + horarios/links a Maps) y los hacks de una side quest. Vive
+ *  acá porque tanto el modal de QuestsTab como la vista de itinerario por
+ *  parada necesitan renderizar exactamente lo mismo. */
 export default function QuestPlan({ quest }: { quest: SideQuest }) {
   return (
     <div className="space-y-5">
+      <RouteMiniMap itinerary={quest.itinerary} />
+
       <div>
         <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
           Plan
@@ -14,7 +17,12 @@ export default function QuestPlan({ quest }: { quest: SideQuest }) {
         <ol className="space-y-3">
           {quest.itinerary.map((it, i) => (
             <li key={i} className="flex gap-3">
-              <span className="shrink-0 text-[11px] font-bold text-accent-300 bg-accent-400/10 border border-accent-400/25 rounded-lg px-2 py-1 h-fit tabular-nums">
+              <span className="shrink-0 flex items-center gap-1.5 text-[11px] font-bold text-accent-300 bg-accent-400/10 border border-accent-400/25 rounded-lg px-2 py-1 h-fit tabular-nums">
+                {it.lat != null && it.lng != null && (
+                  <span className="grid place-items-center w-4 h-4 rounded-full bg-accent-400 text-slate-950 text-[9px] leading-none">
+                    {i + 1}
+                  </span>
+                )}
                 {it.day}
               </span>
               <div className="min-w-0">
