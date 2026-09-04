@@ -1068,121 +1068,18 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
   },
   {
     "id": "quest-londres-day3",
-    "title": "Londres 🌉 — Día 3: El río, Borough Market y el East End",
+    "title": "Londres 🛶🏛️ — Día 3: Camden, el British Museum y 12 Grimmauld Place",
     "dateLabel": "Día 3 (5 sep)",
-    "totalCost": 40,
+    "totalCost": 42,
     "includedInBudget": false,
     "days": 1,
     "details": {
-      "transporte": 10,
+      "transporte": 12,
       "comida": 30
     },
     "itinerary": [
       {
-        "day": "09:30",
-        "title": "Millennium Bridge",
-        "desc": "El puente que los Mortífagos retuercen y derrumban en la escena inicial de El Misterio del Príncipe. Desde acá se enmarca la cúpula de St. Paul's, también en esa escena (solo por fuera, sin pagar entrada).",
-        "place": "Millennium Bridge, London",
-        "lat": 51.5095,
-        "lng": -0.0985,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Millennium+Bridge,+London"
-      },
-      {
-        "day": "10:00",
-        "title": "Tate Modern",
-        "desc": "Gratis, sin reserva: Turbine Hall y terraza mirador con acceso libre.",
-        "place": "Tate Modern, London",
-        "lat": 51.5076,
-        "lng": -0.0994,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tate+Modern,+London"
-      },
-      {
         "day": "11:30",
-        "title": "Borough Market & Chez Michele (Stoney St)",
-        "desc": "Buscá la florería Chez Michele bajo los arcos del ferrocarril en Stoney Street — ahí el Knight Bus deja a Harry en el segundo Caldero Chorreante en El Prisionero de Azkaban. Almorzá picando los puestos de comida.",
-        "place": "Borough Market, London",
-        "lat": 51.5055,
-        "lng": -0.091,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Borough+Market,+London"
-      },
-      {
-        "day": "13:30",
-        "title": "St Dunstan in the East",
-        "desc": "Cruzando el London Bridge: iglesia medieval en ruinas convertida en jardín, bombardeada durante el Blitz.",
-        "place": "St Dunstan in the East Church Garden, London",
-        "lat": 51.5099,
-        "lng": -0.0836,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Dunstan+in+the+East+Church+Garden,+London"
-      },
-      {
-        "day": "14:15",
-        "title": "Tower of London",
-        "desc": "Caminata por el perímetro y las murallas exteriores — la entrada interior sale £27-35 y no está en el presupuesto, no hace falta pagarla para disfrutar el lugar.",
-        "place": "Tower of London",
-        "lat": 51.5081,
-        "lng": -0.0759,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+of+London"
-      },
-      {
-        "day": "14:45",
-        "title": "Tower Bridge",
-        "desc": "Cruzalo caminando hacia St. Katharine Docks.",
-        "place": "Tower Bridge, London",
-        "lat": 51.5055,
-        "lng": -0.0754,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Tower+Bridge,+London"
-      },
-      {
-        "day": "15:15",
-        "title": "St Katharine Docks",
-        "desc": "Marina tranquila para cerrar la caminata de la tarde.",
-        "place": "St Katharine Docks, London",
-        "lat": 51.5075,
-        "lng": -0.0736,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Katharine+Docks,+London"
-      },
-      {
-        "day": "19:00",
-        "title": "Brick Lane",
-        "desc": "Arte callejero, ropa vintage, curry con specials baratos entre semana o bagels de salt beef 24hs. Quedate dando vueltas hasta eso de las 22:00-22:30, no hay apuro para volver.",
-        "place": "Brick Lane, London",
-        "lat": 51.5225,
-        "lng": -0.0716,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Brick+Lane,+London"
-      }
-    ],
-    "hacks": [
-      "Chez Michele está escondida bajo los arcos del tren en Stoney Street, pegada a Borough Market — fácil pasarla de largo si no la buscás con atención.",
-      "Tate Modern y su terraza mirador son 100% gratis, sin reserva.",
-      "Torre de Londres, Tower Bridge (la exhibición interior) y St. Paul's cobran entrada cara (£27-35) — este día los recorrés solo por fuera, a propósito, para no gastar de más.",
-      "Brick Lane tiene curry houses con specials baratos entre semana y los bagels de salt beef abren toda la noche — como te dormís a las 23:00, no hace falta cortar la noche apenas cenás."
-    ],
-    "isDefault": true
-  },
-  {
-    "id": "quest-londres-day4",
-    "title": "Londres 📖 — Día 4: Freud, el canal y el Andén 9¾",
-    "dateLabel": "Día 4 (6 sep)",
-    "totalCost": 53,
-    "includedInBudget": false,
-    "days": 1,
-    "details": {
-      "tickets": 18,
-      "transporte": 10,
-      "comida": 25
-    },
-    "itinerary": [
-      {
-        "day": "10:30",
-        "title": "Freud Museum London",
-        "desc": "A 3 cuadras del hostel: 20 Maresfield Gardens, la última casa de Sigmund Freud, con su estudio, su colección de antigüedades y el diván original de psicoanálisis. Entrada £14,90 adulto / £12,90 estudiante — reservá el turno horario en freud.org.uk para las 10:30 y entrás directo sin esperar. Abre miércoles a domingo 10:30-17:00.",
-        "place": "Freud Museum, 20 Maresfield Gardens, London",
-        "lat": 51.5473,
-        "lng": -0.1759,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Freud+Museum,+20+Maresfield+Gardens,+London"
-      },
-      {
-        "day": "12:15",
         "title": "Little Venice (Paddington Basin)",
         "desc": "Camino de sirga entre narrowboats de colores, pegado al Paddington Basin, hasta Camden Lock Market.",
         "place": "Little Venice, London",
@@ -1191,7 +1088,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Little+Venice,+London"
       },
       {
-        "day": "13:00",
+        "day": "12:15",
         "title": "Camden Lock Market",
         "desc": "Puestos y locales del mercado antes de subir a Primrose Hill.",
         "place": "Camden Lock Market, London",
@@ -1200,7 +1097,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Camden+Lock+Market,+London"
       },
       {
-        "day": "13:45",
+        "day": "13:00",
         "title": "Primrose Hill Viewpoint",
         "desc": "Subida corta a la colina para una vista panorámica del skyline de Londres.",
         "place": "Primrose Hill, London",
@@ -1209,34 +1106,30 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Primrose+Hill,+London"
       },
       {
+        "day": "13:45",
+        "title": "Viaje al British Museum",
+        "desc": "Bus o tube desde Chalk Farm/Camden hasta Holborn o Russell Square, ~20-25 min."
+      },
+      {
         "day": "14:30",
-        "title": "The British Museum — ya reservado ✅",
-        "desc": "Entrada general gratis, YA COMPRADA: orden #11038942, domingo 6 sep 2026, turno 14:30. Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio. Sin reserva previa las colas superan la hora de espera.",
+        "title": "The British Museum — reservar de nuevo ⚠️",
+        "desc": "Sacá el turno NUEVO acá en britishmuseum.org, mismo horario que tenías (la orden #11038942 era para el domingo 6, que ahora es el Studio Tour, y ya no sirve). Entrada general gratis. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio — calculá 1h45.",
         "place": "British Museum, London",
         "lat": 51.5194,
         "lng": -0.127,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=British+Museum,+London"
       },
       {
-        "day": "16:45",
-        "title": "King's Cross Station (Platform 9 ¾)",
-        "desc": "El carrito incrustado en la pared, al lado de la tienda de Harry Potter — la cola para la foto es gratis.",
-        "place": "King's Cross Station, London",
-        "lat": 51.532,
-        "lng": -0.1233,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=King's+Cross+Station,+London"
-      },
-      {
-        "day": "17:30",
+        "day": "16:30",
         "title": "St Pancras Renaissance Hotel",
-        "desc": "La fachada neogótica que sirvió de exterior de King's Cross cuando Harry y Ron vuelan el Ford Anglia en La Cámara Secreta. Está pegada a King's Cross.",
+        "desc": "La fachada neogótica que sirvió de exterior de King's Cross cuando Harry y Ron vuelan el Ford Anglia en La Cámara Secreta. A 15-20 min caminando del British Museum.",
         "place": "St Pancras Renaissance Hotel, London",
         "lat": 51.5308,
         "lng": -0.1257,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Pancras+Renaissance+Hotel,+London"
       },
       {
-        "day": "18:00",
+        "day": "16:50",
         "title": "Claremont Square (12 Grimmauld Place)",
         "desc": "10 min caminando hacia el este, en Islington: la hilera de casas que sirvió de sede de la Orden del Fénix.",
         "place": "Claremont Square, London",
@@ -1255,11 +1148,86 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       }
     ],
     "hacks": [
-      "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango. Con carnet de estudiante la entrada baja a £12,90.",
-      "Freud no se puede mover al día 5 (lunes): el museo cierra lunes y martes. Por eso se queda acá, que además es el único día que ya combina con el turno reservado del British Museum a las 14:30.",
-      "Este día podés levantarte más tranquilo: el museo recién abre a las 10:30 y queda a 3 cuadras del hostel — salir a las 8 no suma nada, dormí un poco más.",
-      "El British Museum ya está reservado y pagado (gratis): orden #11038942, domingo 6 sep, turno 14:30 — sin esa reserva la cola de acceso sin turno puede superar la hora.",
-      "El Andén 9¾ real (King's Cross) y la fachada de la película (St. Pancras) son estaciones contiguas, a metros una de otra."
+      "Este día reemplaza al plan original del río (Millennium Bridge, Tate Modern, Borough Market, Torre de Londres, Tower Bridge, St Katharine Docks, Brick Lane) — ya probaste parte de esa zona y no te enganchó, así que lo sacamos en vez de forzarlo. En su lugar entra el plan que iba para el domingo, que te copaba más.",
+      "El Andén 9¾ (King's Cross) ya lo hiciste hoy 4 de sep de más — no está en esta lista para no repetirlo.",
+      "El British Museum necesita una reserva NUEVA en britishmuseum.org para hoy sábado: mismo horario (14:30) que tenías para el domingo, la orden #11038942 ya no sirve.",
+      "St Pancras y Claremont Square quedan a 15-20 min caminando del British Museum, y a metros uno del otro — se hace sin apuro.",
+      "Las fuentes de Granary Square se iluminan de noche — como te dormís a las 23:00, quedate hasta eso de las 22:00-22:30."
+    ],
+    "isDefault": true
+  },
+  {
+    "id": "quest-londres-day4",
+    "title": "Londres 🎬 — Día 4: Warner Bros Studio Tour (Leavesden)",
+    "dateLabel": "Día 4 (6 sep)",
+    "totalCost": 129,
+    "includedInBudget": false,
+    "days": 1,
+    "details": {
+      "tickets": 84,
+      "transporte": 20,
+      "comida": 25
+    },
+    "itinerary": [
+      {
+        "day": "09:00",
+        "title": "Desayuno con calma",
+        "desc": "Hoy no hay apuro hasta las 10:30 — el Freud Museum no abre antes."
+      },
+      {
+        "day": "10:15",
+        "title": "Salida hacia el Freud Museum",
+        "desc": "A 5 min caminando del hostel."
+      },
+      {
+        "day": "10:30",
+        "title": "Freud Museum London",
+        "desc": "20 Maresfield Gardens, la última casa de Sigmund Freud, con su estudio, su colección de antigüedades y el diván original de psicoanálisis. Entrada £14,90 adulto / £12,90 estudiante — reservá el turno horario en freud.org.uk. Visita de 1h30, hasta las 12:00.",
+        "place": "Freud Museum, 20 Maresfield Gardens, London",
+        "lat": 51.5473,
+        "lng": -0.1759,
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Freud+Museum,+20+Maresfield+Gardens,+London"
+      },
+      {
+        "day": "12:00",
+        "title": "Viaje a Leavesden",
+        "desc": "Jubilee/Metropolitan hasta Baker Street → Euston → tren London Northwestern hasta Watford Junction → shuttle oficial hasta el estudio. Calculá 2h puerta a puerta."
+      },
+      {
+        "day": "14:00",
+        "title": "Llegada a Warner Bros Studio Tour London",
+        "desc": "Con margen antes del turno — dejás mochilas en los lockers y de paso mirás la tienda mientras esperás.",
+        "place": "Warner Bros. Studio Tour London, Leavesden",
+        "lat": 51.6928,
+        "lng": -0.4166,
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London,+Leavesden"
+      },
+      {
+        "day": "14:30",
+        "title": "Entrada: The Making of Harry Potter",
+        "desc": "Recorrido autoguiado: el Gran Comedor real, el set del Callejón Diagon, la maqueta de Hogwarts, el Knight Bus y Privet Drive en el backlot. Calculá 3.5-4h — casi todo el mundo se queda más de lo que pensaba.",
+        "place": "Warner Bros. Studio Tour London, Leavesden",
+        "lat": 51.6928,
+        "lng": -0.4166,
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Warner+Bros+Studio+Tour+London,+Leavesden"
+      },
+      {
+        "day": "18:00",
+        "title": "Vuelta hacia Londres",
+        "desc": "Mismo recorrido al revés: shuttle + tren + metro. Calculá 2h de nuevo."
+      },
+      {
+        "day": "20:00",
+        "title": "Llegada al hostel",
+        "desc": "Día largo — cená algo simple cerca y a descansar."
+      }
+    ],
+    "hacks": [
+      "El Studio Tour se come el día entero: salís del hostel a media mañana y volvés recién a la noche. No queda lugar para nada más este día, y está bien — es un día distinto a los demás.",
+      "Si preferís ir directo sin pasar por el Freud Museum, saliendo del hostel a las 9:30-10:00 llegás a Leavesden como a las 12:00 para un turno de las 14:00 — pero ahí no hay nada para hacer cerca (no es zona turística, es el complejo del estudio nomás), así que vas a esperar sentado 2 horas. Mejor la combinación Freud + turno de las 14:30.",
+      "El precio del ticket del Studio Tour varía según demanda — el total de \"tickets\" de acá (€84) es una estimación: ~£55 el Studio Tour + ~£15 el Freud Museum. Confirmá el valor real al reservar en wbstudiotour.co.uk.",
+      "Reservá los dos tickets con anticipación — el Studio Tour se agota rápido, sobre todo los fines de semana.",
+      "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango."
     ],
     "isDefault": true
   },
