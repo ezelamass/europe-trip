@@ -1112,8 +1112,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       },
       {
         "day": "14:30",
-        "title": "The British Museum — reservar de nuevo ⚠️",
-        "desc": "Sacá el turno NUEVO acá en britishmuseum.org, mismo horario que tenías (la orden #11038942 era para el domingo 6, que ahora es el Studio Tour, y ya no sirve). Entrada general gratis. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio — calculá 1h45.",
+        "title": "The British Museum — ya reservado ✅",
+        "desc": "Entrada general gratis, YA COMPRADA: orden #11053776 (reservada el 4 sep, reemplaza a la vieja #11038942 que era para el domingo). Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio — calculá 1h45.",
         "place": "British Museum, London",
         "lat": 51.5194,
         "lng": -0.127,
@@ -1150,7 +1150,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
     "hacks": [
       "Este día reemplaza al plan original del río (Millennium Bridge, Tate Modern, Borough Market, Torre de Londres, Tower Bridge, St Katharine Docks, Brick Lane) — ya probaste parte de esa zona y no te enganchó, así que lo sacamos en vez de forzarlo. En su lugar entra el plan que iba para el domingo, que te copaba más.",
       "El Andén 9¾ (King's Cross) ya lo hiciste hoy 4 de sep de más — no está en esta lista para no repetirlo.",
-      "El British Museum necesita una reserva NUEVA en britishmuseum.org para hoy sábado: mismo horario (14:30) que tenías para el domingo, la orden #11038942 ya no sirve.",
+      "El British Museum ya está re-reservado y pagado (gratis): orden #11053776, sábado 5 sep, turno 14:30 — sin esa reserva la cola de acceso sin turno puede superar la hora.",
       "St Pancras y Claremont Square quedan a 15-20 min caminando del British Museum, y a metros uno del otro — se hace sin apuro.",
       "Las fuentes de Granary Square se iluminan de noche — como te dormís a las 23:00, quedate hasta eso de las 22:00-22:30."
     ],
@@ -1160,11 +1160,11 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
     "id": "quest-londres-day4",
     "title": "Londres 🎬 — Día 4: Warner Bros Studio Tour (Leavesden)",
     "dateLabel": "Día 4 (6 sep)",
-    "totalCost": 129,
+    "totalCost": 132,
     "includedInBudget": false,
     "days": 1,
     "details": {
-      "tickets": 84,
+      "tickets": 87,
       "transporte": 20,
       "comida": 25
     },
@@ -1204,8 +1204,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       },
       {
         "day": "14:30",
-        "title": "Entrada: The Making of Harry Potter",
-        "desc": "Recorrido autoguiado: el Gran Comedor real, el set del Callejón Diagon, la maqueta de Hogwarts, el Knight Bus y Privet Drive en el backlot. Calculá 3.5-4h — casi todo el mundo se queda más de lo que pensaba.",
+        "title": "Entrada: The Making of Harry Potter — ya reservado ✅",
+        "desc": "YA COMPRADO: orden #20260904-373998336, domingo 6 sep 2026, turno 14:30, 1 adulto, £58,50. Llevá el ticket en el celular. Recorrido autoguiado: el Gran Comedor real, el set del Callejón Diagon, la maqueta de Hogwarts, el Knight Bus y Privet Drive en el backlot. Calculá 3.5-4h — casi todo el mundo se queda más de lo que pensaba.",
         "place": "Warner Bros. Studio Tour London, Leavesden",
         "lat": 51.6928,
         "lng": -0.4166,
@@ -1225,8 +1225,7 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
     "hacks": [
       "El Studio Tour se come el día entero: salís del hostel a media mañana y volvés recién a la noche. No queda lugar para nada más este día, y está bien — es un día distinto a los demás.",
       "Si preferís ir directo sin pasar por el Freud Museum, saliendo del hostel a las 9:30-10:00 llegás a Leavesden como a las 12:00 para un turno de las 14:00 — pero ahí no hay nada para hacer cerca (no es zona turística, es el complejo del estudio nomás), así que vas a esperar sentado 2 horas. Mejor la combinación Freud + turno de las 14:30.",
-      "El precio del ticket del Studio Tour varía según demanda — el total de \"tickets\" de acá (€84) es una estimación: ~£55 el Studio Tour + ~£15 el Freud Museum. Confirmá el valor real al reservar en wbstudiotour.co.uk.",
-      "Reservá los dos tickets con anticipación — el Studio Tour se agota rápido, sobre todo los fines de semana.",
+      "El Studio Tour ya está pagado: £58,50 (orden #20260904-373998336). El total de \"tickets\" de acá (€87) es Studio Tour + Freud Museum (este último todavía sin reservar, ~£14,90).",
       "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango."
     ],
     "isDefault": true
