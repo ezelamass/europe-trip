@@ -1068,14 +1068,15 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
   },
   {
     "id": "quest-londres-day3",
-    "title": "Londres 🛶🏛️ — Día 3: Camden, el British Museum y 12 Grimmauld Place",
+    "title": "Londres 🛶🏛️ — Día 3: Camden, el British Museum y Free Tour",
     "dateLabel": "Día 3 (5 sep)",
-    "totalCost": 42,
+    "totalCost": 54,
     "includedInBudget": false,
     "days": 1,
     "details": {
       "transporte": 12,
-      "comida": 30
+      "comida": 30,
+      "tour": 12
     },
     "itinerary": [
       {
@@ -1113,46 +1114,48 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       {
         "day": "14:30",
         "title": "The British Museum — ya reservado ✅",
-        "desc": "Entrada general gratis, YA COMPRADA: orden #11053776 (reservada el 4 sep, reemplaza a la vieja #11038942 que era para el domingo). Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio — calculá 1h45.",
+        "desc": "Entrada general gratis, YA COMPRADA: orden #11053776 (reservada el 4 sep, reemplaza a la vieja #11038942 que era para el domingo). Llevá el ticket en el celular. Piedra de Rosetta, Mármoles del Partenón y el Gran Patio — recortá la visita a 1h30, tenés el free tour a las 17:00.",
         "place": "British Museum, London",
         "lat": 51.5194,
         "lng": -0.127,
         "mapsUrl": "https://www.google.com/maps/search/?api=1&query=British+Museum,+London"
       },
       {
-        "day": "16:30",
-        "title": "St Pancras Renaissance Hotel",
-        "desc": "La fachada neogótica que sirvió de exterior de King's Cross cuando Harry y Ron vuelan el Ford Anglia en La Cámara Secreta. A 15-20 min caminando del British Museum.",
-        "place": "St Pancras Renaissance Hotel, London",
-        "lat": 51.5308,
-        "lng": -0.1257,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=St+Pancras+Renaissance+Hotel,+London"
+        "day": "16:00",
+        "title": "Viaje a Trafalgar Square",
+        "desc": "Caminando por Covent Garden o tube Holborn → Charing Cross, ~15-20 min."
       },
       {
         "day": "16:50",
-        "title": "Claremont Square (12 Grimmauld Place)",
-        "desc": "10 min caminando hacia el este, en Islington: la hilera de casas que sirvió de sede de la Orden del Fénix.",
-        "place": "Claremont Square, London",
-        "lat": 51.5323,
-        "lng": -0.1112,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Claremont+Square,+London"
+        "title": "Punto de encuentro: Free Tour por Londres — ya reservado ✅",
+        "desc": "Civitatis, reserva #A41388246, confirmada, 05 sep 17:00, 1 persona. El guía espera con un paraguas blanco en la entrada del Café in the Crypt (St Martin-in-the-Fields), Trafalgar Square — entrada circular de cristal al lado de la iglesia. Estación más cercana: Charing Cross. Llegá 10 min antes.",
+        "place": "Trafalgar Square, London",
+        "lat": 51.508,
+        "lng": -0.1281,
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
       },
       {
-        "day": "19:00",
-        "title": "Granary Square & Coal Drops Yard",
-        "desc": "Cena sobre el Regent's Canal, en cualquiera de los dos. Las fuentes de Granary Square se iluminan de noche — quedate hasta eso de las 22:00-22:30, no hay apuro para volver.",
-        "place": "Granary Square, London",
-        "lat": 51.5347,
-        "lng": -0.1257,
-        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Granary+Square,+London"
+        "day": "17:00",
+        "title": "Free Tour por Londres",
+        "desc": "Tour guiado gratuito (pay-what-you-want: le pagás al guía al final lo que te parezca justo). Calculá 2-2.5h — recorre lo clásico del centro.",
+        "place": "Trafalgar Square, London",
+        "lat": 51.508,
+        "lng": -0.1281,
+        "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Trafalgar+Square,+London"
+      },
+      {
+        "day": "19:30",
+        "title": "Cena cerca de donde termine el tour",
+        "desc": "El recorrido suele quedar por la zona de Westminster/Trafalgar — no hace falta volver hasta Granary Square, cená algo cerca de donde te deje el guía."
       }
     ],
     "hacks": [
       "Este día reemplaza al plan original del río (Millennium Bridge, Tate Modern, Borough Market, Torre de Londres, Tower Bridge, St Katharine Docks, Brick Lane) — ya probaste parte de esa zona y no te enganchó, así que lo sacamos en vez de forzarlo. En su lugar entra el plan que iba para el domingo, que te copaba más.",
       "El Andén 9¾ (King's Cross) ya lo hiciste hoy 4 de sep de más — no está en esta lista para no repetirlo.",
       "El British Museum ya está re-reservado y pagado (gratis): orden #11053776, sábado 5 sep, turno 14:30 — sin esa reserva la cola de acceso sin turno puede superar la hora.",
-      "St Pancras y Claremont Square quedan a 15-20 min caminando del British Museum, y a metros uno del otro — se hace sin apuro.",
-      "Las fuentes de Granary Square se iluminan de noche — como te dormís a las 23:00, quedate hasta eso de las 22:00-22:30."
+      "Sacamos St Pancras y Claremont Square (12 Grimmauld Place) del día — con el free tour a las 17:00 en Trafalgar Square (del otro lado de Londres) ya no entraban. Quedan pendientes para otro viaje.",
+      "El free tour necesita mínimo 4 participantes — si no se junta gente, Civitatis te contacta con alternativas antes del horario.",
+      "Llevá algo de efectivo para la propina del guía al final — calculá ~£10-15, es a tu criterio."
     ],
     "isDefault": true
   },
