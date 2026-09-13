@@ -3,7 +3,7 @@ import { useStore } from '../store/useStore';
 import { useMoney } from '../lib/useMoney';
 import Modal from '../components/Modal';
 import QuestPlan from '../components/QuestPlan';
-import { Button } from '../components/ui';
+import { Button, GHOST_LINK_CLS } from '../components/ui';
 import type { SideQuest } from '../types';
 
 export default function QuestsTab() {
@@ -62,6 +62,17 @@ export default function QuestsTab() {
                 <i className="fa-solid fa-list-check mr-1.5" />
                 Ver plan ({q.itinerary.length})
               </Button>
+              {q.photosAlbumUrl && (
+                <a
+                  href={q.photosAlbumUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={GHOST_LINK_CLS}
+                >
+                  <i className="fa-regular fa-images mr-1.5" />
+                  Fotos
+                </a>
+              )}
               <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer">
                 <input
                   type="checkbox"

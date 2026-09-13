@@ -101,6 +101,7 @@ export interface SideQuest {
   id: string; title: string; totalCost: number; includedInBudget: boolean;
   days: number; details: Record<string, number>; itinerary: QuestItineraryEntry[];
   hacks: string[]; isDefault?: boolean; dateLabel?: string;
+  photosAlbumUrl?: string;
 }
 
 export interface LuggageItem { id: string; name: string; category: string; location: string }

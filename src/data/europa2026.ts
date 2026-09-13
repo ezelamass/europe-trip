@@ -1231,7 +1231,8 @@ export const DEFAULT_SIDE_QUESTS: SideQuest[] = [
       "El Studio Tour ya está pagado: £58,50 (orden #20260904-373998336). El total de \"tickets\" de acá (€87) es Studio Tour + Freud Museum (este último todavía sin reservar, ~£14,90).",
       "El Freud Museum solo abre miércoles a domingo — si este día se corre de fecha, confirmá que siga cayendo en ese rango."
     ],
-    "isDefault": true
+    "isDefault": true,
+    "photosAlbumUrl": "https://photos.app.goo.gl/16WQLH3iAhTE7Xf66"
   },
   {
     "id": "quest-londres-day5",
@@ -2007,7 +2008,8 @@ export const EUROPA_2026_STOPS: RouteStop[] = [
     "confirmationNumber": "26673-579651838",
     "accommodationCost": 54.5,
     "lodgingCostNote": "$62.23 USD total ($9.31 pagado online, ~€45.64 a pagar en el hostel al llegar) · 8 Bed Mixed Dorm Ensuite",
-    "hack": "Solo. 30 ago: llega 13:25 en FlixBus, recorre Sorrento a la tarde/noche. 31 ago: day-trip a Capri — ferry Alilauro comprado (08:05→08:30) y excursión en barco reservada, ver side quest. Duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche)."
+    "hack": "Solo. 30 ago: llega 13:25 en FlixBus, recorre Sorrento a la tarde/noche. 31 ago: day-trip a Capri — ferry Alilauro comprado (08:05→08:30) y excursión en barco reservada, ver side quest. Duerme en Sorrento de nuevo (no tiene sentido cambiar de base el mismo día del day-trip). Capri descartado para dormir (~$200/noche).",
+    "photosAlbumUrl": "https://photos.app.goo.gl/g8NxbjPfjq3TFj4v8"
   },
   {
     "id": "stop-napoles-final",
@@ -2025,7 +2027,8 @@ export const EUROPA_2026_STOPS: RouteStop[] = [
     "confirmationNumber": "332965-579670753",
     "accommodationCost": 70.12,
     "lodgingCostNote": "$80.07 USD total ($14.62 pagado, resto a pagar en el hostel) · Standard 6 Bed Mixed Dorm Ensuite · 01-03 sep, 2 noches",
-    "hack": "Solo. 1 sep: centro histórico (Spaccanapoli, Via Toledo, Cappella Sansevero — reservar Cristo Velato online), pizza a la noche. 2 sep: Pompeya (tren ~30-40min) a la mañana, Castel Sant'Elmo al atardecer, cena temprana — último día completo antes de un despertar muy temprano, no forzar de más. 3 sep, 05:00-05:15: taxi/Uber PRE-RESERVADO al aeropuerto (ningún bus sirve a esa hora — el primer Alibus sale 06:30, tarde para el vuelo de las 07:25)."
+    "hack": "Solo. 1 sep: centro histórico (Spaccanapoli, Via Toledo, Cappella Sansevero — reservar Cristo Velato online), pizza a la noche. 2 sep: Pompeya (tren ~30-40min) a la mañana, Castel Sant'Elmo al atardecer, cena temprana — último día completo antes de un despertar muy temprano, no forzar de más. 3 sep, 05:00-05:15: taxi/Uber PRE-RESERVADO al aeropuerto (ningún bus sirve a esa hora — el primer Alibus sale 06:30, tarde para el vuelo de las 07:25).",
+    "photosAlbumUrl": "https://photos.app.goo.gl/7PYUnD2CivZ9iUMs6"
   },
   {
     "id": "stop-londres-final",
@@ -2051,7 +2054,8 @@ export const EUROPA_2026_STOPS: RouteStop[] = [
       "quest-londres-day3",
       "quest-londres-day4",
       "quest-londres-day5"
-    ]
+    ],
+    "photosAlbumUrl": "https://photos.app.goo.gl/oHP4HyVUESTARKxb6"
   },
   {
     "id": "stop-madrid-cierre",
