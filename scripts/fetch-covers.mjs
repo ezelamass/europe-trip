@@ -21,6 +21,7 @@ const COVERS = {
   'chile-2025': 'Santiago desde teleférico Pedro de Valdivia.jpg',
   'brasil-2027': 'Panorama Praia Brava 12 2014 Florianopolis 986.JPG',
   'europa-2015': 'Eiffel Tower and Pont Alexandre III at night.jpg',
+  'san-luis-2026': 'Lago Potrero de los Funes.jpg',
 };
 
 // 16:9. En un celular de 430px la card mide ~390px, así que 800 alcanza para 2x.
