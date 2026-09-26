@@ -91,6 +91,31 @@ export const TRIPS: Trip[] = [
     confidence: 'alta',
   },
   {
+    id: 'san-luis-2026',
+    title: 'San Luis — La Catalina',
+    emoji: '🌄',
+    countries: ['AR'],
+    startDate: '2026-09-21',
+    endDate: '2026-09-26',
+    dateLabel: '21–26 sep 2026',
+    nights: 4,
+    companions: ['Juan Cruz', 'Manu', 'Pepe', 'Agus Oro'],
+    summary:
+      'Cinco días con el grupo en el campo de Pepe, en La Catalina. Viaje en bus ' +
+      'de ida y vuelta.',
+    status: 'completado',
+    vaultNote: 'san-luis-2026',
+    stops: [
+      stop('sl26-catalina', 'San Luis (Argentina)', 4, {
+        transport: 'Bus ida y vuelta',
+        category: 'Aventura y Naturaleza',
+        hotelName: 'Campo de Pepe',
+        address: 'La Catalina',
+      }),
+    ],
+    confidence: 'alta',
+  },
+  {
     id: 'brasil-2026',
     title: 'Brasil — Río e Ilha Grande',
     emoji: '🇧🇷',
