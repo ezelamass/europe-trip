@@ -84,7 +84,7 @@ export const TRIPS: Trip[] = [
       '76 días, 8 países, 19 etapas. El viaje más largo y más solo hasta la fecha: ' +
       'arranca solo, pasa por Ibiza y Mallorca con amigos, Europa Central con mamá, ' +
       'y cierra el tramo final entero en soledad.',
-    status: 'en-curso',
+    status: 'completado',
     vaultNote: 'europa-2026',
     stops: EUROPA_2026_STOPS,
     hasPlannerTools: true,
